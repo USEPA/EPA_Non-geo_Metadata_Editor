@@ -1,0 +1,857 @@
+{
+  "title": {
+    "field": "Title",
+    "definition": "Human-readable name of the asset. Should be in plain English and include sufficient detail to facilitate search and discovery.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "<p>Titles should be succinct yet descriptive including the topic, and where relevant, temporal info, geography and related programs in a way that distinguishes it from other, similar resources. To this end, EPA recommends the following template:</p> <p>{Subject, Geographic Extent, Relevant Time Period, Data Owner/Provider, Office/Region/Research Lab of Data Owner}</p> <p>Any individual component of this title template may be omitted if not applicable. For example, there is no need to include a date if data are frequently or continuously updated. Similarly, if the geographic extent is implicit in the subject, i.e. National Hydrography Dataset, it may be omitted provided that the actual extent of the data matches the extent implied in the title (an example of a dataset whose actual extent does not match the implicitly titled extent would be National Hydrography Dataset clipped to a given state). Geographic Extent should always refer to a place name, not a bounding box or coordinates. Spell out any acronyms.</p>",
+    "domaindescription": "Plain Text",
+    "domainurl": "",
+    "example": "\"Toxics Release Inventory (TRI) Locations, Oklahoma, 2012, EPA OIAA, EPA REG 66 WQPD\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/idCitation/resTitle",
+        "url": "Overview > Item Description > Title and Overview > Citation > Titles > Title"
+      },
+      {
+        "schema": "pod",
+        "xpath": "title",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#title"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=CI_Citation"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/citation/citeinfo/title",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/citat/citinfo/title.htm"
+      }
+    ]
+  },
+  "description": {
+    "field": "Description",
+    "definition": "Human-readable description (e.g., an abstract) with sufficient detail to enable a user to quickly understand whether the asset is of interest.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "<p>Typically, this element should be used to provide a brief summary of the resource. Some of the recommended items that should be included in this field are:</p><ul><li>general content and features</li><li>dataset form (GIS, CAD, image, Dbase, etc.)</li><li>geographic coverage (county/city name)</li><li>time period of content (begin and end date or single date)</li><li>special data characteristics or limitations</li><ul>",
+    "domaindescription": "Plain Text",
+    "domainurl": "",
+    "example": "\"A total of 54 GPS points were collected around the Willamette Valley, Oregon, in the fall of 1997 and spring of 1998. Locations were selected at road crossings over streams and along the Mainstem Willamette. Attention was paid to achieving relatively even spacing around the basin, including farthest extents, and along the Mainstem. Points were differentially corrected and imported into a file geodatabase, attributed to indicate location, road, stream, and notes.\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/idAbs",
+        "url": "all items except tools: Overview > Item Description > Description/Abstract tools: Overview > Item Description > Summary"
+      },
+      {
+        "schema": "pod",
+        "xpath": "description",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#description"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_DataIdentification"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/descript/abstract",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/descr/abstract.htm"
+      }
+    ]
+  },
+  "tags_general": {
+    "field": "Tags (General)",
+    "definition": "Tags (or keywords) help users discover your dataset; EPA requires the use of keywords from several different standard thesauruses; please also include terms that would be used by technical and non-technical users.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "A minimum of three keywords is required. Any helpful and descriptive keywords may be chosen, but they should enhance the additional keywords listed below.",
+    "domaindescription": "Plain Text",
+    "domainurl": "",
+    "example": "vegetables, veggies, greens, leafy, spinach, kale, nutrition",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/themeKeys/keyword[../thesaName/resTitle=\"User\"",
+        "url": "Overview > Topics & Keywords > User Keywords > {Keywords subpage} (Note, please do not use Overview > Item Description > Tags, as any tags in this section will cause all other tags to be suppressed)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "keyword",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#keyword"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:type/gmd:MD_KeywordTypeCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_KeywordTypeCode"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "tags_iso": {
+    "field": "Tags (ISO)",
+    "definition": "The ISO 19115 Topic Category is a general categorization of data resources that is intended to provide data classification consistency across agencies.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "Inclusion of one or more ISO keywords is required for minimum EPA compliancy which supports inter-Agency sharing initiatives. The ISO 19115 Topic Category is a general categorization of data resources that is intended to provide data classification consistency across agencies. Select one or more of the basic ISO keywords for a general classification of your data or application.",
+    "domaindescription": "Plain Text",
+    "domainurl": "https://geo-ide.noaa.gov/wiki/index.php?title=ISO_Topic_Categories",
+    "example": "\"environment\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/themeKeys/",
+        "url": "Overview > Topics & Keywords > Theme Keywords > {Keywords subpage}"
+      },
+      {
+        "schema": "pod",
+        "xpath": "theme",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#theme"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:type/gmd:MD_KeywordTypeCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_KeywordTypeCode"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/keywords/theme/themekey",
+        "url": "https://www.fgdc.gov/csdgmgraphical/ideninfo/keyword/theme.htm"
+      }
+    ]
+  },
+  "tags_place": {
+    "field": "Tags (Place)",
+    "definition": "One or more geographic feature names describing the range of spatial applicability of the dataset.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "Inclusion of one or more place names is required for minimum EPA compliancy which supports discovery of assets by location.",
+    "domaindescription": "Plain Text",
+    "domainurl": "Data.gov links to http://www.geonames.org/ for official placenames. The EPA taxonomies registry also includes a shorter list.",
+    "example": "\"United States\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/placeKeys/",
+        "url": "Overview > Topics & Keywords > Place Keywords > {Keywords subpage}"
+      },
+      {
+        "schema": "pod",
+        "xpath": "spatial",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#spatial"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:type/gmd:MD_KeywordTypeCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_KeywordTypeCode"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/keywords/place/placekey",
+        "url": "https://www.fgdc.gov/csdgmgraphical/ideninfo/keyword.htm"
+      }
+    ]
+  },
+  "tags_epa_theme": {
+    "field": "Tags (EPA Theme)",
+    "definition": "Tags (or keywords) help users discover your dataset; EPA requires the use of keywords from several different standard thesauruses; please also include terms that would be used by technical and non-technical users.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "This field is not required for minimum EPA compliancy, but is recommended for EPA personnel and contractors in order to promote metadata consistency across the Agency. Select one or more EPA keywords (listed below) to describe your data resource where applicable. EPA Keywords should be used to describe EPA-produced assets. The provided list of keywords represents a snapshot of EPA's Web Taxonomy from some years ago. Efforts are underway to provide guidance and tools that allow EPA metadata stewards to take advantage of the full complement of EPA's Terminology Services, Taxonomies and Controlled Vocabularies.",
+    "domaindescription": "Plain Text",
+    "domainurl": "",
+    "example": "",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/subTopicCatKeys/",
+        "url": "Overview > Topics & Keywords > Subtopic Keywords > {Keywords subpage}"
+      },
+      {
+        "schema": "pod",
+        "xpath": "keyword",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#keyword"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:type/gmd:MD_KeywordTypeCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_KeywordTypeCode"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "programCode": {
+    "field": "Tags (Federal Program Code)",
+    "definition": "Federal program inventory code corresponding to the program responsible for the production and maintenance of this dataset.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "A program code is mandatory for all federal agencies. More information about the Federal Program Inventory is available in a Fact Sheet and a Report. Program codes should be entered as a separate keyword section, with the keyword thesaurus set to \"Federal Program Inventory\".",
+    "domaindescription": "Plain Text",
+    "domainurl": "https://obamaadministration.archives.performance.gov/s3fs-public/files/FederalProgramInventory_FY13_MachineReadable_091613.xls",
+    "example": "\"015:001\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/subTopicCatKeys/",
+        "url": "Overview > Topics & Keywords > Subtopic Keywords > {Keywords subpage}"
+      },
+      {
+        "schema": "pod",
+        "xpath": "programCode",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#programCode"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:type/gmd:MD_KeywordTypeCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_Keywords"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/keywords/theme/themekey",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/keyword.htm"
+      }
+    ]
+  },
+  "modified": {
+    "field": "Last Update",
+    "definition": "Most recent date on which the dataset was changed, updated or modified, or for continually updated data, the frequency with which the data are updated.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "This element is the date when the data resource was published or otherwise made available for release. Dates should be ISO 8601 of highest resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset. If a dataset is updated very frequently or continously, specify a recurring interval in the Frequency element and leave this field blank and the recurring interval will be reported in place of a date. Otherwise specify a date. Geospatial records should use //gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:userDefinedMaintenanceFrequency/gts:TM_PeriodDuration to document frequent maintenance intervals per the official guidance.",
+    "domaindescription": "Plain Text",
+    "domainurl": "http://en.wikipedia.org/wiki/ISO_8601",
+    "example": "\"2012-01-15\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/idCitation/date/reviseDate",
+        "url": "Overview > Citation > Dates > Revised"
+      },
+      {
+        "schema": "pod",
+        "xpath": "modified",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#modified"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gco:Date",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=CI_Citation"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/status/update",
+        "url": "http://www.fgdc.gov/csdgmgraphical/dataq/lineage/sinfo/scitat/citatn/pubdate.htm"
+      }
+    ]
+  },
+  "publisher": {
+    "field": "Publishing Organization",
+    "definition": "The title of the organization responsible for publishing the dataset.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "This element should contain the full standardized name of the EPA organization responsible for publishing the dataset. If EPA is not the publishing entity, this element may be free text, but should still contain the name of the publishing entity (the metadata record will not be contributed to data.gov as an EPA record).",
+    "domaindescription": "Plain Text, All EPA Organizations should begin U.S. EPA or U.S. Environmental Protection Agency.",
+    "domainurl": "",
+    "example": "U.S. EPA Office Of Environmental Information (OEI) - Office Of Information Collection (OIC)\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/idPoC/rpOrgName",
+        "url": "Resource > Points of Contact > Contact > Organization (Role = Publisher)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "publisher",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#publisher"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty/gmd:organisationName/gmd:organisationName[../../gmd:role/gmd:CI_RoleCode/@codeListValue='publisher']",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=CI_ResponsibleParty"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/citation/citeinfo/pubinfo/publish",
+        "url": "http://www.fgdc.gov/csdgmgraphical/dataq/lineage/sinfo/scitat/citatn/publish.htm"
+      }
+    ]
+  },
+  "contactPoint": {
+    "fn": {
+      "field": "Publisher",
+      "definition": "The title of the organization responsible for publishing the dataset.",
+      "required": "Always",
+      "schema": "All",
+      "guidance": "This element should contain the full name of a person responsible for the publication of a dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the name of the helpdesk team is acceptable. The ISO Role code must be set to 'publisher' for this contact.",
+      "domaindescription": "Plain Text, All EPA Organizations should begin U.S. EPA or U.S. Environmental Protection Agency.",
+      "domainurl": "",
+      "example": "\"Jane Doe\"",
+      "crosswalk": [
+        {
+          "schema": "ArcGIS",
+          "xpath": "/metadata/dataIdInfo/idPoC/rpIndName",
+          "url": "Resource > Points of Contact > Contact > Name (Role = Publisher)"
+        },
+        {
+          "schema": "pod",
+          "xpath": "publisher",
+          "url": "https://project-open-data.cio.gov/v1.1/schema/#publisher"
+        },
+        {
+          "schema": "iso-19115",
+          "xpath": "//gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty/gmd:individualName",
+          "url": "https://geo-ide.noaa.gov/wiki/index.php?title=CI_ResponsibleParty"
+        },
+        {
+          "schema": "fgdc-csdgm",
+          "xpath": "/metadata/idinfo/ptcontac/cntinfo/cntorgp/cntper",
+          "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/ptof/cntact/cpersp/cpersn.htm"
+        }
+      ]
+    },
+    "hasEmail": {
+      "field": "Publisher Email",
+      "definition": "The email address where questions about this dataset should be sent.",
+      "required": "Always",
+      "schema": "All",
+      "guidance": "This element should contain the email address of a person responsible for the publication of a dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the email address of the helpdesk team is acceptable.",
+      "domaindescription": "Email address",
+      "domainurl": "",
+      "example": "\"doe.jane@agency.gov\"",
+      "crosswalk": [
+        {
+          "schema": "ArcGIS",
+          "xpath": "/metadata/dataIdInfo/idPoC/rpCntInfo/cntAddress/eMailAdd",
+          "url": "Resource > Points of Contact > Contact > Contact Information > Email"
+        },
+        {
+          "schema": "pod",
+          "xpath": "contactPoint/hasEmail",
+          "url": "https://project-open-data.cio.gov/v1.1/schema/#contactPoint"
+        },
+        {
+          "schema": "iso-19115",
+          "xpath": "//gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString for individual listed above",
+          "url": "https://geo-ide.noaa.gov/wiki/index.php?title=CI_Address"
+        },
+        {
+          "schema": "fgdc-csdgm",
+          "xpath": "/metadata/metainfo/metc/cntinfo/cntemail",
+          "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/ptof/cntact/cemail.htm"
+        }
+      ]
+    }
+  },
+  "identifier": {
+    "field": "Identifier",
+    "definition": "This element is a unique identifier for the metadata record. It may be a UUID or DOI.",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "This element must contain a unique identifier for the metadata record. This identifier may be a UUID string or a DOI URL. The unique identifier provides the link between the metadata associated with a resource (e.g., feature class) in your local system to the metadata uploaded and published with the EDG. If a computer (or person) knows the unique identifierof a metadata record published with the EDG, then a generic URL + unique identifier can be used to view that record (i.e., https://edg.epa.gov/metadata/catalog/search/resource/details.page?uuid={0CA7A9AE-68DB-4F92-8566-2003C8BF41AB}). Many applications leverage generic URL + unique identifier. For example, when services are published, users will place the EDG unique identifier URL inside the MXD for each data layer. This way you can get access to the metadata via a REST endpoint (or web application) for a given data resource.",
+    "domaindescription": "Plain Text; UUID or DOI",
+    "domainurl": "",
+    "example": "\"8B7D82BE-B130-44B8-99FB-192973508BE8\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/mdFileID",
+        "url": "Metadata > Details > File Identifier"
+      },
+      {
+        "schema": "pod",
+        "xpath": "identifier",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#identifier"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:fileIdentifier/gco:CharacterString",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MI_Metadata"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/Esri/PublishedDocID and /metadata/idinfo/citation/citeinfo/othcit",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/citat/citinfo/othcit.htm"
+      }
+    ]
+  },
+  "accessLevel": {
+    "field": "Access Level",
+    "definition": "The degree to which this dataset could be made publicly-available, regardless of whether it has been made available. Choices: public (Data asset is or could be made publicly available to all without restrictions), restricted public (Data asset is available under certain use restrictions), or non-public (Data asset is not available to members of the public).",
+    "required": "Always",
+    "schema": "All",
+    "guidance": "This element is mandatory per Project Open Data requirements, and guidelines for non-geospatial records follow the POD specification. Since geospatial metadata standards do not have the same three-choice domain as the POD specification, geospatial records are assumed to be public if they contain no legal, security, or general constraints, and are considered restricted public or non-public if they do have security constraints listed: 'non-public' when security constraints code is sensitive, confidential, secret, or topSecret, 'restricted public' when security constraints code is restricted or official use only, and 'public' when the security constraint code is unclassified.",
+    "domaindescription": "Plain Text; \"public\", \"restricted public\", \"non-public\"",
+    "domainurl": "",
+    "example": "\"public\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/resConst/SecConsts/class/ClasscationCd/@value",
+        "url": "Resource > Constraints > Security Constraints > Classification (note: do not confuse this with Metadata > Constraints > Security Constraints, which refers to restrictions on the metadata document itself, rather than the data)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "accessLevel",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#accessLevel"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_SecurityConstraints/gmd:classification",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_SecurityConstraints"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/secinfo/secclass",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/secrty/sclas.htm"
+      }
+    ]
+  },
+  "rights": {
+    "field": "Rights",
+    "definition": "The degree to which this dataset could be made publicly-available, regardless of whether it has been made available. Choices: public (Data asset is or could be made publicly available to all without restrictions), restricted public (Data asset is available under certain use restrictions), or non-public (Data asset is not available to members of the public).",
+    "required": "Required if Access Level is not public",
+    "schema": "All",
+    "guidance": "If a dataset has an access level of public, this field can be populated with general informational free text about accessing the dataset (note that the limit is 255 characters - EPA's legacy disclaimer is longer than this and may cause the record to be rejected from data.gov). Please include disclaimers in the 'General Use Limitations' field or at URLs. If the dataset is not public, the value must be chosen from an approved list of Controlled Unclassified Information (CUI) categories describing why the dataset may not be made public.",
+    "domaindescription": "Plain Text; \"EPA Category: Mission Sensitive, NARA Category: Critical Infrastructure <br>EPA Category: Drinking Water Vulnerability Assessments, NARA Category: Critical Infrastructure-Water Assessments <br>EPA Category: Sensitive Drinking Water Related, NARA Category: Critical Infrastructure-Water Assessments <br>EPA Category: IT Security, NARA Category: Information Systems Vulnerability Information <br>EPA Category: Law Enforcement Sensitive, NARA Category: Law Enforcement <br>EPA Category: Attorney Client Privilege, NARA Category: Legal-Privilege <br>EPA Category: Attorney Work Product, NARA Category: Legal-Privilege <br>EPA Category: Deliberative Process Privilege, NARA Category: Legal-Privilege <br>EPA Category: Personally Identifiable Information (PII), NARA Category: Privacy <br>EPA Category: Proprietary, NARA Category: Proprietary <br>EPA Category: Confidential Business Information, NARA Category: Proprietary-Manufacturer <br>EPA Category: Source Selection Information, NARA Category: Proprietary-Source Selection\"",
+    "domainurl": "",
+    "example": "\"EPA Category: Mission Sensitive, NARA Category: Critical Infrastructure\"",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/resConst/SecConsts/userNote",
+        "url": "Resource > Constraints > Security Constraints > User Note  (note: do not confuse this with Metadata > Constraints > Security Constraints, which refers to restrictions on the metadata document itself, rather than the data)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "rights",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#rights"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_SecurityConstraints/gmd:userNote/gco:CharacterString",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_SecurityConstraints"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/accconst",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/access.htm"
+      }
+    ]
+  },
+  "license": {
+    "field": "Data License",
+    "definition": "The URL to a web page describing the data license governing the use of this dataset.",
+    "schema": "All",
+    "guidance": "The license or non-license (i.e. Public Domain) status with which the dataset or API has been published.",
+    "epaguidance": "EPA provides a standard open data license page that is preferred for use when no other restrictions are in place on the data.",
+    "externalguidance": "Non-EPA publishers are strongly encouraged to select a common open data license. Recommendations for open licenses are available here: <a href='https://project-open-data.cio.gov/open-licenses/' target='_blank'>https://project-open-data.cio.gov/open-licenses/</a>",
+    "domaindescription": "Plain Text; URL",
+    "domainurl": "",
+    "example": "",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/resConst/LegConsts/othConsts",
+        "url": "Resource > Constraints > Legal Constraints > Use Limitation (Access Constraint = License)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "license",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#license"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_LegalConstraints"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/distinfo/distliab",
+        "url": "http://www.fgdc.gov/csdgmgraphical/distr/distlia.htm"
+      }
+    ]
+  },
+  "systemofrecords": {
+    "field": "System of Records",
+    "definition": "If the system is designated as a system of records under the Privacy Act of 1974, provide the URL to the System of Records Notice related to this dataset.",
+    "schema": "All",
+    "guidance": "The license or non-license (i.e. Public Domain) status with which the dataset or API has been published. EPA provides a standard open data license page that is preferred for use when no other restrictions are in place on the data.",
+    "domaindescription": "Plain Text; URL",
+    "domainurl": "",
+    "example": "https://www.federalregister.gov/articles/2015/08/28/2015-21384/creation-of-a-new-system-of-records-notice-eventbrite",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/resConst/LegConsts/useLimit",
+        "url": "Resource > Constraints > Legal Constraints > Use Limitation (Access Constraint = Privacy)"
+      },
+      {
+        "schema": "pod",
+        "xpath": "systemOfRecords",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#systemOfRecords"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_LegalConstraints"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "spatial": {
+    "field": "Spatial Extent",
+    "definition": "The range of spatial applicability of a dataset. Should include a spatial region like a bounding box but may also be a named place.",
+    "schema": "All",
+    "guidance": "This field should contain a bounding coordinate box for the dataset represented in latitude / longitude pairs where the coordinates are specified in decimal degrees referenced to WGS84 and in the order of: minimum longitude, minimum latitude, maximum longitude, maximum latitude. Please follow ISO 6709 guidance on point locations.",
+    "domaindescription": "Plain Text",
+    "domainurl": "",
+    "example": "-88,46,-87,47",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/dataExt/geoEle/GeoBndBox",
+        "url": "Overview > Item Description > Bounding Box or Resource > Extents > Extent > Bounding Box"
+      },
+      {
+        "schema": "pod",
+        "xpath": "spatial",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#spatial"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=EX_GeographicBoundingBox"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/spdom/bounding/westbc",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/sptldo.htm"
+      }
+    ]
+  },
+  "temporal": {
+    "field": "Temporal Extent",
+    "definition": "The range of temporal applicability of a dataset (i.e., a start and end date of applicability for the data).",
+    "schema": "All",
+    "guidance": "This field should contain an interval of time defined by start and end dates. Dates should be formatted as pairs of {start datetime/end datetime} in the ISO 8601 format. ISO 8601 specifies that datetimes can be formatted in a number of ways, including a simple four-digit year (eg. 2013) to a much more specific YYYY-MM-DDTHH:MM:SSZ, where the T specifies a seperator between the date and time and time is expressed in 24 hour notation in the UTC (Zulu) time zone. (e.g., 2011-02-14T12:00:00Z/2013-07-04T19:34:00Z). Use a solidus (\"/\") to separate start and end times.",
+    "domaindescription": "ISO 8601 Date",
+    "domainurl": "",
+    "example": "2000-01-15/2010-01-15",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/dataExt/tempEle/TempExtent/exTemp/TM_Period/",
+        "url": "Resource > Extents > Extent > Temporal Period Extent"
+      },
+      {
+        "schema": "pod",
+        "xpath": "temporal",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#temporal"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=EX_Extent"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/timeperd/timeinfo/",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/timepd/timeinfo.htm"
+      }
+    ]
+  },
+  "linkage": {
+    "field": "Distribution URL",
+    "definition": "One or more URLs providing access to the dataset",
+    "schema": "All",
+    "guidance": "At least one online linkage should be provided for all datasets - if no linkage of any kind is provided, EDG staff may ask for a justification. Every URL must contain an associated function code. Other associated elements such as Title and Description are optional but recommended. Data publishers are encouraged to publish datasets as both downloads and web services.",
+    "domaindescription": "Plain Text; URL",
+    "domainurl": "",
+    "example": "",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/distInfo/distTranOps/onLineSrc/linkage",
+        "url": "Resource > Distribution > Digital Transfer Options > Online Resource > Linkage"
+      },
+      {
+        "schema": "pod",
+        "xpath": "distribution",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#distribution"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/linkage/URL",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_Distribution"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/distInfo/distributor/distorTran/onLineSrc/linkage",
+        "url": "https://www.fgdc.gov/csdgmgraphical/distr/storder/digform.htm"
+      }
+    ]
+  },
+  "accrualPeriodicity": {
+    "field": "Update Frequency",
+    "definition": "One or more URLs providing access to the dataset",
+    "schema": "All",
+    "guidance": "This element is the frequency with which changes and additions are made to the data resource after the initial data resource is completed. Non-geo records should use ISO-8601 codes for specifying intervals, please see the Project Open Data guidance for 'accrualPeriodicity' for details and examples.  Geospatial records should choose from a standard list: \"continual, daily, weekly, fortnightly, monthly, quarterly, biannually, annually, as needed, irregular, not planned, unknown\"",
+    "domaindescription": "ISO 8601 Interval or ISO Code",
+    "domainurl": "",
+    "example": "weekly or R/P1W",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/resMaint/maintFreq/MaintFreqCd/@value",
+        "url": "Resource > Maintenance > Update Frequency"
+      },
+      {
+        "schema": "pod",
+        "xpath": "accrualPeriodicity",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#accrualPeriodicity"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:MD_MaintenanceFrequencyCode",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_MaintenanceInformation"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "/metadata/idinfo/status/update",
+        "url": "http://www.fgdc.gov/csdgmgraphical/ideninfo/status/mntfreq.htm"
+      }
+    ]
+  },
+  "language": {
+    "field": "Language",
+    "definition": "The language of the metadata document",
+    "schema": "All",
+    "guidance": "Select the language from the dropdown",
+    "domaindescription": "Language Code",
+    "domainurl": "",
+    "example": "English",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "/metadata/dataIdInfo/dataLang/languageCode/@value",
+        "url": "Resource > Details > Languages > Language"
+      },
+      {
+        "schema": "pod",
+        "xpath": "language",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#language"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:language/gmd:LanguageCode",
+        "url": "https://www.epa.gov/geospatial/epa-metadata-technical-specification"
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "issued": {
+    "field": "Release Date",
+    "definition": "Date of formal issuance",
+    "schema": "All",
+    "guidance": "Date of formal issuance. Dates should be ISO 8601 of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "2001-01-15",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "dataQuality": {
+    "field": "Data Quality",
+    "definition": "Whether the dataset meets the agency's Information Quality Guidelines (true/false).",
+    "schema": "All",
+    "guidance": "Indicates whether a dataset conforms to the agency's information quality guidelines. Must be a boolean value of true or false (not contained within quote marks).",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "true",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "conformsTo": {
+    "field": "Conforms To",
+    "definition": "URI used to identify a standardized specification the dataset conforms to.",
+    "schema": "All",
+    "guidance": "This is used to identify a standardized specification the dataset conforms to. If this is a technical specification associated with a particular serialization of a distribution, this should be specified with conformsTo at the distribution level. It's recommended that this be a URI that serves as a unique identifier for the standard. The URI may or may not also be a URL that provides documentation of the specification.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "https://project-open-data.cio.gov/v1.1/schema/",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "describedBy": {
+    "field": "Data Dictionary",
+    "definition": "URL for the JSON Schema file that defines the schema used.",
+    "schema": "All",
+    "guidance": "This is used to specify a JSON Schema file that defines all fields. By default, it is recommended that the canonical JSON Schema file is referenced (https://project-open-data.cio.gov/v1.1/schema/catalog.json) but if the schema had been extended, publishers may reference a file that defines those extensions.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "landingPage": {
+    "field": "Landing Page",
+    "definition": "This field is not intended for an agency's homepage (e.g. www.agency.gov), but rather if a dataset has a human-friendly hub or landing page that users can be directed to for all resources tied to the dataset.",
+    "schema": "All",
+    "guidance": "This field is not intended for an agency's homepage (e.g. www.agency.gov), but rather if a dataset has a human-friendly hub or landing page that users can be directed to for all resources tied to the dataset.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "http://www.agency.gov/vegetables",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "references": {
+    "field": "References",
+    "definition": "Related documents such as technical information about a dataset, developer documentation, etc.",
+    "schema": "All",
+    "guidance": "Related documents such as technical information about a dataset, developer documentation, etc.  Enclose each URL within strings. Separate multiple URLs with a comma.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "http://www.agency.gov/legumes/legumes_data_documentation.html",
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  }
+}

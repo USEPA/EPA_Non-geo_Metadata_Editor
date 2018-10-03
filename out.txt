@@ -1,0 +1,2 @@
+package.json:    "deploy-dev": "vue-cli-service build --mode development && node ./node_modules/cli-deployer/index.js -e E3T2SUH0SUPNNJ -b dev.podme.coronaenv.com -p watersuite",
+package.json:    "deploy-prod": "vue-cli-service build && node ./node_modules/cli-deployer/index.js -e E2PP6NYJGVPZ58 -b podme.coronaenv.com -p watersuite"

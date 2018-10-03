@@ -1,0 +1,54 @@
+{
+  "name": "EPA_Non-geo_Metadata_Editor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "deploy-dev": "vue-cli-service build --mode development && node ./node_modules/cli-deployer/index.js -e E3T2SUH0SUPNNJ -b dev.podme.coronaenv.com -p watersuite",
+    "deploy-prod": "vue-cli-service build && node ./node_modules/cli-deployer/index.js -e E2PP6NYJGVPZ58 -b podme.coronaenv.com -p watersuite"
+  },
+  "dependencies": {
+    "cli-deployer": "https://github.com/ProcstepInc/cli-deployer.git#vue",
+    "quasar": "0.0.18",
+    "quasar-extras": "^2.0.8",
+    "quasar-framework": "^0.17.16",
+    "vue": "^2.5.17",
+    "vue-uuid": "^1.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "babel-plugin-transform-imports": "1.5.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-cli-plugin-quasar": "^0.17.1",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
