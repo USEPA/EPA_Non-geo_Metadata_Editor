@@ -65,7 +65,7 @@ var global_validators = {
     noop(options); // So that linter does not complain
     if (email.trim() == "") return "Empty.";
     // Email validation is tricky business... and in the eye of the beprovider...
-    var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    var re = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
     if (re.test(String(email).toLowerCase())) return "";
     return "Invalid email address.";
   },
@@ -95,6 +95,16 @@ var global_validators = {
 };
 
 export default {
+  validation_config: {
+    empty: {
+      mandatory: { icon: "fas fa-exclamation-triangle", color: "fdae61" },
+      optional: { icon: "fas fa-question-circle", color: "9e9e9e91" }
+    },
+    nonempty: {
+      valid: { icon: "fas fa-check-circle", color: "1a9641" },
+      invalid: { icon: "fas fa-times-circle", color: "d7191c" }
+    }
+  },
   title: {
     mandatory: true,
     validators: [
