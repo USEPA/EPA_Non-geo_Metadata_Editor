@@ -5,21 +5,7 @@
     <q-page-container>
       <q-scroll-area style="width:100%;height: 900px; max-height: 100vh;">
 
-        <q-jumbotron dark img-src="https://www.epa.gov/sites/production/files/styles/microsite_banner/public/2018-08/epa-banner-images/banners_xcpp_aug2018.jpg">
-          <div class="q-display-3">Welcome!</div>
-          <div class="q-subheading">
-            Welcome to the EPA Open Data Metadata Editor in support of EPA's initiative to make data open, discoverable, and usable.
-          </div>
-          <hr class="q-hr q-my-lg">
-          <div>
-             This tool allows data owners to author, save, and submit metadata records that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>. 
-             Each element has a corresponding status: Mandatory (empty), Optional (empty), Invalid, and Valid. 
-             Additional guidance and best practices are available by clicking each element's status icon. 
-             Use the menu at the lower right to save, load, or submit records or log in as an EPA user. 
-             Please contact the <a href="mailto:edg@epa.gov">EPA EDG team</a> with any questions.
-          </div>
-        </q-jumbotron>
-
+        <Intro/>
 
 <!--
         <q-card  class="q-ma-sm">
@@ -308,6 +294,7 @@ import mdSpec from "./assets/epa-metadata-tech-spec.json";
 import config from "./config.js";
 
 import EPA from "./components/EPA.vue";
+import Intro from "./components/Intro.vue";
 import ElementHeader from "./components/ElementHeader.vue";
 //import ORCID from './components/ORCID.vue'
 import TextInput from "./components/TextInput.vue";
@@ -326,6 +313,7 @@ export default {
   name: "app",
   components: {
     EPA,
+    Intro,
     ElementHeader,
     TextInput,
     TagCollector,

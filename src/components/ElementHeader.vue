@@ -30,6 +30,9 @@
 </template>
 
 <script>
+import config from "../config.js";
+var validationStyles = config.validation_config;
+
 export default {
   name: "ElementHeader",
   props: {
@@ -70,17 +73,17 @@ export default {
       var icon = "fas fa-meh-rolling-eyes";
       var color = "000000";
       if (this.mandatory && isEmpty) {
-        icon = "fas fa-exclamation-triangle";
-        color = "fdae61";
+        icon = validationStyles.empty.mandatory.icon;
+        color = validationStyles.empty.mandatory.color;
       } else if (!this.mandatory && isEmpty) {
-        icon = "fas fa-question-circle";
-        color = "9e9e9e91";
+        icon = validationStyles.empty.optional.icon;
+        color = validationStyles.empty.optional.color;
       } else if (isValid) {
-        icon = "fas fa-check-circle";
-        color = "1a9641";
+        icon = validationStyles.nonempty.valid.icon;
+        color = validationStyles.nonempty.valid.color;
       } else if (!isValid) {
-        icon = "fas fa-times-circle";
-        color = "d7191c";
+        icon = validationStyles.nonempty.invalid.icon;
+        color = validationStyles.nonempty.invalid.color;
       }
       var style = "color:#" + color;
       if (forIcon) style += ";font-size:2em;width:2em;";
