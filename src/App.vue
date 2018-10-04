@@ -3,7 +3,6 @@
     <EPA/>
   
     <q-page-container>
-      <q-scroll-area style="width:100%;height: 900px; max-height: 100vh;">
 
         <Intro/>
 
@@ -273,7 +272,7 @@
         <br/><br/><br/>
 
         <SpeedDial :doc="materializeDoc" />
-      </q-scroll-area>
+
     </q-page-container>
   </q-layout>
 
