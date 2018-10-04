@@ -6,9 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "deploy-dev": "vue-cli-service build --mode development && node ./node_modules/cli-deployer/index.js -e E3T2SUH0SUPNNJ -b dev.podme.coronaenv.com -p watersuite",
+    "deploy-prod": "vue-cli-service build && node ./node_modules/cli-deployer/index.js -e E2PP6NYJGVPZ58 -b podme.coronaenv.com -p watersuite"
   },
   "dependencies": {
-    "cli-deployer": "https://github.com/ProcstepInc/cli-deployer.git#vue",
     "quasar": "0.0.18",
     "quasar-extras": "^2.0.8",
     "quasar-framework": "^0.17.16",
