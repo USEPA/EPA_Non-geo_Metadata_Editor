@@ -8,10 +8,10 @@
         <div class="tb">
             This tool allows data owners to author, save, and submit metadata records that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>. 
             Each element has a corresponding status: 
-            <q-icon :name="validationStyles().empty.mandatory.icon" :style="'color:#'+validationStyles().empty.mandatory.color"/>  Mandatory (empty),
-            <q-icon :name="validationStyles().empty.optional.icon" :style="'color:#'+validationStyles().empty.optional.color"/>  Optional (empty),
-            <q-icon :name="validationStyles().nonempty.invalid.icon" :style="'color:#'+validationStyles().nonempty.invalid.color"/>  Invalid, and 
-            <q-icon :name="validationStyles().nonempty.valid.icon" :style="'color:#'+validationStyles().nonempty.valid.color"/>  Valid.
+            <q-icon :name="validationStyles().empty.mandatory.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.mandatory.color"/>  Mandatory (empty),
+            <q-icon :name="validationStyles().empty.optional.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.optional.color"/>  Optional (empty),
+            <q-icon :name="validationStyles().nonempty.invalid.icon" :style="'text-shadow:none;color:#'+validationStyles().nonempty.invalid.color"/>  Invalid, and 
+            <q-icon :name="validationStyles().nonempty.valid.icon" :style="'text-shadow:none;color:#'+validationStyles().nonempty.valid.color"/>  Valid.
             Additional guidance and best practices are available by clicking each element's status icon. 
             Use the menu at the lower right to save, load, or submit records or log in as an EPA user. 
             Please contact the <a href="mailto:edg@epa.gov">EPA EDG team</a> with any questions.
