@@ -1,11 +1,11 @@
 <template>
     <q-jumbotron dark img-src="https://www.epa.gov/sites/production/files/styles/microsite_banner/public/2018-08/epa-banner-images/banners_xcpp_aug2018.jpg">
-        <div class="q-display-3">Welcome!</div>
-        <div class="q-subheading">
+        <div class="q-display-3 tb">Welcome!</div>
+        <div class="q-subheading tb">
         Welcome to the EPA Open Data Metadata Editor in support of EPA's initiative to make data open, discoverable, and usable.
         </div>
         <hr class="q-hr q-my-lg">
-        <div>
+        <div class="tb">
             This tool allows data owners to author, save, and submit metadata records that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>. 
             Each element has a corresponding status: 
             <q-icon :name="validationStyles().empty.mandatory.icon" :style="'color:#'+validationStyles().empty.mandatory.color"/>  Mandatory (empty),
@@ -33,4 +33,7 @@ export default {
 </script>
 
 <style scoped>
+.tb {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 </style>
