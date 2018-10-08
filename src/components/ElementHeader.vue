@@ -31,7 +31,6 @@
 
 <script>
 import config from "../config.js";
-var validationStyles = config.validation_config;
 
 export default {
   name: "ElementHeader",

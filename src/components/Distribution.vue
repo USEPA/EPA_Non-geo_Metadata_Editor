@@ -3,7 +3,7 @@
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
                 <div v-if="isBeingEdited(index)">
-                    <q-input v-model="item.title" :error="isError(item,'title')" :warning="isWarning(item,'title')" :float-label="titleLabel(item)"/>
+                    <q-input v-model="item.title" :error="isError(item,'title')" :warning="isWarning(item,'title')" float-label="Please enter the title for the URL below"/>
                     <br/>URL type: &nbsp;
                     <q-radio v-model="item.urlType" label="access" val="access"/>
                     &nbsp;&nbsp;
@@ -81,7 +81,6 @@ export default {
       if (this.indexBeingEdited > -1)
         this.validate(this.distInner[this.indexBeingEdited]);
       this.$emit("update:distribution", this.distribution);
-      //console.log(this.distribution);
     },
 
     isError: function(item, prop) {
@@ -114,12 +113,6 @@ export default {
         { minWords: 2, minCharsinWord: 3 }
       );
       item.urlValidation = config.global_validators.validUrl(item.url);
-      //console.log(item.titleValidation);
-    },
-
-    titleLabel: function(item) {
-      return "Please enter a title for the URL below";
-      // + (item.titleValidation ? " (" + item.titleValidation + ")" : "")
     },
 
     getValiMandaVisualizer: function(validations, forIcon = true) {
@@ -149,7 +142,7 @@ export default {
 
           return normalizedItem;
         };
-        console.log("distro!!");
+
         return this.distInner.map((item, index) =>
           normalize(
             item,

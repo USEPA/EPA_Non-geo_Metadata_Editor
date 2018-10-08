@@ -97,11 +97,9 @@ var global_validators = {
     noop(options); // So that linter does not complain
     var val;
     if (obj && Array.isArray(obj)) {
-      //console.log(obj);
       val = obj.find(item => item.validations);
       if (val) val = val.validations;
     }
-    //console.log(val);
     return val ? val : "";
   }
 };
