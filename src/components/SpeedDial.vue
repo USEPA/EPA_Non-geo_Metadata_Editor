@@ -8,7 +8,7 @@
             
             <q-fab-action
                 color="primary"
-                @click="$ons.notification.alert(`You will eventually be able to save this record!`)"
+                @click="$q.notify({message:'You will eventually be able to save this record!'})"
                 icon="far fa-save"
             >
                 <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
@@ -16,7 +16,7 @@
 
             <q-fab-action
                 color="primary"
-                @click="$ons.notification.alert(doc)"
+                @click="$q.notify({message:doc})"
                 icon="fas fa-file"
             >
                 <q-tooltip anchor="center left" self="center right">View</q-tooltip>
