@@ -3,19 +3,31 @@
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
                 <div v-if="isBeingEdited(index)">
-                    <q-input v-model="item.title" :error="isError(item)" :warning="isWarning(item)" :float-label="titleLabel(item)"/>
+                    <q-input v-model="item.title" :error="isError(item,'title')" :warning="isWarning(item,'title')" :float-label="titleLabel(item)"/>
                     <br/>URL type: &nbsp;
                     <q-radio v-model="item.urlType" label="access" val="access"/>
                     &nbsp;&nbsp;
                     <q-radio v-model="item.urlType" label="download" val="download"/>
-                    <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
+                    <q-input v-model="item.url" :error="isError(item,'url')" :warning="isWarning(item,'url')" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
                 </div>
                 <div v-else>
-                    <b>Title: </b>{{item.title}}
+                    <div class="row">
+                        <div class="col-md-auto" :style="getValiMandaVisualizer(item.titleValidation,false).style">
+                            <b><q-icon :name="getValiMandaVisualizer(item.titleValidation).icon"/> Title: &nbsp;</b>
+                        </div>
+                        <div class="col-md-auto">
+                            {{item.title}}
+                        </div>
+                    </div>
                     <br/>
-                    <b>{{item.urlType=="access"?"access":"download" | capitalize}} URL: </b><a target="previewURL" :href="item.url">{{item.url}}</a>
-                    <br/>
-                    <br/>
+                    <div class="row">
+                        <div class="col-md-auto" :style="getValiMandaVisualizer(item.urlValidation,false).style">
+                            <b><q-icon :name="getValiMandaVisualizer(item.titleValidation).icon"/> {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;</b>
+                        </div>
+                        <div class="col-md-auto">
+                            <a target="previewURL" :href="item.url">{{item.url}}</a>
+                        </div>
+                    </div>
                 </div>
                 <br/>
                 <div class="row">
@@ -50,6 +62,7 @@ export default {
         titleValidation: "Empty.",
         urlValidation: "Empty."
       });
+      this.indexBeingEdited = this.distInner.length - 1;
     },
 
     editThis: function(index) {
@@ -71,17 +84,24 @@ export default {
       //console.log(this.distribution);
     },
 
-    isError: function(item) {
+    isError: function(item, prop) {
       this.validate(item);
-      return (
-        item.titleValidation.trim() != "" &&
-        item.titleValidation.trim() != "Empty."
-      );
+      if (prop == "title")
+        return (
+          item.titleValidation.trim() != "" &&
+          item.titleValidation.trim() != "Empty."
+        );
+      if (prop == "url")
+        return (
+          item.urlValidation.trim() != "" &&
+          item.urlValidation.trim() != "Empty."
+        );
     },
 
-    isWarning: function(item) {
+    isWarning: function(item, prop) {
       this.validate(item);
-      return item.titleValidation.trim() == "Empty.";
+      if (prop == "title") return item.titleValidation.trim() == "Empty.";
+      if (prop == "url") return item.urlValidation.trim() == "Empty.";
     },
 
     isBeingEdited: function(index) {
@@ -98,12 +118,15 @@ export default {
     },
 
     titleLabel: function(item) {
-      return (
-        "Please enter a title for the URL below" +
-        (item.titleValidation ? " (" + item.titleValidation + ")" : "")
-      );
+      return "Please enter a title for the URL below";
+      // + (item.titleValidation ? " (" + item.titleValidation + ")" : "")
+    },
+
+    getValiMandaVisualizer: function(validations, forIcon = true) {
+      return config.getValiMandaVisualizer(validations, true, forIcon);
     }
   },
+
   computed: {
     distribution: {
       get: function() {
@@ -140,15 +163,7 @@ export default {
   data() {
     return {
       indexBeingEdited: -1,
-      distInner: [
-        {
-          title: "",
-          url: "",
-          urlType: "download",
-          titleValidation: "Empty.",
-          urlValidation: "Empty."
-        }
-      ]
+      distInner: []
     };
   },
   watch: {

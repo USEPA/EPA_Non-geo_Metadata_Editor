@@ -114,19 +114,47 @@ var validationIsEmpty = function(validation) {
   );
 };
 
+var validation_config = {
+  empty: {
+    mandatory: { icon: "fas fa-exclamation-triangle", color: "fdae61" },
+    optional: { icon: "fas fa-question-circle", color: "9e9e9e91" }
+  },
+  nonempty: {
+    valid: { icon: "fas fa-check-circle", color: "1a9641" },
+    invalid: { icon: "fas fa-times-circle", color: "d7191c" }
+  }
+};
+
 export default {
   global_validators: global_validators,
   validationIsEmpty: validationIsEmpty,
-  validation_config: {
-    empty: {
-      mandatory: { icon: "fas fa-exclamation-triangle", color: "fdae61" },
-      optional: { icon: "fas fa-question-circle", color: "9e9e9e91" }
-    },
-    nonempty: {
-      valid: { icon: "fas fa-check-circle", color: "1a9641" },
-      invalid: { icon: "fas fa-times-circle", color: "d7191c" }
+  validation_config: validation_config,
+
+  getValiMandaVisualizer: function(validations, mandatory, forIcon = true) {
+    var vals = validations.replace(/^\s+|\s+$/g, "");
+    var isEmpty = validationIsEmpty(vals);
+    var isValid = vals == "";
+    var icon = "fas fa-meh-rolling-eyes";
+    var color = "000000";
+    if (mandatory && isEmpty) {
+      icon = validation_config.empty.mandatory.icon;
+      color = validation_config.empty.mandatory.color;
+    } else if (!mandatory && isEmpty) {
+      icon = validation_config.empty.optional.icon;
+      color = validation_config.empty.optional.color;
+    } else if (isValid) {
+      icon = validation_config.nonempty.valid.icon;
+      color = validation_config.nonempty.valid.color;
+    } else if (!isValid) {
+      icon = validation_config.nonempty.invalid.icon;
+      color = validation_config.nonempty.invalid.color;
     }
+    var style = "color:#" + color;
+    if (forIcon) style += ";font-size:2em;width:2em;";
+    //;text-shadow: 3px 3px 16px #666666
+    return { icon: icon, style: style };
   },
+
   title: {
     mandatory: true,
     validators: [

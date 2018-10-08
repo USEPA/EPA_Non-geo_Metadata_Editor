@@ -64,28 +64,11 @@ export default {
     },
 
     getValiMandaVisualizer: function(forIcon = true) {
-      var vals = this.validations.replace(/^\s+|\s+$/g, "");
-      var isEmpty = config.validationIsEmpty(vals);
-      var isValid = vals == "";
-      var icon = "fas fa-meh-rolling-eyes";
-      var color = "000000";
-      if (this.mandatory && isEmpty) {
-        icon = validationStyles.empty.mandatory.icon;
-        color = validationStyles.empty.mandatory.color;
-      } else if (!this.mandatory && isEmpty) {
-        icon = validationStyles.empty.optional.icon;
-        color = validationStyles.empty.optional.color;
-      } else if (isValid) {
-        icon = validationStyles.nonempty.valid.icon;
-        color = validationStyles.nonempty.valid.color;
-      } else if (!isValid) {
-        icon = validationStyles.nonempty.invalid.icon;
-        color = validationStyles.nonempty.invalid.color;
-      }
-      var style = "color:#" + color;
-      if (forIcon) style += ";font-size:2em;width:2em;";
-      //;text-shadow: 3px 3px 16px #666666
-      return { icon: icon, style: style };
+      return config.getValiMandaVisualizer(
+        this.validations,
+        this.mandatory,
+        forIcon
+      );
     }
   }
 };
