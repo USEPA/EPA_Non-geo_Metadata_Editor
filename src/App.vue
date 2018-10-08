@@ -644,15 +644,4 @@ export default {
 </script>
 
 <style>
-a:link,
-a:visited {
-  color: white;
-  text-align: center;
-  text-decoration: underline;
-}
-
-a:hover,
-a:active {
-  background-color: #529e34;
-}
 </style>
