@@ -100,7 +100,7 @@ var global_validators = {
       val = obj.find(item => item.validations);
       if (val) val = val.validations;
     }
-    return val ? val : "";
+    return val ? val : "Empty.";
   }
 };
 

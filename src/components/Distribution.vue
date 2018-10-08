@@ -32,7 +32,7 @@
                 <br/>
                 <div class="row">
                 <q-btn class="col-sm" icon="fas fa-pen" label="Edit this distribution entry" @click="editThis(index)" v-show="!isBeingEdited(index)"/>
-                <q-btn class="col-sm" icon="fas fa-check" label="Done editing this distribution entry" @click="closeThis(index)" v-show="isBeingEdited(index)"/>
+                <q-btn class="col-sm" icon="fas fa-check" label="Done editing this distribution entry" @click="closeThis()" v-show="isBeingEdited(index)"/>
                 <q-btn class="col-sm" icon="fas fa-trash" label="Delete this distribution entry" @click="deleteThis(index)"/>
                 </div>
             </q-card-main>
@@ -69,12 +69,13 @@ export default {
       this.indexBeingEdited = index;
     },
 
-    closeThis: function(index) {
+    closeThis: function() {
       this.indexBeingEdited = -1;
     },
 
     deleteThis: function(index) {
       this.distInner.splice(index, 1);
+      this.indexBeingEdited = -1;
     },
 
     emitUpdate: function() {
@@ -150,7 +151,9 @@ export default {
           )
         );
       },
-      set: function(newValue) {}
+      set: function(newValue) {
+        config.noop(newValue);
+      }
     }
   },
   data() {

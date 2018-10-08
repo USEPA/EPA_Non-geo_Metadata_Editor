@@ -446,8 +446,6 @@ export default {
           validator.args.doc = this.doc;
           validationResults +=
             validator.fn.call(this, mdElementValue, validator.args) + "\n";
-          console.log("validationResults");
-          console.log(validationResults);
         });
       } else {
         // No config for element
