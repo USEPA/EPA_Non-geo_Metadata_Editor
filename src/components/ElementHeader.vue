@@ -65,10 +65,7 @@ export default {
 
     getValiMandaVisualizer: function(forIcon = true) {
       var vals = this.validations.replace(/^\s+|\s+$/g, "");
-      var isEmpty =
-        vals.startsWith("Empty.") ||
-        vals.startsWith("Must select at least one.") ||
-        vals.startsWith("Must make a selection.");
+      var isEmpty = config.validationIsEmpty(vals);
       var isValid = vals == "";
       var icon = "fas fa-meh-rolling-eyes";
       var color = "000000";

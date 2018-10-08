@@ -14,6 +14,17 @@
         </q-card>
 -->
         <q-card  class="q-ma-sm">
+          <ElementHeader title="Distribution" 
+            :guidance="getGuidanceFor('distribution')"
+            :validations.sync="validations.distribution"
+            :mandatory="config['distribution']['mandatory']"
+          />
+          <q-card-main>
+            <Distribution :distribution.sync="doc.distribution"/>
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
           <ElementHeader title="Title" 
             :guidance="getGuidanceFor('title')"
             :validations.sync="validations.title"
@@ -303,6 +314,7 @@ import DateOrRangeInput from "./components/DateOrRangeInput.vue";
 import DocId from "./components/DocId.vue";
 import OptionSelector from "./components/OptionSelector.vue";
 import BooleanSelector from "./components/BooleanSelector.vue";
+import Distribution from "./components/Distribution.vue";
 import SpeedDial from "./components/SpeedDial.vue";
 import { uuid } from "vue-uuid";
 
@@ -321,6 +333,7 @@ export default {
     DocId,
     OptionSelector,
     BooleanSelector,
+    Distribution,
     SpeedDial
 
     //, ORCID
@@ -353,7 +366,8 @@ export default {
         conformsTo: "",
         describedBy: "",
         landingPage: "",
-        references: ""
+        references: "",
+        distribution: ""
       },
       validations: {
         title: "",
@@ -380,7 +394,8 @@ export default {
         conformsTo: "",
         describedBy: "",
         landingPage: "",
-        references: ""
+        references: "",
+        distribution: ""
       },
       mdSpec: mdSpec,
       config: config,
@@ -431,6 +446,8 @@ export default {
           validator.args.doc = this.doc;
           validationResults +=
             validator.fn.call(this, mdElementValue, validator.args) + "\n";
+          console.log("validationResults");
+          console.log(validationResults);
         });
       } else {
         // No config for element
@@ -600,6 +617,12 @@ export default {
     "doc.references": {
       handler: function() {
         this.validateElement("references");
+      },
+      immediate: true
+    },
+    "doc.distribution": {
+      handler: function() {
+        this.validateElement("distribution");
       },
       immediate: true
     }

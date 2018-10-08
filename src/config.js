@@ -91,10 +91,32 @@ var global_validators = {
     if (!options.doc.modified || !options.doc.accrualPeriodicity)
       return "Empty.";
     return "You must populate update frequency element when you leave last update element empty.";
+  },
+
+  passThruValidation: function(obj, options) {
+    noop(options); // So that linter does not complain
+    var val;
+    if (obj && Array.isArray(obj)) {
+      //console.log(obj);
+      val = obj.find(item => item.validations);
+      if (val) val = val.validations;
+    }
+    //console.log(val);
+    return val ? val : "";
   }
 };
 
+var validationIsEmpty = function(validation) {
+  return (
+    validation.startsWith("Empty.") ||
+    validation.startsWith("Must select at least one.") ||
+    validation.startsWith("Must make a selection.")
+  );
+};
+
 export default {
+  global_validators: global_validators,
+  validationIsEmpty: validationIsEmpty,
   validation_config: {
     empty: {
       mandatory: { icon: "fas fa-exclamation-triangle", color: "fdae61" },
@@ -1114,6 +1136,15 @@ export default {
     validators: [
       {
         fn: global_validators.validUrl,
+        args: {}
+      }
+    ]
+  },
+  distribution: {
+    mandatory: false,
+    validators: [
+      {
+        fn: global_validators.passThruValidation,
         args: {}
       }
     ]
