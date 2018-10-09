@@ -1156,6 +1156,14 @@ export default {
         value: "",
         label: ""
       },
+      { value: "text/plain", label: "Text File (.txt)" },
+      { value: "text/csv", label: "Comma-Seperated Values (.csv)" },
+      { value: "text/html", label: "HyperText Markup Language (HTML) (.html)" },
+      {
+        value: "application/xml",
+        label: "XML - Extensible Markup Language (.xml)"
+      },
+      { value: "application/zip", label: "Zip Archive (.zip)" },
       {
         value: "application/vnd.hzn-3d-crossword",
         label: "3D Crossword Plugin (.x3d)"
@@ -1396,7 +1404,6 @@ export default {
       },
       { value: "image/x-cmu-raster", label: "CMU Image (.ras)" },
       { value: "model/vnd.collada+xml", label: "COLLADA (.dae)" },
-      { value: "text/csv", label: "Comma-Seperated Values (.csv)" },
       { value: "application/mac-compactpro", label: "Compact Pro (.cpt)" },
       {
         value: "application/vnd.wap.wmlc",
@@ -1738,7 +1745,6 @@ export default {
         value: "application/vnd.hal+xml",
         label: "Hypertext Application Language (.hal)"
       },
-      { value: "text/html", label: "HyperText Markup Language (HTML) (.html)" },
       {
         value: "application/vnd.ibm.rights-management",
         label: "IBM DB2 Rights Manager (.irm)"
@@ -2939,7 +2945,6 @@ export default {
         value: "application/tei+xml",
         label: "Text Encoding and Interchange (.tei)"
       },
-      { value: "text/plain", label: "Text File (.txt)" },
       { value: "application/vnd.spotfire.dxp", label: "TIBCO Spotfire (.dxp)" },
       { value: "application/vnd.spotfire.sfs", label: "TIBCO Spotfire (.sfs)" },
       {
@@ -3053,10 +3058,6 @@ export default {
         label: "XHTML - The Extensible HyperText Markup Language (.xhtml)"
       },
       {
-        value: "application/xml",
-        label: "XML - Extensible Markup Language (.xml)"
-      },
-      {
         value: "application/xcap-diff+xml",
         label: "XML Configuration Access Protocol - XCAP Diff (.xdf)"
       },
@@ -3106,7 +3107,6 @@ export default {
       },
       { value: "application/yin+xml", label: "YIN (YANG - XML) (.yin)" },
       { value: "application/vnd.zul", label: "Z.U.L. Geometry (.zir)" },
-      { value: "application/zip", label: "Zip Archive (.zip)" },
       {
         value: "application/vnd.handheld-entertainment+xml",
         label: "ZVUE Media Manager (.zmm)"
