@@ -563,7 +563,7 @@ export default {
     validators: [{ fn: global_validators.validRange, args: {} }]
   },
   issued: {
-    mandatory: true,
+    mandatory: false,
     validators: [{ fn: global_validators.validDate, args: {} }]
   },
   language: {
