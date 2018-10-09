@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      selectedOption: this.availableOptions[0].key
+      selectedOption: this.availableOptions[0].value
     };
   },
   methods: {

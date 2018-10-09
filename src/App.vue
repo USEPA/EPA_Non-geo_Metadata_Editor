@@ -355,7 +355,7 @@ export default {
           hasEmail: ""
         },
         identifier: "",
-        accessLevel: "",
+        accessLevel: "public",
         rights: "",
         license: "",
         temporal: "",

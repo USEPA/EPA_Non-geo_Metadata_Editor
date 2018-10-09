@@ -470,7 +470,7 @@ export default {
     ]
   },
   rights: {
-    mandatory: true,
+    mandatory: false,
     validators: [
       {
         fn: global_validators.nonTrivialText,
