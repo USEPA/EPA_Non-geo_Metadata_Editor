@@ -219,7 +219,7 @@
             :mandatory="config['language']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.language" :availableTags.sync="config['language']['availableTags']" :maxTagsToShow="getConfigFor( 'language','maxTagsToShow')"/>
+            <TagCollector :collectedTags.sync="doc.language" :availableTags.sync="config['language']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -253,6 +253,10 @@
           />
           <q-card-main>
             <TextInput defaultText="Please provide a URL" :userText.sync="doc.describedBy" />
+            <OptionSelector 
+              :selectedOption.sync="doc.describedByType" 
+              :availableOptions.sync="config['describedByType']['availableOptions']"
+              placeHolderText="Please select the type of file pointed by the above URL"/>
           </q-card-main>
         </q-card>
 
@@ -365,6 +369,7 @@ export default {
         dataQuality: false,
         conformsTo: "",
         describedBy: "",
+        describedByType: "",
         landingPage: "",
         references: "",
         distribution: ""
@@ -393,6 +398,7 @@ export default {
         dataQuality: "",
         conformsTo: "",
         describedBy: "",
+        describedByType: "",
         landingPage: "",
         references: "",
         distribution: ""
@@ -603,6 +609,12 @@ export default {
     "doc.describedBy": {
       handler: function() {
         this.validateElement("describedBy");
+      },
+      immediate: true
+    },
+    "doc.describedByType": {
+      handler: function() {
+        this.validateElement("describedByType");
       },
       immediate: true
     },

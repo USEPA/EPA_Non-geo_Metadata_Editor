@@ -3,7 +3,9 @@
   <q-select
     v-model="selectedOption"
     :options="availableOptions"
+    :filter="availableOptions.length>10"
     @input="emitUpdate()"
+    :placeholder="placeHolderText"
   />
   
 </template>
@@ -12,7 +14,8 @@
 export default {
   name: "OptionSelector",
   props: {
-    availableOptions: Array
+    availableOptions: Array,
+    placeHolderText: String
   },
   data() {
     return {
