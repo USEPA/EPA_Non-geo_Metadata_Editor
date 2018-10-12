@@ -441,18 +441,34 @@ export default {
         : "No guidance available at this time.";
     },
 
+    applyValidators(elementConfig, mdElementValue) {
+      var validationResults = "";
+      var validators = elementConfig.validators;
+      if (!validators || !validators.length) return validationResults; // No validator(s) for element
+      validators.forEach(validator => {
+        validator.args.doc = this.doc;
+        validationResults +=
+          validator.fn.call(this, mdElementValue, validator.args) + "\n";
+      });
+      return validationResults;
+    },
+
     validateElement(mdElement) {
       var mdElementValue = this.findElement(this.doc, mdElement);
       var elementConfig = this.findElement(this.config, mdElement);
       var validationResults = "";
       if (elementConfig) {
-        var validators = elementConfig.validators;
-        if (!validators || !validators.length) return; // No validator(s) for element
-        validators.forEach(validator => {
-          validator.args.doc = this.doc;
-          validationResults +=
-            validator.fn.call(this, mdElementValue, validator.args) + "\n";
-        });
+        if (Array.isArray(mdElementValue)) {
+          validationResults = "";
+          var hasErrors = mdElementValue.find(entry => entry.validations > "");
+          //console.log(hasErrors);
+          if (hasErrors)
+            validationResults = "You have entries that are not validating.";
+        } else
+          validationResults = this.applyValidators(
+            elementConfig,
+            mdElementValue
+          );
       } else {
         // No config for element
         validationResults = "No validators available for this element";
