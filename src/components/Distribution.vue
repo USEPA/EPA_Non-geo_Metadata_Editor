@@ -163,8 +163,6 @@ export default {
     },
 
     editThis: function(index) {
-      this.indexBeingEdited = index;
-
       this.validations = {
         title: "",
         url: "",
@@ -175,6 +173,7 @@ export default {
         describedByType: "",
         conformsTo: ""
       };
+      this.indexBeingEdited = index;
     },
 
     closeThis: function() {
@@ -193,7 +192,7 @@ export default {
     },
 
     isError: function(item, prop) {
-      this.validate(item);
+      //this.validate(item);
       return (
         this.validations[prop].trim() != "" &&
         this.validations[prop].trim() != "Empty."
@@ -212,7 +211,7 @@ export default {
             (item.urlType == "download" ||
               key == "description" ||
               key == "format" ||
-              key == "description")
+              key == "title")
           )
             this.validations[key] = "Empty.";
           else this.validations[key] = "";
@@ -247,7 +246,7 @@ export default {
       get: function() {
         var validationsCopy = this.validations;
 
-        var normalize = function(item, copyValidation) {
+        var normalize = function(item) {
           var normalizedItem = {
             "@type": "dcat:Distribution"
           };
@@ -288,12 +287,7 @@ export default {
           return normalizedItem;
         };
 
-        return this.distInner.map((item, index) =>
-          normalize(
-            item,
-            this.indexBeingEdited == -1 || index == this.indexBeingEdited
-          )
-        );
+        return this.distInner.map(item => normalize(item));
       },
       set: function(newValue) {
         config.noop(newValue);
@@ -310,17 +304,13 @@ export default {
   },
   watch: {
     distInner: {
-      handler: function(newValue, oldValue) {
+      handler: function() {
+        if (this.indexBeingEdited > -1)
+          this.validate(this.distInner[this.indexBeingEdited]);
         this.emitUpdate();
       },
       immediate: true,
       deep: true
-    },
-    indexBeingEdited: {
-      handler: function() {
-        this.emitUpdate();
-      },
-      immediate: true
     }
   },
   filters: {
