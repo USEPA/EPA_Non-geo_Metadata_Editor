@@ -853,5 +853,70 @@
         "url": ""
       }
     ]
+  },
+  "distribution": {
+    "field": "Distribution",
+    "definition": "Within a dataset, distribution is used to aggregate the metadata specific to a dataset’s resources (Access URL and Download URL), which may be described using the following fields. Each distribution should contain one Access URL or Download URL. A Download URL should always be accompanied by Media Type.",
+    "schema": "All",
+    "guidance": "Title: Mandatory human-readable name of the distribution. Description: Optional human-readable description of the distribution. URL Type: An Access URL provides indirect access to a dataset, for example via API or a graphical interface, while a Download URL provides direct access to a downloadable file of a dataset. Media Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL, which usually matches the file extension. ***Format: A human-readable description of the file format of a distribution. (Populated by dropdown?)*** Data Standard: URI used to identify a standardized specification the distribution conforms to. Data Dictionary: URL to the data dictionary for the distribution found at the Download URL. Note that documentation other than a data dictionary can be referenced using Related Documents as shown in the expanded fields. Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": '{\
+                     "@type": "dcat:Distribution",\
+                     "description": "Vegetable data as a CSV file",\
+                     "downloadURL": "http://www.agency.gov/vegetables/listofvegetables.csv",\
+                     "format": "CSV",\
+                     "mediaType": "text/csv",\
+                     "title": "listofvegetables.csv"\
+                 }, \
+                 {\
+                     "@type": "dcat:Distribution",\
+                     "conformsTo": "http://www.agency.gov/vegetables-data-standard/",\
+                     "describedBy": "http://www.agency.gov/vegetables/schema.xsd",\
+                     "describedByType": "text/xml",\
+                     "description": "Vegetable data as an XML file",\
+                     "downloadURL": "http://www.agency.gov/vegetables/listofvegetables.xml",\
+                     "format": "XML",\
+                     "mediaType": "text/xml",\
+                     "title": "listofvegetables.xml"\
+                 },\
+                 {\
+                     "@type": "dcat:Distribution",\
+                     "description": "Vegetable data as a zipped CSV file with attached data dictionary",\
+                     "downloadURL": "http://www.agency.gov/vegetables/vegetables-all.zip",\
+                     "format": "Zipped CSV",\
+                     "mediaType": "application/zip",\
+                     "title": "vegetables-all.zip"\
+                 },\
+                 {\
+                     "@type": "dcat:Distribution",\
+                     "accessURL": "http://www.agency.gov/api/vegetables/",\
+                     "description": "A fully queryable REST API with JSON and XML output",\
+                     "format": "API",\
+                     "title": "Vegetables REST API"\
+                 }',
+    "crosswalk": [
+      {
+        "schema": "ArcGIS",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "pod",
+        "xpath": "distribution",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#distribution"
+      },
+      {
+        "schema": "iso-19115",
+        "xpath": "",
+        "url": ""
+      },
+      {
+        "schema": "fgdc-csdgm",
+        "xpath": "",
+        "url": ""
+      }
+    ]
   }
+  
 }
