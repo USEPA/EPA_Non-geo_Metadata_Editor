@@ -3137,8 +3137,38 @@ export default {
         args: {}
       }
     ],
+    title: {
+      mandatory: false,
+      validators: []
+    },
+    description: {
+      mandatory: false,
+      validators: []
+    },
+    url: {
+      mandatory: true,
+      validators: []
+    },
     mediaType: {
+      mandatory: true,
+      validators: [],
       availableOptions: mimeTypeOptions
+    },
+    format: {
+      mandatory: false,
+      validators: []
+    },
+    conformsTo: {
+      mandatory: false,
+      validators: []
+    },
+    describedBy: {
+      mandatory: false,
+      validators: []
+    },
+    describedByType: {
+      mandatory: false,
+      validators: []
     }
   }
 };
