@@ -1,7 +1,19 @@
 <template>
-    <q-field :icon="getIcon()" :icon-color="getIconColor()" :error="isError()" :error-label="getErrorLabel()">
-        <slot></slot>
-    </q-field>
+    <div>
+        <q-field  v-if="editMode" :icon="getIcon()" :icon-color="getIconColor()" :error="isError()" :error-label="getErrorLabel()">
+            <slot></slot>
+        </q-field>
+
+        <div v-else class="row">
+            <div class="col-md-auto" :style="getStyle()">
+                <b><q-icon :name="getIcon()"/> {{propName}}: &nbsp;</b>
+            </div>
+            <div class="col-md-auto">
+                {{propValue}}
+            </div>
+        </div>
+        <br/>
+    </div>
 </template>
 
 <script>
@@ -11,6 +23,9 @@ export default {
   name: "FieldWrapper",
   props: {
     mandatory: false,
+    editMode: true,
+    propName: "",
+    propValue: "",
     validation: ""
   },
   methods: {

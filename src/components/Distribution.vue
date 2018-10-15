@@ -2,73 +2,26 @@
     <div>
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
-                <div v-if="isBeingEdited(index)">
-                  <FieldWrapper :validation.sync="validations[index]['title']" :mandatory="config.distribution['title'].mandatory">
-                    <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
-                  </FieldWrapper>
-<!--
--->
-                  <FieldWrapper :validation.sync="validations[index]['description']" :mandatory="config.distribution['description'].mandatory">
-                    <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
-                  </FieldWrapper>
 
+                <FieldWrapper :validation.sync="validations[index]['title']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['title'].mandatory" propName="title" :propValue="item.title">
+                  <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
+                </FieldWrapper>
+
+                <FieldWrapper :validation.sync="validations[index]['description']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['description'].mandatory" propName="description" :propValue="item.description">
+                  <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
+                </FieldWrapper>
+
+                <div v-if="isBeingEdited(index)">
                   <br/>URL type: &nbsp;
                   <q-radio v-model="item.urlType" label="access" val="access"/>
                   &nbsp;&nbsp;
                   <q-radio v-model="item.urlType" label="download" val="download"/>
 
-                  <FieldWrapper :validation.sync="validations[index]['url']" :mandatory="config.distribution['url'].mandatory">
+                  <FieldWrapper :validation.sync="validations[index]['url']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['url'].mandatory">
                     <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
                   </FieldWrapper>
-
-                  <FieldWrapper :validation.sync="validations[index]['mediaType']" :mandatory="config.distribution['mediaType'].mandatory">
-                    <OptionSelector 
-                      :selectedOption.sync="item.mediaType" 
-                      :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
-                      placeHolderText="Please select the file format of the distribution's download URL"
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper :validation.sync="validations[index]['format']" :mandatory="config.distribution['format'].mandatory">
-                    <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
-                  </FieldWrapper>
-
-                  <FieldWrapper :validation.sync="validations[index]['describedBy']" :mandatory="config.distribution['describedBy'].mandatory">
-                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
-                  </FieldWrapper>
-
-                  <FieldWrapper :validation.sync="validations[index]['describedByType']" :mandatory="config.distribution['describedByType'].mandatory">
-                    <OptionSelector 
-                      :selectedOption.sync="item.describedByType" 
-                      :availableOptions.sync="config['describedByType']['availableOptions']"
-                      placeHolderText="Please select the type of file for the data dictionary"
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper :validation.sync="validations[index]['conformsTo']" :mandatory="config.distribution['conformsTo'].mandatory">
-                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
-                  </FieldWrapper>
-
                 </div>
                 <div v-else>
-                    <div class="row">
-                        <div class="col-md-auto" :style="getStyle(index,'title')">
-                            <b><q-icon :name="getIcon(index,'title')"/> Title: &nbsp;</b>
-                        </div>
-                        <div class="col-md-auto">
-                            {{item.title}}
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <div class="col-md-auto" :style="getStyle(index,'description')">
-                            <b><q-icon :name="getIcon(index,'description')"/> Description: &nbsp;</b>
-                        </div>
-                        <div class="col-md-auto">
-                            {{item.description}}
-                        </div>
-                    </div>
-                    <br/>
                     <div class="row">
                         <div class="col-md-auto" :style="getStyle(index,'url')">
                             <b><q-icon :name="getIcon(index,'url')"/> {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;</b>
@@ -77,59 +30,39 @@
                             <a target="previewURL" :href="item.url">{{item.url}}</a>
                         </div>
                     </div>
-                    <div v-show="item.urlType=='download'">
-                      <br/>
-                      <div class="row">
-                          <div class="col-md-auto" :style="getStyle(index,'mediaType')">
-                              <b><q-icon :name="getIcon(index,'mediaType')"/> Media Type: &nbsp;</b>
-                          </div>
-                          <div class="col-md-auto">
-                              {{item.mediaType}}
-                          </div>
-                      </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <div class="col-md-auto" :style="getStyle(index,'format')">
-                            <b><q-icon :name="getIcon(index,'format')"/> Format: &nbsp;</b>
-                        </div>
-                        <div class="col-md-auto">
-                            {{item.format}}
-                        </div>
-                    </div>
-
-                    <div v-show="item.urlType=='download'">
-                      <br/>
-                      <div class="row">
-                          <div class="col-md-auto" :style="getStyle(index,'describedBy')">
-                              <b><q-icon :name="getIcon(index,'describedBy')"/> Described by: &nbsp;</b>
-                          </div>
-                          <div class="col-md-auto">
-                              {{item.describedBy}}
-                          </div>
-                      </div>
-                      <br/>
-                      <div class="row">
-                          <div class="col-md-auto" :style="getStyle(index,'describedByType')">
-                              <b><q-icon :name="getIcon(index,'describedByType')"/> Described by type: &nbsp;</b>
-                          </div>
-                          <div class="col-md-auto">
-                              {{item.describedByType}}
-                          </div>
-                      </div>
-                      <br/>
-                      <div class="row">
-                          <div class="col-md-auto" :style="getStyle(index,'conformsTo')">
-                              <b><q-icon :name="getIcon(index,'conformsTo')"/> Conforms to: &nbsp;</b>
-                          </div>
-                          <div class="col-md-auto">
-                              {{item.conformsTo}}
-                          </div>
-                      </div>
-                  </div>
-                  <!--
-                  -->
                 </div>
+
+                <FieldWrapper :validation.sync="validations[index]['mediaType']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['mediaType'].mandatory" propName="mediaType" :propValue="item.mediaType" v-show="item.urlType=='download'">
+                  <OptionSelector 
+                    :selectedOption.sync="item.mediaType" 
+                    :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
+                    placeHolderText="Please select the file format of the distribution's download URL"
+                  />
+                </FieldWrapper>
+
+                <FieldWrapper :validation.sync="validations[index]['format']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['format'].mandatory" propName="format" :propValue="item.format" v-show="item.urlType=='access'">
+                  <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
+                </FieldWrapper>
+
+                <div v-show="item.urlType=='download'">
+
+                  <FieldWrapper :validation.sync="validations[index]['describedBy']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['describedBy'].mandatory" propName="describedBy" :propValue="item.describedBy">
+                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
+                  </FieldWrapper>
+
+                  <FieldWrapper :validation.sync="validations[index]['describedByType']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['describedByType'].mandatory" propName="describedByType" :propValue="item.describedByType">
+                    <OptionSelector 
+                      :selectedOption.sync="item.describedByType" 
+                      :availableOptions.sync="config['describedByType']['availableOptions']"
+                      placeHolderText="Please select the type of file for the data dictionary"
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper :validation.sync="validations[index]['conformsTo']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['conformsTo'].mandatory" propName="conformsTo" :propValue="item.conformsTo">
+                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
+                  </FieldWrapper>
+                </div>
+
                 <br/>
                 <div class="row">
                   <q-btn class="col-sm" icon="fas fa-pen" label="Edit this distribution entry" @click="editThis(index)" v-show="!isBeingEdited(index)"/>
