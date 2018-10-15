@@ -3,51 +3,51 @@
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
                 <div v-if="isBeingEdited(index)">
-
-                  <q-field :icon="getIcon(index,'title')" :icon-color="getIconColor(index,'title')" :error="isError(index,'title')" :error-label="getErrorLabel(index,'title')">
+                  <FieldWrapper :validation.sync="validations[index]['title']" :mandatory="config.distribution['title'].mandatory">
                     <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
-                  </q-field>
-
-                  <q-field :icon="getIcon(index,'description')" :icon-color="getIconColor(index,'description')" :error="isError(index,'description')" :error-label="getErrorLabel(index,'description')">
+                  </FieldWrapper>
+<!--
+-->
+                  <FieldWrapper :validation.sync="validations[index]['description']" :mandatory="config.distribution['description'].mandatory">
                     <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
-                  </q-field>
+                  </FieldWrapper>
 
                   <br/>URL type: &nbsp;
                   <q-radio v-model="item.urlType" label="access" val="access"/>
                   &nbsp;&nbsp;
                   <q-radio v-model="item.urlType" label="download" val="download"/>
 
-                  <q-field :icon="getIcon(index,'url')" :icon-color="getIconColor(index,'url')" :error="isError(index,'url')" :error-label="getErrorLabel(index,'url')">
+                  <FieldWrapper :validation.sync="validations[index]['url']" :mandatory="config.distribution['url'].mandatory">
                     <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
-                  </q-field>
+                  </FieldWrapper>
 
-                  <q-field :icon="getIcon(index,'mediaType')" :icon-color="getIconColor(index,'mediaType')" :error="isError(index,'mediaType')" :error-label="getErrorLabel(index,'mediaType')" v-show="item.urlType=='download'">
+                  <FieldWrapper :validation.sync="validations[index]['mediaType']" :mandatory="config.distribution['mediaType'].mandatory">
                     <OptionSelector 
                       :selectedOption.sync="item.mediaType" 
                       :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
                       placeHolderText="Please select the file format of the distribution's download URL"
                     />
-                  </q-field>
+                  </FieldWrapper>
 
-                  <q-field :icon="getIcon(index,'format')" :icon-color="getIconColor(index,'format')" :error="isError(index,'format')" :error-label="getErrorLabel(index,'format')" v-show="item.urlType=='access'">
+                  <FieldWrapper :validation.sync="validations[index]['format']" :mandatory="config.distribution['format'].mandatory">
                     <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
-                  </q-field>
+                  </FieldWrapper>
 
-                  <q-field :icon="getIcon(index,'describedBy')" :icon-color="getIconColor(index,'describedBy')" :error="isError(index,'describedBy')" :error-label="getErrorLabel(index,'describedBy')" v-show="item.urlType=='download'">
+                  <FieldWrapper :validation.sync="validations[index]['describedBy']" :mandatory="config.distribution['describedBy'].mandatory">
                     <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
-                  </q-field>
+                  </FieldWrapper>
 
-                  <q-field :icon="getIcon(index,'describedByType')" :icon-color="getIconColor(index,'describedByType')" :error="isError(index,'describedByType')" :error-label="getErrorLabel(index,'describedByType')" v-show="item.urlType=='download'">
+                  <FieldWrapper :validation.sync="validations[index]['describedByType']" :mandatory="config.distribution['describedByType'].mandatory">
                     <OptionSelector 
                       :selectedOption.sync="item.describedByType" 
                       :availableOptions.sync="config['describedByType']['availableOptions']"
                       placeHolderText="Please select the type of file for the data dictionary"
                     />
-                  </q-field>
+                  </FieldWrapper>
 
-                  <q-field :icon="getIcon(index,'conformsTo')" :icon-color="getIconColor(index,'conformsTo')" :error="isError(index,'conformsTo')" :error-label="getErrorLabel(index,'conformsTo')" v-show="item.urlType=='download'">
+                  <FieldWrapper :validation.sync="validations[index]['conformsTo']" :mandatory="config.distribution['conformsTo'].mandatory">
                     <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
-                  </q-field>
+                  </FieldWrapper>
 
                 </div>
                 <div v-else>
@@ -147,13 +147,15 @@
 <script>
 import TextInput from "../components/TextInput.vue";
 import OptionSelector from "../components/OptionSelector.vue";
+import FieldWrapper from "../components/FieldWrapper.vue";
 import config from "../config.js";
 
 export default {
   name: "Distribution",
   components: {
     TextInput,
-    OptionSelector
+    OptionSelector,
+    FieldWrapper
   },
   props: {},
   methods: {
@@ -202,17 +204,6 @@ export default {
       this.$emit("update:distribution", this.distribution);
     },
 
-    isError: function(index, prop) {
-      return (
-        this.validations[index][prop].trim() != "" &&
-        this.validations[index][prop].trim() != "Empty."
-      );
-    },
-
-    getErrorLabel: function(index, prop) {
-      return this.validations[index][prop].trim();
-    },
-
     getStyle: function(index, prop) {
       return config.getValiMandaVisualizer(
         this.validations[index][prop],
@@ -227,15 +218,6 @@ export default {
         false,
         true
       ).icon;
-    },
-
-    getIconColor: function(index, prop) {
-      var validation = this.validations[index][prop];
-      if (validation == "Empty.")
-        if (config.distribution[prop].mandatory) return "empty-mandatory";
-        else return "empty-optional";
-      else if (validation == "") return "valid";
-      else return "invalid";
     },
 
     isBeingEdited: function(index) {
@@ -358,17 +340,5 @@ export default {
 };
 </script>
 
-<style>
-.text-empty-mandatory {
-  color: #fdae61;
-}
-.text-empty-optional {
-  color: #9e9e9e91;
-}
-.text-invalid {
-  color: #d7191c;
-}
-.text-valid {
-  color: #1a9641;
-}
+<style scoped>
 </style>
