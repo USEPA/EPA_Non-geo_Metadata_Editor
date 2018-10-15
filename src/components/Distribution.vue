@@ -3,11 +3,11 @@
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
 
-                <FieldWrapper :validation.sync="validations[index]['title']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['title'].mandatory" propName="title" :propValue="item.title">
+                <FieldWrapper :propInfo="getPropInfo(index, 'title')">
                   <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
                 </FieldWrapper>
 
-                <FieldWrapper :validation.sync="validations[index]['description']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['description'].mandatory" propName="description" :propValue="item.description">
+                <FieldWrapper :propInfo="getPropInfo(index, 'description')">
                   <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
                 </FieldWrapper>
 
@@ -17,7 +17,7 @@
                   &nbsp;&nbsp;
                   <q-radio v-model="item.urlType" label="download" val="download"/>
 
-                  <FieldWrapper :validation.sync="validations[index]['url']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['url'].mandatory">
+                  <FieldWrapper :propInfo="getPropInfo(index, 'url')">
                     <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
                   </FieldWrapper>
                 </div>
@@ -31,8 +31,9 @@
                         </div>
                     </div>
                 </div>
+                <br/>
 
-                <FieldWrapper :validation.sync="validations[index]['mediaType']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['mediaType'].mandatory" propName="mediaType" :propValue="item.mediaType" v-show="item.urlType=='download'">
+                <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
                   <OptionSelector 
                     :selectedOption.sync="item.mediaType" 
                     :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
@@ -40,17 +41,17 @@
                   />
                 </FieldWrapper>
 
-                <FieldWrapper :validation.sync="validations[index]['format']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['format'].mandatory" propName="format" :propValue="item.format" v-show="item.urlType=='access'">
+                <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
                   <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
                 </FieldWrapper>
 
                 <div v-show="item.urlType=='download'">
 
-                  <FieldWrapper :validation.sync="validations[index]['describedBy']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['describedBy'].mandatory" propName="describedBy" :propValue="item.describedBy">
+                  <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
                     <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
                   </FieldWrapper>
 
-                  <FieldWrapper :validation.sync="validations[index]['describedByType']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['describedByType'].mandatory" propName="describedByType" :propValue="item.describedByType">
+                  <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
                     <OptionSelector 
                       :selectedOption.sync="item.describedByType" 
                       :availableOptions.sync="config['describedByType']['availableOptions']"
@@ -58,7 +59,7 @@
                     />
                   </FieldWrapper>
 
-                  <FieldWrapper :validation.sync="validations[index]['conformsTo']" :editMode="isBeingEdited(index)" :mandatory="config.distribution['conformsTo'].mandatory" propName="conformsTo" :propValue="item.conformsTo">
+                  <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
                     <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
                   </FieldWrapper>
                 </div>
@@ -135,6 +136,16 @@ export default {
 
     emitUpdate: function() {
       this.$emit("update:distribution", this.distribution);
+    },
+
+    getPropInfo: function(index, prop) {
+      return {
+        name: prop,
+        mandatory: config.distribution[prop].mandatory,
+        value: this.distInner[index][prop],
+        validation: this.validations[index][prop],
+        editMode: this.isBeingEdited(index)
+      };
     },
 
     getStyle: function(index, prop) {
