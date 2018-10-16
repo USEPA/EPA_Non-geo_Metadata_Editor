@@ -45,8 +45,6 @@
                   <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
                 </FieldWrapper>
 
-                <div v-show="item.urlType=='download'">
-
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
                     <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
                   </FieldWrapper>
@@ -62,7 +60,6 @@
                   <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
                     <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
                   </FieldWrapper>
-                </div>
 
                 <br/>
                 <div class="row">
