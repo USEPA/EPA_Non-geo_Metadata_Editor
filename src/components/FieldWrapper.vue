@@ -6,7 +6,7 @@
 
         <div v-else class="row">
             <div class="col-md-auto" :style="getStyle()">
-                <b><q-icon :name="getIcon()"/> {{propInfo.name}}: &nbsp;</b>
+                <b><q-icon :name="getIcon()"/> {{propInfo.name | capitalize}}: &nbsp;</b>
             </div>
             <div class="col-md-auto">
                 {{propInfo.value}}
@@ -60,6 +60,9 @@ export default {
       else if (this.propInfo.validation == "") return "valid";
       else return "invalid";
     }
+  },
+  filters: {
+    capitalize: config.capitalize
   }
 };
 </script>

@@ -2086,6 +2086,12 @@ export default {
   validationIsEmpty: validationIsEmpty,
   validation_config: validation_config,
 
+  capitalize: function(value) {
+    if (!value) return "";
+    value = value.toString();
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  },
+
   getValiMandaVisualizer: function(validations, mandatory, forIcon = true) {
     var vals = validations.replace(/^\s+|\s+$/g, "");
     var isEmpty = validationIsEmpty(vals);
@@ -3166,7 +3172,12 @@ export default {
     },
     format: {
       mandatory: false,
-      validators: []
+      validators: [],
+      availableOptions: [
+        { value: "", label: "" },
+        { value: "API", label: "API" },
+        { value: "Other", label: "Other" }
+      ]
     },
     conformsTo: {
       mandatory: false,

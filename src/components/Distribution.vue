@@ -12,7 +12,7 @@
                 </FieldWrapper>
 
                 <div v-if="isBeingEdited(index)">
-                  <br/>URL type: &nbsp;
+                  URL type: &nbsp;
                   <q-radio v-model="item.urlType" label="access" val="access"/>
                   &nbsp;&nbsp;
                   <q-radio v-model="item.urlType" label="download" val="download"/>
@@ -42,7 +42,12 @@
                 </FieldWrapper>
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
-                  <q-input v-model="item.format" :float-label="'Please enter the a human-readable description of the file format of a distribution'"/>
+                  <OptionSelector 
+                    :selectedOption.sync="item.formatType" 
+                    :availableOptions.sync="config['distribution']['format']['availableOptions']"
+                    placeHolderText="Is the URL above for an API?"
+                  />
+                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" :userText.sync="item.format"/>
                 </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
@@ -98,6 +103,7 @@ export default {
         urlType: "access",
         mediaType: "",
         format: "",
+        formatType: "",
         describedBy: "",
         describedByType: "",
         conformsTo: ""
@@ -108,6 +114,7 @@ export default {
         url: "",
         mediaType: "",
         format: "",
+        formatType: "",
         description: "",
         describedBy: "",
         describedByType: "",
@@ -166,16 +173,12 @@ export default {
     },
 
     validate: function(item, validations) {
+      if (item.formatType == "API") item.format = "API";
+      else if (item.format == "API") item.format = "";
+
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {
-          if (
-            !item[key] &&
-            (item.urlType == "download" ||
-              key == "description" ||
-              key == "format" ||
-              key == "title")
-          )
-            validations[key] = "Empty.";
+          if (!item[key]) validations[key] = "Empty.";
           else validations[key] = "";
         }
       }
@@ -231,7 +234,12 @@ export default {
               }
 
               // Copy properties that directly map to output
-              if (item[key] && key != "url" && key != "urlType") {
+              if (
+                item[key] &&
+                key != "url" &&
+                key != "urlType" &&
+                key != "formatType"
+              ) {
                 normalizedItem[key] = item[key];
               }
             }
@@ -273,11 +281,7 @@ export default {
     }
   },
   filters: {
-    capitalize: function(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    }
+    capitalize: config.capitalize
   }
 };
 </script>
