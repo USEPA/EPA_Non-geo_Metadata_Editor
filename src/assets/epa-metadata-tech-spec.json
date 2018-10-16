@@ -575,7 +575,7 @@
       }
     ]
   },
-  "linkage": {
+  "distribution": {
     "field": "Distribution URL",
     "definition": "One or more URLs providing access to the dataset",
     "schema": "All",
