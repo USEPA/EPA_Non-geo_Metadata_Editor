@@ -226,7 +226,7 @@
         <q-card  class="q-ma-sm">
           <ElementHeader title="Data Quality" 
             :guidance="getGuidanceFor('dataQuality')"
-            :validations.sync="validations.language"
+            :validations.sync="validations.dataQuality"
             :mandatory="config['dataQuality']['mandatory']"
           />
           <q-card-main>
@@ -458,10 +458,9 @@ export default {
       var elementConfig = this.findElement(this.config, mdElement);
       var validationResults = "";
       if (elementConfig) {
-        if (Array.isArray(mdElementValue)) {
+        if (Array.isArray(mdElementValue) && mdElement == "distribution") {
           validationResults = "";
           var hasErrors = mdElementValue.find(entry => entry.validations > "");
-          //console.log(hasErrors);
           if (hasErrors)
             validationResults = "You have entries that are not validating.";
         } else

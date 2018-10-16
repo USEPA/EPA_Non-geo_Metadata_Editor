@@ -2321,7 +2321,7 @@ export default {
   },
   epa_org: {
     mandatory: false,
-    validators: [],
+    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: []
   },
   tags_place: {
@@ -2532,8 +2532,7 @@ export default {
   },
   language: {
     mandatory: false,
-    validators: [],
-    maxTagsToShow: 25,
+    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: [
       {
         value: "en-us",
