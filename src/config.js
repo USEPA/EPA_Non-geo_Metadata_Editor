@@ -3139,7 +3139,12 @@ export default {
     ],
     title: {
       mandatory: false,
-      validators: []
+      validators: [
+        {
+          fn: global_validators.nonTrivialText,
+          args: { minWords: 2, minCharsinWord: 3 }
+        }
+      ]
     },
     description: {
       mandatory: false,
@@ -3147,11 +3152,16 @@ export default {
     },
     url: {
       mandatory: true,
-      validators: []
+      validators: [
+        {
+          fn: global_validators.validUrl,
+          args: {}
+        }
+      ]
     },
     mediaType: {
       mandatory: true,
-      validators: [],
+      validators: [{ fn: global_validators.nonEmpty, args: {} }],
       availableOptions: mimeTypeOptions
     },
     format: {
@@ -3164,11 +3174,17 @@ export default {
     },
     describedBy: {
       mandatory: false,
-      validators: []
+      validators: [
+        {
+          fn: global_validators.validUrl,
+          args: {}
+        }
+      ]
     },
     describedByType: {
       mandatory: false,
-      validators: []
+      validators: [],
+      availableOptions: mimeTypeOptions
     }
   }
 };

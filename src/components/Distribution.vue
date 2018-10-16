@@ -183,18 +183,19 @@ export default {
         }
       }
 
-      if (item.title)
-        validations.title = config.global_validators.nonTrivialText(
-          item.title,
-          { minWords: 2, minCharsinWord: 3 }
-        );
-      else validations.title = "Empty.";
+      validations.title = config.global_validators.nonTrivialText(item.title, {
+        minWords: 2,
+        minCharsinWord: 3
+      });
 
       if (item.urlType == "download" && !item.mediaType)
         validations.mediaType = "Empty.";
       else validations.mediaType = "";
 
       validations.url = config.global_validators.validUrl(item.url);
+      validations.describedBy = config.global_validators.validUrl(
+        item.describedBy
+      );
     }
   },
 
