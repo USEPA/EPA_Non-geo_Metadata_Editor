@@ -135,6 +135,14 @@ export default {
   validationIsEmpty: validationIsEmpty,
   validation_config: validation_config,
 
+  extension2mimeType: function(ext) {
+    if (!ext) return "";
+    var searchStr = "(." + ext + ")";
+    var item = mimeTypeOptions.find(o => o.label.indexOf(searchStr) > -1);
+    if (item) return item.value;
+    return "";
+  },
+
   capitalize: function(value) {
     if (!value) return "";
     value = value.toString();

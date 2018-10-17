@@ -176,6 +176,16 @@ export default {
       if (item.formatType == "API") item.format = "API";
       else if (item.format == "API") item.format = "";
 
+      // Auto detect mediaType from file extension embedded in URL, if any
+      console.log(item.url);
+      if (item.url) {
+        var ext = item.url.split(".").pop();
+        var mime = config.extension2mimeType(ext);
+        //item.mediaType = "text/plain"; //mime;
+      }
+      console.log(item.mediaType);
+      console.log("");
+
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {
           if (!item[key]) validations[key] = "Empty.";
