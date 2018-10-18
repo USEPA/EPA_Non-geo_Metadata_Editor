@@ -662,7 +662,7 @@ export default {
       if (!outDoc.modified && outDoc.accrualPeriodicity.startsWith("R/P"))
         outDoc.modified = outDoc.accrualPeriodicity;
       // Return prettified document
-      return JSON.stringify(outDoc, null, 4);
+      return outDoc;
     }
   }
 };
