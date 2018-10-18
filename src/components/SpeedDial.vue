@@ -42,7 +42,7 @@
             
             <q-fab-action
                 color="primary"
-                @click="saveDoc"
+                @click="fastSaveDoc"
                 icon="far fa-save"
             >
                 <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
@@ -78,22 +78,32 @@ export default {
     openModal: function() {
       this.filenameInternal = this.doc.userGivenFilename;
       delete this.doc.userGivenFilename;
-      console.log("deleted");
       this.modalOpen = true;
     },
+
     closeModal: function() {
       this.doc.userGivenFilename = this.filenameInternal;
       this.modalOpen = false;
     },
+
+    fastSaveDoc: function() {
+      if (!this.filenameInternal) this.openModal();
+      else {
+        this.saveDoc();
+      }
+    },
+
     saveDoc: function() {
       var outDoc = JSON.stringify(this.doc, null, 4);
-      if (userGivenFilename)
-        this.doc.this.doc.userGivenFilename = this.doc.userGivenFilename;
 
       this.SaveAsFile(
         outDoc,
         this.filenameFull,
         "application/json;charset=" + window.document.charset
+      );
+
+      this.$q.notify(
+        "Metadata document '" + this.filenameInternal + "' downloaded"
       );
     },
 
