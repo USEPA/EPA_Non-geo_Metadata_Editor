@@ -10,6 +10,7 @@
   "dependencies": {
     "add": "^2.0.6",
     "file-saver": "^2.0.0-rc.3",
+    "highlight.js": "^9.13.1",
     "quasar": "0.0.18",
     "quasar-extras": "^2.0.8",
     "quasar-framework": "^0.17.16",
