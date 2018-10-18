@@ -287,7 +287,7 @@
 -->
         <br/><br/><br/>
 
-        <SpeedDial :doc="materializeDoc" />
+        <DocumentActions :doc="materializeDoc" />
 
     </q-page-container>
   </q-layout>
@@ -320,7 +320,7 @@ import DocId from "./components/DocId.vue";
 import OptionSelector from "./components/OptionSelector.vue";
 import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
-import SpeedDial from "./components/SpeedDial.vue";
+import DocumentActions from "./components/DocumentActions.vue";
 import { uuid } from "vue-uuid";
 
 var noop = function() {};
@@ -339,7 +339,7 @@ export default {
     OptionSelector,
     BooleanSelector,
     Distribution,
-    SpeedDial
+    DocumentActions
 
     //, ORCID
   },

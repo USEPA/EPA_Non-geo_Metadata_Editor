@@ -67,7 +67,7 @@ import TextInput from "../components/TextInput.vue";
 import saveAs from "file-saver";
 
 export default {
-  name: "SpeedDial",
+  name: "DocumentActions",
   props: {
     doc: Object
   },
