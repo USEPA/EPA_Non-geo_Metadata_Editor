@@ -2,27 +2,29 @@
     <div>
         <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
             <q-card-main>
+
+                <FieldWrapper :propInfo="getPropInfo(index, 'title')">
+                  <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
+                </FieldWrapper>
+
+                <FieldWrapper :propInfo="getPropInfo(index, 'description')">
+                  <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
+                </FieldWrapper>
+
                 <div v-if="isBeingEdited(index)">
-                    <q-input v-model="item.title" :error="isError(item,'title')" :warning="isWarning(item,'title')" float-label="Please enter the title for the URL below"/>
-                    <br/>URL type: &nbsp;
-                    <q-radio v-model="item.urlType" label="access" val="access"/>
-                    &nbsp;&nbsp;
-                    <q-radio v-model="item.urlType" label="download" val="download"/>
-                    <q-input v-model="item.url" :error="isError(item,'url')" :warning="isWarning(item,'url')" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
+                  URL type: &nbsp;
+                  <q-radio v-model="item.urlType" label="access" val="access"/>
+                  &nbsp;&nbsp;
+                  <q-radio v-model="item.urlType" label="download" val="download"/>
+
+                  <FieldWrapper :propInfo="getPropInfo(index, 'url')">
+                    <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
+                  </FieldWrapper>
                 </div>
                 <div v-else>
                     <div class="row">
-                        <div class="col-md-auto" :style="getValiMandaVisualizer(item.titleValidation,false).style">
-                            <b><q-icon :name="getValiMandaVisualizer(item.titleValidation).icon"/> Title: &nbsp;</b>
-                        </div>
-                        <div class="col-md-auto">
-                            {{item.title}}
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <div class="col-md-auto" :style="getValiMandaVisualizer(item.urlValidation,false).style">
-                            <b><q-icon :name="getValiMandaVisualizer(item.titleValidation).icon"/> {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;</b>
+                        <div class="col-md-auto" :style="getStyle(index,'url')">
+                            <b><q-icon :name="getIcon(index,'url')"/> {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;</b>
                         </div>
                         <div class="col-md-auto">
                             <a target="previewURL" :href="item.url">{{item.url}}</a>
@@ -30,10 +32,45 @@
                     </div>
                 </div>
                 <br/>
+
+                <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
+                  <OptionSelector 
+                    :selectedOption.sync="item.mediaType" 
+                    :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
+                    placeHolderText="Please select the file format of the distribution's download URL"
+                  />
+                </FieldWrapper>
+
+                <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
+                  <OptionSelector 
+                    :selectedOption.sync="item.formatType" 
+                    :availableOptions.sync="config['distribution']['format']['availableOptions']"
+                    placeHolderText="Is the URL above for an API?"
+                  />
+                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" :userText.sync="item.format"/>
+                </FieldWrapper>
+
+                  <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
+                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
+                  </FieldWrapper>
+
+                  <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
+                    <OptionSelector 
+                      :selectedOption.sync="item.describedByType" 
+                      :availableOptions.sync="config['describedByType']['availableOptions']"
+                      placeHolderText="Please select the type of file for the data dictionary"
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
+                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
+                  </FieldWrapper>
+
+                <br/>
                 <div class="row">
-                <q-btn class="col-sm" icon="fas fa-pen" label="Edit this distribution entry" @click="editThis(index)" v-show="!isBeingEdited(index)"/>
-                <q-btn class="col-sm" icon="fas fa-check" label="Done editing this distribution entry" @click="closeThis()" v-show="isBeingEdited(index)"/>
-                <q-btn class="col-sm" icon="fas fa-trash" label="Delete this distribution entry" @click="deleteThis(index)"/>
+                  <q-btn class="col-sm" icon="fas fa-pen" label="Edit this distribution entry" @click="editThis(index)" v-show="!isBeingEdited(index)"/>
+                  <q-btn class="col-sm" icon="fas fa-check" label="Done editing this distribution entry" @click="closeThis()" v-show="isBeingEdited(index)"/>
+                  <q-btn class="col-sm" icon="fas fa-trash" label="Delete this distribution entry" @click="deleteThis(index)"/>
                 </div>
             </q-card-main>
         </q-card>
@@ -45,23 +82,45 @@
 
 <script>
 import TextInput from "../components/TextInput.vue";
+import OptionSelector from "../components/OptionSelector.vue";
+import FieldWrapper from "../components/FieldWrapper.vue";
 import config from "../config.js";
 
 export default {
   name: "Distribution",
   components: {
-    TextInput
+    TextInput,
+    OptionSelector,
+    FieldWrapper
   },
   props: {},
   methods: {
     addAnother: function() {
       this.distInner.push({
         title: "",
+        description: "",
         url: "",
-        urlType: "download",
-        titleValidation: "Empty.",
-        urlValidation: "Empty."
+        urlType: "access",
+        mediaType: "",
+        format: "",
+        formatType: "",
+        describedBy: "",
+        describedByType: "",
+        conformsTo: ""
       });
+
+      this.validations.push({
+        title: "",
+        url: "",
+        mediaType: "",
+        format: "",
+        formatType: "",
+        description: "",
+        describedBy: "",
+        describedByType: "",
+        conformsTo: ""
+      });
+
       this.indexBeingEdited = this.distInner.length - 1;
     },
 
@@ -75,81 +134,134 @@ export default {
 
     deleteThis: function(index) {
       this.distInner.splice(index, 1);
+      this.validations.splice(index, 1);
       this.indexBeingEdited = -1;
     },
 
     emitUpdate: function() {
-      if (this.indexBeingEdited > -1)
-        this.validate(this.distInner[this.indexBeingEdited]);
       this.$emit("update:distribution", this.distribution);
     },
 
-    isError: function(item, prop) {
-      this.validate(item);
-      if (prop == "title")
-        return (
-          item.titleValidation.trim() != "" &&
-          item.titleValidation.trim() != "Empty."
-        );
-      if (prop == "url")
-        return (
-          item.urlValidation.trim() != "" &&
-          item.urlValidation.trim() != "Empty."
-        );
+    getPropInfo: function(index, prop) {
+      return {
+        name: prop,
+        mandatory: config.distribution[prop].mandatory,
+        value: this.distInner[index][prop],
+        validation: this.validations[index][prop],
+        editMode: this.isBeingEdited(index)
+      };
     },
 
-    isWarning: function(item, prop) {
-      this.validate(item);
-      if (prop == "title") return item.titleValidation.trim() == "Empty.";
-      if (prop == "url") return item.urlValidation.trim() == "Empty.";
+    getStyle: function(index, prop) {
+      return config.getValiMandaVisualizer(
+        this.validations[index][prop],
+        config.distribution[prop].mandatory,
+        false
+      ).style;
+    },
+
+    getIcon: function(index, prop) {
+      return config.getValiMandaVisualizer(
+        this.validations[index][prop],
+        false,
+        true
+      ).icon;
     },
 
     isBeingEdited: function(index) {
       return index == this.indexBeingEdited;
     },
 
-    validate: function(item) {
-      item.titleValidation = config.global_validators.nonTrivialText(
-        item.title,
-        { minWords: 2, minCharsinWord: 3 }
-      );
-      item.urlValidation = config.global_validators.validUrl(item.url);
-    },
+    validate: function(item, validations) {
+      if (item.formatType == "API") item.format = "API";
+      else if (item.format == "API") item.format = "";
 
-    getValiMandaVisualizer: function(validations, forIcon = true) {
-      return config.getValiMandaVisualizer(validations, true, forIcon);
+      // Auto detect mediaType from file extension embedded in URL, if any
+      console.log(item.url);
+      if (item.url) {
+        var ext = item.url.split(".").pop();
+        var mime = config.extension2mimeType(ext);
+        //item.mediaType = "text/plain"; //mime;
+      }
+      console.log(item.mediaType);
+      console.log("");
+
+      for (var key in item) {
+        if (item.hasOwnProperty(key) && key != "urlType") {
+          if (!item[key]) validations[key] = "Empty.";
+          else validations[key] = "";
+        }
+      }
+
+      validations.title = config.global_validators.nonTrivialText(item.title, {
+        minWords: 2,
+        minCharsinWord: 3
+      });
+
+      if (item.urlType == "download" && !item.mediaType)
+        validations.mediaType = "Empty.";
+      else validations.mediaType = "";
+
+      validations.url = config.global_validators.validUrl(item.url);
+      validations.describedBy = config.global_validators.validUrl(
+        item.describedBy
+      );
     }
   },
 
   computed: {
     distribution: {
       get: function() {
-        var normalize = function(item, copyValidation) {
+        var normalize = function(item, validations) {
           var normalizedItem = {
-            title: item.title
+            "@type": "dcat:Distribution"
           };
+
+          // Copy properties that require special handling
 
           if (item.urlType == "download")
             normalizedItem["downloadURL"] = item.url;
           else if (item.urlType == "access")
             normalizedItem["accessURL"] = item.url;
 
-          normalizedItem["validations"] = "";
-          if (copyValidation)
-            if (item.titleValidation)
-              normalizedItem["validations"] = item.titleValidation;
-            else if (item.urlValidation)
-              normalizedItem["validations"] = item.urlValidation;
+          if (item.mediaType) {
+            var mediaTypeOption = config.distribution.mediaType.availableOptions.find(
+              o => o.value == item.mediaType
+            );
+            if (mediaTypeOption) normalizedItem.format = mediaTypeOption.label;
+          }
 
+          for (var key in item) {
+            if (item.hasOwnProperty(key)) {
+              // Note if any property has validation messages
+              if (validations[key]) {
+                if (
+                  validations[key] != "Empty." ||
+                  key == "url" ||
+                  key == "mediaType"
+                )
+                  normalizedItem["validations"] = "Fails validation";
+              }
+
+              // Copy properties that directly map to output
+              if (
+                item[key] &&
+                key != "url" &&
+                key != "urlType" &&
+                key != "formatType"
+              ) {
+                normalizedItem[key] = item[key];
+              }
+            }
+          }
           return normalizedItem;
         };
 
-        return this.distInner.map((item, index) =>
-          normalize(
-            item,
-            this.indexBeingEdited == -1 || index == this.indexBeingEdited
-          )
-        );
+        var dist = [];
+        for (var i = 0; i < this.distInner.length; i++) {
+          dist.push(normalize(this.distInner[i], this.validations[i]));
+        }
+        return dist;
       },
       set: function(newValue) {
         config.noop(newValue);
@@ -159,19 +271,19 @@ export default {
   data() {
     return {
       indexBeingEdited: -1,
-      distInner: []
+      distInner: [],
+      validations: [],
+      config: config
     };
   },
   watch: {
     distInner: {
       handler: function() {
-        this.emitUpdate();
-      },
-      immediate: true,
-      deep: true
-    },
-    indexBeingEdited: {
-      handler: function() {
+        if (this.indexBeingEdited > -1)
+          this.validate(
+            this.distInner[this.indexBeingEdited],
+            this.validations[this.indexBeingEdited]
+          );
         this.emitUpdate();
       },
       immediate: true,
@@ -179,11 +291,7 @@ export default {
     }
   },
   filters: {
-    capitalize: function(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    }
+    capitalize: config.capitalize
   }
 };
 </script>

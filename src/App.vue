@@ -1,5 +1,6 @@
 <template>
   <q-layout id="q-app">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
     <EPA/>
   
     <q-page-container>
@@ -226,7 +227,7 @@
         <q-card  class="q-ma-sm">
           <ElementHeader title="Data Quality" 
             :guidance="getGuidanceFor('dataQuality')"
-            :validations.sync="validations.language"
+            :validations.sync="validations.dataQuality"
             :mandatory="config['dataQuality']['mandatory']"
           />
           <q-card-main>
@@ -286,7 +287,7 @@
 -->
         <br/><br/><br/>
 
-        <SpeedDial :doc="materializeDoc" />
+        <DocumentActions :doc="materializeDoc" />
 
     </q-page-container>
   </q-layout>
@@ -319,7 +320,7 @@ import DocId from "./components/DocId.vue";
 import OptionSelector from "./components/OptionSelector.vue";
 import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
-import SpeedDial from "./components/SpeedDial.vue";
+import DocumentActions from "./components/DocumentActions.vue";
 import { uuid } from "vue-uuid";
 
 var noop = function() {};
@@ -338,7 +339,7 @@ export default {
     OptionSelector,
     BooleanSelector,
     Distribution,
-    SpeedDial
+    DocumentActions
 
     //, ORCID
   },
@@ -441,18 +442,33 @@ export default {
         : "No guidance available at this time.";
     },
 
+    applyValidators(elementConfig, mdElementValue) {
+      var validationResults = "";
+      var validators = elementConfig.validators;
+      if (!validators || !validators.length) return validationResults; // No validator(s) for element
+      validators.forEach(validator => {
+        validator.args.doc = this.doc;
+        validationResults +=
+          validator.fn.call(this, mdElementValue, validator.args) + "\n";
+      });
+      return validationResults;
+    },
+
     validateElement(mdElement) {
       var mdElementValue = this.findElement(this.doc, mdElement);
       var elementConfig = this.findElement(this.config, mdElement);
       var validationResults = "";
       if (elementConfig) {
-        var validators = elementConfig.validators;
-        if (!validators || !validators.length) return; // No validator(s) for element
-        validators.forEach(validator => {
-          validator.args.doc = this.doc;
-          validationResults +=
-            validator.fn.call(this, mdElementValue, validator.args) + "\n";
-        });
+        if (Array.isArray(mdElementValue) && mdElement == "distribution") {
+          validationResults = "";
+          var hasErrors = mdElementValue.find(entry => entry.validations > "");
+          if (hasErrors)
+            validationResults = "You have entries that are not validating.";
+        } else
+          validationResults = this.applyValidators(
+            elementConfig,
+            mdElementValue
+          );
       } else {
         // No config for element
         validationResults = "No validators available for this element";
@@ -647,7 +663,7 @@ export default {
       if (!outDoc.modified && outDoc.accrualPeriodicity.startsWith("R/P"))
         outDoc.modified = outDoc.accrualPeriodicity;
       // Return prettified document
-      return JSON.stringify(outDoc, null, 4);
+      return outDoc;
     }
   }
 };
