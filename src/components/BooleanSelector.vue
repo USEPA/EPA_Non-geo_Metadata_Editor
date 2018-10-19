@@ -1,7 +1,7 @@
 <template>
   <q-toggle 
     v-model="userSelection"
-    :label="(userSelection ? 'Meets' : 'Does not meet') + ' your organization's Information Quality Guidelines'"
+    :label="(userSelection ? 'Meets' : 'Does not meet') + ' your organization’s Information Quality Guidelines'"
   />
 </template>
 

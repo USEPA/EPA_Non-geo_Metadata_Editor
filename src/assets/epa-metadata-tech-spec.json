@@ -749,42 +749,42 @@ Any individual component of this title template may be omitted if not applicable
 * Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.",
     "domaindescription": "",
     "domainurl": "",
-    "example": '```\
-                {\
-                     "@type": "dcat:Distribution",\
-                     "description": "Vegetable data as a CSV file",\
-                     "downloadURL": "http://www.agency.gov/vegetables/listofvegetables.csv",\
-                     "format": "CSV",\
-                     "mediaType": "text/csv",\
-                     "title": "listofvegetables.csv"\
-                 }, \
-                 {\
-                     "@type": "dcat:Distribution",\
-                     "conformsTo": "http://www.agency.gov/vegetables-data-standard/",\
-                     "describedBy": "http://www.agency.gov/vegetables/schema.xsd",\
-                     "describedByType": "text/xml",\
-                     "description": "Vegetable data as an XML file",\
-                     "downloadURL": "http://www.agency.gov/vegetables/listofvegetables.xml",\
-                     "format": "XML",\
-                     "mediaType": "text/xml",\
-                     "title": "listofvegetables.xml"\
-                 },\
-                 {\
-                     "@type": "dcat:Distribution",\
-                     "description": "Vegetable data as a zipped CSV file with attached data dictionary",\
-                     "downloadURL": "http://www.agency.gov/vegetables/vegetables-all.zip",\
-                     "format": "Zipped CSV",\
-                     "mediaType": "application/zip",\
-                     "title": "vegetables-all.zip"\
-                 },\
-                 {\
-                     "@type": "dcat:Distribution",\
-                     "accessURL": "http://www.agency.gov/api/vegetables/",\
-                     "description": "A fully queryable REST API with JSON and XML output",\
-                     "format": "API",\
-                     "title": "Vegetables REST API"\
-                 }\
-                 ```',
+    "example": "```\
+{\
+     \"@type\": \"dcat:Distribution\",\
+     \"description\": \"Vegetable data as a CSV file\",\
+     \"downloadURL\": \"http://www.agency.gov/vegetables/listofvegetables.csv\",\
+     \"format\": \"CSV\",\
+     \"mediaType\": \"text/csv\",\
+     \"title\": \"listofvegetables.csv\"\
+ }, \
+ {\
+     \"@type\": \"dcat:Distribution\",\
+     \"conformsTo\": \"http://www.agency.gov/vegetables-data-standard/\",\
+     \"describedBy\": \"http://www.agency.gov/vegetables/schema.xsd\",\
+     \"describedByType\": \"text/xml\",\
+     \"description\": \"Vegetable data as an XML file\",\
+     \"downloadURL\": \"http://www.agency.gov/vegetables/listofvegetables.xml\",\
+     \"format\": \"XML\",\
+     \"mediaType\": \"text/xml\",\
+     \"title\": \"listofvegetables.xml\"\
+ },\
+ {\
+     \"@type\": \"dcat:Distribution\",\
+     \"description\": \"Vegetable data as a zipped CSV file with attached data dictionary\",\
+     \"downloadURL\": \"http://www.agency.gov/vegetables/vegetables-all.zip\",\
+     \"format\": \"Zipped CSV\",\
+     \"mediaType\": \"application/zip\",\
+     \"title\": \"vegetables-all.zip\"\
+ },\
+ {\
+     \"@type\": \"dcat:Distribution\",\
+     \"accessURL\": \"http://www.agency.gov/api/vegetables/\",\
+     \"description\": \"A fully queryable REST API with JSON and XML output\",\
+     \"format\": \"API\",\
+     \"title\": \"Vegetables REST API\"\
+ }\
+ ```",
     "crosswalk": [
       {
         "schema": "ArcGIS",
