@@ -4,7 +4,11 @@
     "definition": "Human-readable name of the asset. Should be in plain English and include sufficient detail to facilitate search and discovery.",
     "required": "Always",
     "schema": "All",
-    "guidance": "<p>Titles should be succinct yet descriptive including the topic, and where relevant, temporal info, geography and related programs in a way that distinguishes it from other, similar resources. To this end, EPA recommends the following template:</p> <p>{Subject, Geographic Extent, Relevant Time Period, Data Owner/Provider, Office/Region/Research Lab of Data Owner}</p> <p>Any individual component of this title template may be omitted if not applicable. For example, there is no need to include a date if data are frequently or continuously updated. Similarly, if the geographic extent is implicit in the subject, i.e. National Hydrography Dataset, it may be omitted provided that the actual extent of the data matches the extent implied in the title (an example of a dataset whose actual extent does not match the implicitly titled extent would be National Hydrography Dataset clipped to a given state). Geographic Extent should always refer to a place name, not a bounding box or coordinates. Spell out any acronyms.</p>",
+    "guidance": "Titles should be succinct yet descriptive including the topic, and where relevant, temporal info, geography and related programs in a way that distinguishes it from other, similar resources. To this end, EPA recommends the following template:\
+```\
+{Subject, Geographic Extent, Relevant Time Period, Data Owner/Provider, Office/Region/Research Lab of Data Owner}\
+```\
+Any individual component of this title template may be omitted if not applicable. For example, there is no need to include a date if data are frequently or continuously updated. Similarly, if the geographic extent is implicit in the subject, i.e. National Hydrography Dataset, it may be omitted provided that the actual extent of the data matches the extent implied in the title (an example of a dataset whose actual extent does not match the implicitly titled extent would be National Hydrography Dataset clipped to a given state). Geographic Extent should always refer to a place name, not a bounding box or coordinates. Spell out any acronyms.",
     "domaindescription": "Plain Text",
     "domainurl": "",
     "example": "\"Toxics Release Inventory (TRI) Locations, Oklahoma, 2012, EPA OIAA, EPA REG 66 WQPD\"",
@@ -36,7 +40,12 @@
     "definition": "Human-readable description (e.g., an abstract) with sufficient detail to enable a user to quickly understand whether the asset is of interest.",
     "required": "Always",
     "schema": "All",
-    "guidance": "<p>Typically, this element should be used to provide a brief summary of the resource. Some of the recommended items that should be included in this field are:</p><ul><li>general content and features</li><li>dataset form (GIS, CAD, image, Dbase, etc.)</li><li>geographic coverage (county/city name)</li><li>time period of content (begin and end date or single date)</li><li>special data characteristics or limitations</li><ul>",
+    "guidance": "Typically, this element should be used to provide a brief summary of the resource. Some of the recommended items that should be included in this field are:\
+* general content and features\
+* dataset form (GIS, CAD, image, Dbase, etc.)\
+* geographic coverage (county/city name)\
+* time period of content (begin and end date or single date)\
+* special data characteristics or limitations",
     "domaindescription": "Plain Text",
     "domainurl": "",
     "example": "\"A total of 54 GPS points were collected around the Willamette Valley, Oregon, in the fall of 1997 and spring of 1998. Locations were selected at road crossings over streams and along the Mainstem Willamette. Attention was paid to achieving relatively even spacing around the basin, including farthest extents, and along the Mainstem. Points were differentially corrected and imported into a file geodatabase, attributed to indicate location, road, stream, and notes.\"",
@@ -289,12 +298,12 @@
   },
   "contactPoint": {
     "fn": {
-      "field": "Publisher",
-      "definition": "The title of the organization responsible for publishing the dataset.",
+      "field": "Contact Name",
+      "definition": "Contact person’s name",
       "required": "Always",
       "schema": "All",
       "guidance": "This element should contain the full name of a person responsible for the publication of a dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the name of the helpdesk team is acceptable. The ISO Role code must be set to 'publisher' for this contact.",
-      "domaindescription": "Plain Text, All EPA Organizations should begin U.S. EPA or U.S. Environmental Protection Agency.",
+      "domaindescription": "Full Name",
       "domainurl": "",
       "example": "\"Jane Doe\"",
       "crosswalk": [
@@ -305,8 +314,8 @@
         },
         {
           "schema": "pod",
-          "xpath": "publisher",
-          "url": "https://project-open-data.cio.gov/v1.1/schema/#publisher"
+          "xpath": "contactName",
+          "url": "https://project-open-data.cio.gov/v1.1/schema/#contactPoint"
         },
         {
           "schema": "iso-19115",
@@ -575,42 +584,11 @@
       }
     ]
   },
-  "distribution": {
-    "field": "Distribution URL",
-    "definition": "One or more URLs providing access to the dataset",
-    "schema": "All",
-    "guidance": "At least one online linkage should be provided for all datasets - if no linkage of any kind is provided, EDG staff may ask for a justification. Every URL must contain an associated function code. Other associated elements such as Title and Description are optional but recommended. Data publishers are encouraged to publish datasets as both downloads and web services.",
-    "domaindescription": "Plain Text; URL",
-    "domainurl": "",
-    "example": "",
-    "crosswalk": [
-      {
-        "schema": "ArcGIS",
-        "xpath": "/metadata/distInfo/distTranOps/onLineSrc/linkage",
-        "url": "Resource > Distribution > Digital Transfer Options > Online Resource > Linkage"
-      },
-      {
-        "schema": "pod",
-        "xpath": "distribution",
-        "url": "https://project-open-data.cio.gov/v1.1/schema/#distribution"
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "//gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/linkage/URL",
-        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_Distribution"
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "/metadata/distInfo/distributor/distorTran/onLineSrc/linkage",
-        "url": "https://www.fgdc.gov/csdgmgraphical/distr/storder/digform.htm"
-      }
-    ]
-  },
   "accrualPeriodicity": {
     "field": "Update Frequency",
     "definition": "One or more URLs providing access to the dataset",
     "schema": "All",
-    "guidance": "This element is the frequency with which changes and additions are made to the data resource after the initial data resource is completed. Non-geo records should use ISO-8601 codes for specifying intervals, please see the Project Open Data guidance for 'accrualPeriodicity' for details and examples.  Geospatial records should choose from a standard list: \"continual, daily, weekly, fortnightly, monthly, quarterly, biannually, annually, as needed, irregular, not planned, unknown\"",
+    "guidance": "This element is the frequency with which changes and additions are made to the data resource after the initial data resource is completed. Non-geospatial records should use ISO-8601 codes for specifying intervals, please see the Project Open Data guidance for 'accrualPeriodicity' for details and examples.  Geospatial records may choose from a standard list: \"continual, daily, weekly, fortnightly, monthly, quarterly, biannually, annually, as needed, irregular, not planned, unknown\"",
     "domaindescription": "ISO 8601 Interval or ISO Code",
     "domainurl": "",
     "example": "weekly or R/P1W",
@@ -641,7 +619,7 @@
     "field": "Language",
     "definition": "The language of the metadata document",
     "schema": "All",
-    "guidance": "Select the language from the dropdown",
+    "guidance": "Include as many languages as are appropriate for the dataset.",
     "domaindescription": "Language Code",
     "domainurl": "",
     "example": "English",
@@ -660,197 +638,102 @@
         "schema": "iso-19115",
         "xpath": "//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:language/gmd:LanguageCode",
         "url": "https://www.epa.gov/geospatial/epa-metadata-technical-specification"
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
       }
     ]
   },
   "issued": {
     "field": "Release Date",
     "definition": "Date of formal issuance",
-    "schema": "All",
+    "schema": "pod",
     "guidance": "Date of formal issuance. Dates should be ISO 8601 of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset.",
     "domaindescription": "",
     "domainurl": "",
     "example": "2001-01-15",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "issued",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#issued"
       }
     ]
   },
   "dataQuality": {
     "field": "Data Quality",
-    "definition": "Whether the dataset meets the agency's Information Quality Guidelines (true/false).",
-    "schema": "All",
+    "definition": "Whether the dataset meets an organization's Information Quality Guidelines (true/false).",
+    "schema": "pod",
     "guidance": "Indicates whether a dataset conforms to the agency's information quality guidelines. Must be a boolean value of true or false (not contained within quote marks).",
     "domaindescription": "",
     "domainurl": "",
     "example": "true",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
         "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#dataQuality"
       }
     ]
   },
   "conformsTo": {
     "field": "Conforms To",
-    "definition": "URI used to identify a standardized specification the dataset conforms to.",
-    "schema": "All",
-    "guidance": "This is used to identify a standardized specification the dataset conforms to. If this is a technical specification associated with a particular serialization of a distribution, this should be specified with conformsTo at the distribution level. It's recommended that this be a URI that serves as a unique identifier for the standard. The URI may or may not also be a URL that provides documentation of the specification.",
+    "definition": "URL used to identify a standardized specification the dataset conforms to.",
+    "schema": "pod",
+    "guidance": "This is used to identify a standardized specification the dataset conforms to. If this is a technical specification associated with a particular serialization of a distribution, this should be specified with conformsTo at the distribution level. It's recommended that this be a URL that serves as a unique identifier for the standard. The URL may also provide documentation of the specification.",
     "domaindescription": "",
     "domainurl": "",
     "example": "https://project-open-data.cio.gov/v1.1/schema/",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "conformsTo",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#dataset-conformsTo"
       }
     ]
   },
   "describedBy": {
     "field": "Data Dictionary",
     "definition": "URL for the JSON Schema file that defines the schema used.",
-    "schema": "All",
-    "guidance": "This is used to specify a JSON Schema file that defines all fields. By default, it is recommended that the canonical JSON Schema file is referenced (https://project-open-data.cio.gov/v1.1/schema/catalog.json) but if the schema had been extended, publishers may reference a file that defines those extensions.",
+    "schema": "pod",
+    "guidance": "This is used to specify a data dictionary or schema that defines fields or column headings in the dataset. If this is a machine readable file, it is recommended to be specified at the distribution level. At the dataset level it is assumed to be a human readable HTML webpage or PDF document. Documentation that is not specifically a data dictionary belongs in \"references\"",
     "domaindescription": "",
     "domainurl": "",
     "example": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "describedBy",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#dataset-describedBy"
       }
     ]
   },
   "landingPage": {
     "field": "Landing Page",
-    "definition": "This field is not intended for an agency's homepage (e.g. www.agency.gov), but rather if a dataset has a human-friendly hub or landing page that users can be directed to for all resources tied to the dataset.",
-    "schema": "All",
+    "definition": "Homepage URL",
+    "schema": "pod",
     "guidance": "This field is not intended for an agency's homepage (e.g. www.agency.gov), but rather if a dataset has a human-friendly hub or landing page that users can be directed to for all resources tied to the dataset.",
     "domaindescription": "",
     "domainurl": "",
     "example": "http://www.agency.gov/vegetables",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "landingPage",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#landingPage"
       }
     ]
   },
   "references": {
     "field": "References",
-    "definition": "Related documents such as technical information about a dataset, developer documentation, etc.",
-    "schema": "All",
-    "guidance": "Related documents such as technical information about a dataset, developer documentation, etc.  Enclose each URL within strings. Separate multiple URLs with a comma.",
-    "domaindescription": "",
+    "definition": "Related documents such as technical information about a dataset, developer documentation, related publications, etc.",
+    "schema": "pod",
+    "guidance": "Include as many references as applicable, but also consider using Distribution for references where more context can be provided alongside each URL.",
+    "domaindescription": "Array of strings (URLs)",
     "domainurl": "",
     "example": "http://www.agency.gov/legumes/legumes_data_documentation.html",
     "crosswalk": [
       {
-        "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
-      },
-      {
         "schema": "pod",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
-      },
-      {
-        "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "references",
+        "url": "https://project-open-data.cio.gov/v1.1/schema/#references"
       }
     ]
   },
@@ -858,10 +741,16 @@
     "field": "Distribution",
     "definition": "Within a dataset, distribution is used to aggregate the metadata specific to a dataset’s resources (Access URL and Download URL), which may be described using the following fields. Each distribution should contain one Access URL or Download URL. A Download URL should always be accompanied by Media Type.",
     "schema": "All",
-    "guidance": "Title: Mandatory human-readable name of the distribution. Description: Optional human-readable description of the distribution. URL Type: An Access URL provides indirect access to a dataset, for example via API or a graphical interface, while a Download URL provides direct access to a downloadable file of a dataset. Media Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL, which usually matches the file extension. ***Format: A human-readable description of the file format of a distribution. (Populated by dropdown?)*** Data Standard: URI used to identify a standardized specification the distribution conforms to. Data Dictionary: URL to the data dictionary for the distribution found at the Download URL. Note that documentation other than a data dictionary can be referenced using Related Documents as shown in the expanded fields. Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.",
+    "guidance": "* Title: Mandatory human-readable name of the distribution.\
+* Description: Optional human-readable description of the distribution.\
+* URL Type: An Access URL provides indirect access to a dataset, for example via API or a graphical interface, while a Download URL provides direct access to a downloadable file of a dataset. If an Access URL is provided, specify whether it is an API or some alternative like a web page, request form, or query tool. if a download URL is provided, also specify media type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL, which usually matches the file extension.\
+* Data Standard: URI used to identify a standardized specification the distribution conforms to.\
+* Data Dictionary: URL to the data dictionary for the distribution found at the Download URL. Note that documentation other than a data dictionary can be referenced using Related Documents as shown in the expanded fields.\
+* Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.",
     "domaindescription": "",
     "domainurl": "",
-    "example": '{\
+    "example": '```\
+                {\
                      "@type": "dcat:Distribution",\
                      "description": "Vegetable data as a CSV file",\
                      "downloadURL": "http://www.agency.gov/vegetables/listofvegetables.csv",\
@@ -894,12 +783,13 @@
                      "description": "A fully queryable REST API with JSON and XML output",\
                      "format": "API",\
                      "title": "Vegetables REST API"\
-                 }',
+                 }\
+                 ```',
     "crosswalk": [
       {
         "schema": "ArcGIS",
-        "xpath": "",
-        "url": ""
+        "xpath": "/metadata/distInfo/distTranOps/onLineSrc/linkage",
+        "url": "Resource > Distribution > Digital Transfer Options > Online Resource > Linkage"
       },
       {
         "schema": "pod",
@@ -908,13 +798,13 @@
       },
       {
         "schema": "iso-19115",
-        "xpath": "",
-        "url": ""
+        "xpath": "//gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/linkage/URL",
+        "url": "https://geo-ide.noaa.gov/wiki/index.php?title=MD_Distribution"
       },
       {
         "schema": "fgdc-csdgm",
-        "xpath": "",
-        "url": ""
+        "xpath": "/metadata/distInfo/distributor/distorTran/onLineSrc/linkage",
+        "url": "https://www.fgdc.gov/csdgmgraphical/distr/storder/digform.htm"
       }
     ]
   }
