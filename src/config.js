@@ -1396,7 +1396,7 @@ export default {
       },
       { value: "image/x-cmu-raster", label: "CMU Image (.ras)" },
       { value: "model/vnd.collada+xml", label: "COLLADA (.dae)" },
-      { value: "text/csv", label: "Comma-Seperated Values (.csv)" },
+      { value: "text/csv", label: "Comma-Separated Values (.csv)" },
       { value: "application/mac-compactpro", label: "Compact Pro (.cpt)" },
       {
         value: "application/vnd.wap.wmlc",
@@ -2924,7 +2924,7 @@ export default {
       },
       {
         value: "text/tab-separated-values",
-        label: "Tab Seperated Values (.tsv)"
+        label: "Tab separated Values (.tsv)"
       },
       { value: "image/tiff", label: "Tagged Image File Format (.tiff)" },
       {
