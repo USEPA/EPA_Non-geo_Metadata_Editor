@@ -128,7 +128,7 @@ export default {
     },
     filenameFull: {
       get: function() {
-        return this.filenameInternal || this.doc.identifier + ".json";
+        return this.filenameInternal || this.doc.dataset.identifier + ".json";
       }
     }
   },
