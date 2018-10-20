@@ -669,6 +669,18 @@ export default {
         "@type": "org:Organization",
         name: this.doc.publisher
       };
+
+      outDoc = {
+        "@context":
+          "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+        "@id": "https://replace.me",
+        "@type": "dcat:Catalog",
+        conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
+        describedBy:
+          "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+        dataset: outDoc
+      };
+
       // Return prettified document
       return outDoc;
     }
