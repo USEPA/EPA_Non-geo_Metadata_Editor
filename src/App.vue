@@ -497,6 +497,13 @@ export default {
       noop(tempRoot);
       var element = eval(elementPath);
       element[leaf] = newValue;
+    },
+
+    mergeArrays: function() {
+      var keywords = {};
+      var args = [].slice.call(arguments);
+      args.map(a => a.map(x => (keywords[x.toLowerCase()] = x)));
+      return Object.values(keywords);
     }
   },
   watch: {
@@ -673,6 +680,15 @@ export default {
       if (outDoc.references) {
         outDoc.references = outDoc.references.split(",").map(u => u.trim());
       }
+
+      outDoc.keywords = this.mergeArrays(
+        outDoc.tags_epa_theme,
+        outDoc.tags_place,
+        outDoc.tags_iso
+      );
+      delete outDoc.tags_epa_theme;
+      delete outDoc.tags_place;
+      delete outDoc.tags_iso;
 
       outDoc = {
         "@context":
