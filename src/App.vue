@@ -670,7 +670,9 @@ export default {
         name: this.doc.publisher
       };
 
-      if (outDoc.references) outDoc.references = [outDoc.references];
+      if (outDoc.references) {
+        outDoc.references = outDoc.references.split(",").map(u => u.trim());
+      }
 
       outDoc = {
         "@context":
