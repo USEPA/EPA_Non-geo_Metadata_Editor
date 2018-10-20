@@ -385,7 +385,12 @@ export default {
     },
     conformsTo: {
       mandatory: false,
-      validators: []
+      validators: [
+        {
+          fn: global_validators.validUrl,
+          args: {}
+        }
+      ]
     },
     describedBy: {
       mandatory: false,
