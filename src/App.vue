@@ -670,6 +670,8 @@ export default {
         name: this.doc.publisher
       };
 
+      if (outDoc.references) outDoc.references = [outDoc.references];
+
       outDoc = {
         "@context":
           "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
