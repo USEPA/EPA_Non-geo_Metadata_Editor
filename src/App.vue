@@ -15,17 +15,6 @@
         </q-card>
 -->
         <q-card  class="q-ma-sm">
-          <ElementHeader title="Distribution" 
-            :guidance="getGuidanceFor('distribution')"
-            :validations.sync="validations.distribution"
-            :mandatory="config['distribution']['mandatory']"
-          />
-          <q-card-main>
-            <Distribution :distribution.sync="doc.distribution"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
           <ElementHeader title="Title" 
             :guidance="getGuidanceFor('title')"
             :validations.sync="validations.title"
@@ -143,6 +132,17 @@
           />
           <q-card-main>
             <TextInput defaultText="Please enter the email address of the publisher for the dataset" :userText.sync="doc.contactPoint.hasEmail" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Distribution" 
+            :guidance="getGuidanceFor('distribution')"
+            :validations.sync="validations.distribution"
+            :mandatory="config['distribution']['mandatory']"
+          />
+          <q-card-main>
+            <Distribution :distribution.sync="doc.distribution"/>
           </q-card-main>
         </q-card>
 
