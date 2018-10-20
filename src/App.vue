@@ -660,10 +660,15 @@ export default {
       // Deep copy the working document
       var outDoc = JSON.parse(JSON.stringify(this.doc));
       // Fix up hasEmail
-      outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
+      if (outDoc.contactPoint.hasEmail)
+        outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
       // Fix up modified using accrualPeriodicity if needed
       if (!outDoc.modified && outDoc.accrualPeriodicity.startsWith("R/P"))
         outDoc.modified = outDoc.accrualPeriodicity;
+      outDoc.publisher = {
+        "@type": "org:Organization",
+        name: this.doc.publisher
+      };
       // Return prettified document
       return outDoc;
     }
