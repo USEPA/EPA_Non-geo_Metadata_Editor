@@ -363,6 +363,8 @@ export default {
         accessLevel: "public",
         rights: "",
         license: "",
+        bureauCode: ["020:00"],
+        programCode: ["020:000"],
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
