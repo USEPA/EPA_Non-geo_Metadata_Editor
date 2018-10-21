@@ -202,11 +202,6 @@ export default {
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: epaThemeTags
   },
-  epa_org: {
-    mandatory: false,
-    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
-    availableTags: []
-  },
   tags_place: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],

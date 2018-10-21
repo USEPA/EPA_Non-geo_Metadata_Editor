@@ -59,17 +59,6 @@
         </q-card>
 
         <q-card  class="q-ma-sm">
-          <ElementHeader title="EPA Organization Keywords" 
-            :guidance="getGuidanceFor('epa_org')"
-            :validations.sync="validations.epa_org"
-            :mandatory="config['epa_org']['mandatory']"
-          />
-          <q-card-main>
-            <TagCollector :collectedTags.sync="doc.epa_org" :availableTags.sync="config['epa_org']['availableTags']"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
           <ElementHeader title="EPA Theme" 
             :guidance="getGuidanceFor('tags_epa_theme')"
             :validations.sync="validations.tags_epa_theme"
