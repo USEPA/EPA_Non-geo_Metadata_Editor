@@ -23,7 +23,7 @@
             <q-layout-footer style="background-color:white">
                 <q-item>
                     <q-item-main label="Filename (leave empty to use document identifier):">
-                        <TextInput :userText.sync="filename" />
+                        <TextInput :userText.sync="filename" :defaultText="filenameFull" />
                     </q-item-main>
                     <q-item-side right>
                         <q-btn icon="save" color="primary" @click="saveDoc"/>
@@ -128,7 +128,9 @@ export default {
     },
     filenameFull: {
       get: function() {
-        return this.filenameInternal || this.doc.dataset.identifier + ".json";
+        return (
+          this.filenameInternal || this.doc.dataset[0].identifier + ".json"
+        );
       }
     }
   },
