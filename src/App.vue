@@ -355,7 +355,6 @@ export default {
         modified: "",
         publisher: "",
         contactPoint: {
-          "@type": "vcard:Contact",
           fn: "",
           hasEmail: ""
         },
@@ -504,6 +503,20 @@ export default {
       var args = [].slice.call(arguments);
       args.map(a => a.map(x => (keywords[x.toLowerCase()] = x)));
       return Object.values(keywords);
+    },
+
+    pruneDoc: function(doc) {
+      for (var prop in doc)
+        if (doc.hasOwnProperty(prop)) {
+          if (typeof doc[prop] == "object" && !Array.isArray(doc[prop]))
+            this.pruneDoc(doc[prop]);
+          if (
+            !doc[prop] ||
+            Object.keys(doc[prop]).length == 0 ||
+            (Array.isArray(doc[prop]) && doc[prop].length == 0)
+          )
+            delete doc[prop];
+        }
     }
   },
   watch: {
@@ -666,29 +679,42 @@ export default {
     materializeDoc() {
       // Deep copy the working document
       var outDoc = JSON.parse(JSON.stringify(this.doc));
+      // Remove empty elements
+      this.pruneDoc(outDoc);
       // Fix up hasEmail
-      if (outDoc.contactPoint.hasEmail)
+      if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
         outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
       // Fix up modified using accrualPeriodicity if needed
-      if (!outDoc.modified && outDoc.accrualPeriodicity.startsWith("R/P"))
+      if (
+        !outDoc.modified &&
+        outDoc.accrualPeriodicity &&
+        outDoc.accrualPeriodicity.startsWith("R/P")
+      )
         outDoc.modified = outDoc.accrualPeriodicity;
-      outDoc.publisher = {
-        "@type": "org:Organization",
-        name: this.doc.publisher
-      };
+
+      if (this.doc.publisher)
+        outDoc.publisher = {
+          "@type": "org:Organization",
+          name: this.doc.publisher
+        };
 
       if (outDoc.references) {
         outDoc.references = outDoc.references.split(",").map(u => u.trim());
       }
 
-      outDoc.keywords = this.mergeArrays(
-        outDoc.tags_epa_theme,
-        outDoc.tags_place,
-        outDoc.tags_iso
-      );
-      delete outDoc.tags_epa_theme;
-      delete outDoc.tags_place;
-      delete outDoc.tags_iso;
+      if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
+        var keyword = this.mergeArrays(
+          outDoc.tags_epa_theme,
+          outDoc.tags_place,
+          outDoc.tags_iso
+        );
+        if (keyword.length) outDoc.keyword = keyword;
+        delete outDoc.tags_epa_theme;
+        delete outDoc.tags_place;
+        delete outDoc.tags_iso;
+      }
+
+      //          "@type": "vcard:Contact",
 
       outDoc = {
         "@context":
@@ -698,7 +724,7 @@ export default {
         conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
         describedBy:
           "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
-        dataset: outDoc
+        dataset: [outDoc]
       };
 
       // Return prettified document
