@@ -1,5 +1,5 @@
 <template>    
-<div>
+  <div>
     <q-modal v-model="modalOpen">
         <q-modal-layout>
             <q-layout-header>
@@ -26,7 +26,7 @@
                         <TextInput :userText.sync="filename" :defaultText="filenameFull" />
                     </q-item-main>
                     <q-item-side right>
-                        <q-btn icon="save" color="primary" @click="saveDoc"/>
+                        <q-btn icon="fas fa-cloud-download-alt" color="primary" @click="saveDoc"/>
                     </q-item-side>
                 </q-item>
             </q-layout-footer>
@@ -43,7 +43,7 @@
             <q-fab-action
                 color="primary"
                 @click="fastSaveDoc"
-                icon="far fa-save"
+                icon="fas fa-cloud-download-alt"
             >
                 <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
             </q-fab-action>
@@ -51,15 +51,23 @@
             <q-fab-action
                 color="primary"
                 @click="openModal()"
-                icon="fas fa-file"
+                icon="fas fa-eye"
             >
                 <q-tooltip anchor="center left" self="center right">View</q-tooltip>
+            </q-fab-action>
+
+            <q-fab-action
+                color="primary"
+                @click="$q.notify('Not implemented yet!')"
+                icon="fas fa-cloud-upload-alt"
+            >
+                <q-tooltip anchor="center left" self="center right">Load</q-tooltip>
             </q-fab-action>
 
     </q-fab>
     </q-page-sticky>
 
-</div>
+  </div>
 </template>
 
 <script>
