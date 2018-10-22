@@ -4,11 +4,7 @@
     "definition": "Human-readable name of the asset. Should be in plain English and include sufficient detail to facilitate search and discovery.",
     "required": "Always",
     "schema": "All",
-    "guidance": "Titles should be succinct yet descriptive including the topic, and where relevant, temporal info, geography and related programs in a way that distinguishes it from other, similar resources. To this end, EPA recommends the following template:\
-```\
-{Subject, Geographic Extent, Relevant Time Period, Data Owner/Provider, Office/Region/Research Lab of Data Owner}\
-```\
-Any individual component of this title template may be omitted if not applicable. For example, there is no need to include a date if data are frequently or continuously updated. Similarly, if the geographic extent is implicit in the subject, i.e. National Hydrography Dataset, it may be omitted provided that the actual extent of the data matches the extent implied in the title (an example of a dataset whose actual extent does not match the implicitly titled extent would be National Hydrography Dataset clipped to a given state). Geographic Extent should always refer to a place name, not a bounding box or coordinates. Spell out any acronyms.",
+    "guidance": "<p>Titles should be succinct yet descriptive including the topic, and where relevant, temporal info, geography and related programs in a way that distinguishes it from other, similar resources. To this end, EPA recommends the following template:</p> <code>{Subject, Geographic Extent, Relevant Time Period, Data Owner/Provider, Office/Region/Research Lab of Data Owner}</code> <p>Any individual component of this title template may be omitted if not applicable. For example, there is no need to include a date if data are frequently or continuously updated. Similarly, if the geographic extent is implicit in the subject, i.e. National Hydrography Dataset, it may be omitted provided that the actual extent of the data matches the extent implied in the title (an example of a dataset whose actual extent does not match the implicitly titled extent would be National Hydrography Dataset clipped to a given state). Geographic Extent should always refer to a place name, not a bounding box or coordinates. Spell out any acronyms.</p>",
     "domaindescription": "Plain Text",
     "domainurl": "",
     "example": "\"Toxics Release Inventory (TRI) Locations, Oklahoma, 2012, EPA OIAA, EPA REG 66 WQPD\"",
@@ -40,12 +36,7 @@ Any individual component of this title template may be omitted if not applicable
     "definition": "Human-readable description (e.g., an abstract) with sufficient detail to enable a user to quickly understand whether the asset is of interest.",
     "required": "Always",
     "schema": "All",
-    "guidance": "Typically, this element should be used to provide a brief summary of the resource. Some of the recommended items that should be included in this field are:\
-* general content and features\
-* dataset form (GIS, CAD, image, Dbase, etc.)\
-* geographic coverage (county/city name)\
-* time period of content (begin and end date or single date)\
-* special data characteristics or limitations",
+    "guidance": "Typically, this element should be used to provide a brief summary of the resource. Some of the recommended items that should be included in this field are: <ul><li>general content and features</li> <li>dataset form (GIS, CAD, image, Dbase, etc.)</li> <li>geographic coverage (county/city name)</li> <li>time period of content (begin and end date or single date)</li> <li>special data characteristics or limitations</li></ul>",
     "domaindescription": "Plain Text",
     "domainurl": "",
     "example": "\"A total of 54 GPS points were collected around the Willamette Valley, Oregon, in the fall of 1997 and spring of 1998. Locations were selected at road crossings over streams and along the Mainstem Willamette. Attention was paid to achieving relatively even spacing around the basin, including farthest extents, and along the Mainstem. Points were differentially corrected and imported into a file geodatabase, attributed to indicate location, road, stream, and notes.\"",
@@ -741,50 +732,10 @@ Any individual component of this title template may be omitted if not applicable
     "field": "Distribution",
     "definition": "Within a dataset, distribution is used to aggregate the metadata specific to a dataset’s resources (Access URL and Download URL), which may be described using the following fields. Each distribution should contain one Access URL or Download URL. A Download URL should always be accompanied by Media Type.",
     "schema": "All",
-    "guidance": "* Title: Mandatory human-readable name of the distribution.\
-* Description: Optional human-readable description of the distribution.\
-* URL Type: An Access URL provides indirect access to a dataset, for example via API or a graphical interface, while a Download URL provides direct access to a downloadable file of a dataset. If an Access URL is provided, specify whether it is an API or some alternative like a web page, request form, or query tool. if a download URL is provided, also specify media type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL, which usually matches the file extension.\
-* Data Standard: URI used to identify a standardized specification the distribution conforms to.\
-* Data Dictionary: URL to the data dictionary for the distribution found at the Download URL. Note that documentation other than a data dictionary can be referenced using Related Documents as shown in the expanded fields.\
-* Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.",
+    "guidance": "<ul><li>Title: Mandatory human-readable name of the distribution.</li> <li>Description: Optional human-readable description of the distribution.</li> <li>URL Type: An Access URL provides indirect access to a dataset, for example via API or a graphical interface, while a Download URL provides direct access to a downloadable file of a dataset. If an Access URL is provided, specify whether it is an API or some alternative like a web page, request form, or query tool. if a download URL is provided, also specify media type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s downloadURL, which usually matches the file extension.</li> <li>Data Standard: URI used to identify a standardized specification the distribution conforms to.</li> <li>Data Dictionary: URL to the data dictionary for the distribution found at the Download URL. Note that documentation other than a data dictionary can be referenced using Related Documents as shown in the expanded fields.</li> <li>Data Dictionary Type: The machine-readable file format (IANA Media Type or MIME Type) of the distribution’s Data Dictionary.</li></ul>",
     "domaindescription": "",
     "domainurl": "",
-    "example": "```\
-{\
-     \"@type\": \"dcat:Distribution\",\
-     \"description\": \"Vegetable data as a CSV file\",\
-     \"downloadURL\": \"http://www.agency.gov/vegetables/listofvegetables.csv\",\
-     \"format\": \"CSV\",\
-     \"mediaType\": \"text/csv\",\
-     \"title\": \"listofvegetables.csv\"\
- }, \
- {\
-     \"@type\": \"dcat:Distribution\",\
-     \"conformsTo\": \"http://www.agency.gov/vegetables-data-standard/\",\
-     \"describedBy\": \"http://www.agency.gov/vegetables/schema.xsd\",\
-     \"describedByType\": \"text/xml\",\
-     \"description\": \"Vegetable data as an XML file\",\
-     \"downloadURL\": \"http://www.agency.gov/vegetables/listofvegetables.xml\",\
-     \"format\": \"XML\",\
-     \"mediaType\": \"text/xml\",\
-     \"title\": \"listofvegetables.xml\"\
- },\
- {\
-     \"@type\": \"dcat:Distribution\",\
-     \"description\": \"Vegetable data as a zipped CSV file with attached data dictionary\",\
-     \"downloadURL\": \"http://www.agency.gov/vegetables/vegetables-all.zip\",\
-     \"format\": \"Zipped CSV\",\
-     \"mediaType\": \"application/zip\",\
-     \"title\": \"vegetables-all.zip\"\
- },\
- {\
-     \"@type\": \"dcat:Distribution\",\
-     \"accessURL\": \"http://www.agency.gov/api/vegetables/\",\
-     \"description\": \"A fully queryable REST API with JSON and XML output\",\
-     \"format\": \"API\",\
-     \"title\": \"Vegetables REST API\"\
- }\
- ```",
+    "example": "",
     "crosswalk": [
       {
         "schema": "ArcGIS",
