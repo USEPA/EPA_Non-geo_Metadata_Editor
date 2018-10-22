@@ -687,6 +687,8 @@ export default {
           name: this.doc.publisher
         };
 
+      if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
+
       if (outDoc.references) {
         outDoc.references = outDoc.references.split(",").map(u => u.trim());
       }
