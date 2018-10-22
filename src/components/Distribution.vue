@@ -206,6 +206,9 @@ export default {
       validations.describedBy = config.global_validators.validUrl(
         item.describedBy
       );
+      validations.conformsTo = config.global_validators.validUrl(
+        item.conformsTo
+      );
     }
   },
 

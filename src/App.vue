@@ -15,17 +15,6 @@
         </q-card>
 -->
         <q-card  class="q-ma-sm">
-          <ElementHeader title="Distribution" 
-            :guidance="getGuidanceFor('distribution')"
-            :validations.sync="validations.distribution"
-            :mandatory="config['distribution']['mandatory']"
-          />
-          <q-card-main>
-            <Distribution :distribution.sync="doc.distribution"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
           <ElementHeader title="Title" 
             :guidance="getGuidanceFor('title')"
             :validations.sync="validations.title"
@@ -66,17 +55,6 @@
           />
           <q-card-main>
             <TagCollector :collectedTags.sync="doc.tags_iso" :availableTags.sync="config['tags_iso']['availableTags']"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="EPA Organization Keywords" 
-            :guidance="getGuidanceFor('epa_org')"
-            :validations.sync="validations.epa_org"
-            :mandatory="config['epa_org']['mandatory']"
-          />
-          <q-card-main>
-            <TagCollector :collectedTags.sync="doc.epa_org" :availableTags.sync="config['epa_org']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -143,6 +121,17 @@
           />
           <q-card-main>
             <TextInput defaultText="Please enter the email address of the publisher for the dataset" :userText.sync="doc.contactPoint.hasEmail" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Distribution" 
+            :guidance="getGuidanceFor('distribution')"
+            :validations.sync="validations.distribution"
+            :mandatory="config['distribution']['mandatory']"
+          />
+          <q-card-main>
+            <Distribution :distribution.sync="doc.distribution"/>
           </q-card-main>
         </q-card>
 
@@ -355,7 +344,6 @@ export default {
         modified: "",
         publisher: "",
         contactPoint: {
-          "@type": "vcard:Contact",
           fn: "",
           hasEmail: ""
         },
@@ -363,6 +351,8 @@ export default {
         accessLevel: "public",
         rights: "",
         license: "",
+        bureauCode: ["020:00"],
+        programCode: ["020:098"],
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
@@ -495,6 +485,27 @@ export default {
       noop(tempRoot);
       var element = eval(elementPath);
       element[leaf] = newValue;
+    },
+
+    mergeArrays: function() {
+      var keywords = {};
+      var args = [].slice.call(arguments);
+      args.map(a => a.map(x => (keywords[x.toLowerCase()] = x)));
+      return Object.values(keywords);
+    },
+
+    pruneDoc: function(doc) {
+      for (var prop in doc)
+        if (doc.hasOwnProperty(prop)) {
+          if (typeof doc[prop] == "object" && !Array.isArray(doc[prop]))
+            this.pruneDoc(doc[prop]);
+          if (
+            !doc[prop] ||
+            Object.keys(doc[prop]).length == 0 ||
+            (Array.isArray(doc[prop]) && doc[prop].length == 0)
+          )
+            delete doc[prop];
+        }
     }
   },
   watch: {
@@ -657,11 +668,56 @@ export default {
     materializeDoc() {
       // Deep copy the working document
       var outDoc = JSON.parse(JSON.stringify(this.doc));
+      // Remove empty elements
+      this.pruneDoc(outDoc);
       // Fix up hasEmail
-      outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
+      if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
+        outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
       // Fix up modified using accrualPeriodicity if needed
-      if (!outDoc.modified && outDoc.accrualPeriodicity.startsWith("R/P"))
+      if (
+        !outDoc.modified &&
+        outDoc.accrualPeriodicity &&
+        outDoc.accrualPeriodicity.startsWith("R/P")
+      )
         outDoc.modified = outDoc.accrualPeriodicity;
+
+      if (this.doc.publisher)
+        outDoc.publisher = {
+          "@type": "org:Organization",
+          name: this.doc.publisher
+        };
+
+      if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
+
+      if (outDoc.references) {
+        outDoc.references = outDoc.references.split(",").map(u => u.trim());
+      }
+
+      if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
+        var keyword = this.mergeArrays(
+          outDoc.tags_epa_theme,
+          outDoc.tags_place,
+          outDoc.tags_iso
+        );
+        if (keyword.length) outDoc.keyword = keyword;
+        delete outDoc.tags_epa_theme;
+        delete outDoc.tags_place;
+        delete outDoc.tags_iso;
+      }
+
+      //          "@type": "vcard:Contact",
+
+      outDoc = {
+        "@context":
+          "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+        "@id": "https://replace.me",
+        "@type": "dcat:Catalog",
+        conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
+        describedBy:
+          "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+        dataset: [outDoc]
+      };
+
       // Return prettified document
       return outDoc;
     }
