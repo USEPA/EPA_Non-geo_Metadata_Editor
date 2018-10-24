@@ -352,7 +352,7 @@ export default {
         rights: "",
         license: "",
         bureauCode: ["020:00"],
-        programCode: ["020:098"],
+        programCode: ["020:000"],
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
