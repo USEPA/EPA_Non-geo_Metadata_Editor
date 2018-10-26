@@ -1,7 +1,7 @@
 <template>
   <q-toggle 
-    v-model="userSelection"
-    :label="(userSelection ? 'Meets' : 'Does not meet') + ' the agency’s Information Quality Guidelines'"
+    v-model="modelValue"
+    :label="(modelValue ? 'Meets' : 'Does not meet') + ' the agency’s Information Quality Guidelines'"
   />
 </template>
 
@@ -9,14 +9,28 @@
 export default {
   name: "BooleanSelector",
 
+  props: {
+    value: Boolean
+  },
+
   methods: {
     emitUpdate: function(e) {
-      this.$emit("update:userSelection", e);
+      this.$emit("update:modelValue", e);
     }
   },
+
+  watch: {
+    modelValue(newValue) {
+      this.$emit("input", newValue);
+    },
+    value(newValue) {
+      this.modelValue = newValue;
+    }
+  },
+
   data() {
     return {
-      userSelection: false
+      modelValue: false
     };
   }
 };

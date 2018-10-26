@@ -219,7 +219,7 @@
             :mandatory="config['dataQuality']['mandatory']"
           />
           <q-card-main>
-            <BooleanSelector :userSelection.sync="doc.dataQuality" />
+            <BooleanSelector v-model="doc.dataQuality" />
           </q-card-main>
         </q-card>
 
@@ -529,6 +529,7 @@ export default {
       this.doc.references = inDoc.references.join(",");
       this.doc.accessLevel = inDoc.accessLevel;
       this.doc.identifier = inDoc.identifier;
+      this.doc.dataQuality = inDoc.dataQuality;
 
       /*
       this.doc = {
@@ -539,7 +540,6 @@ export default {
         modified: inDoc.modified,
 *        accessLevel: "public",
         language: "",
-        dataQuality: false,
         describedByType: "",
         distribution: ""
       };
