@@ -352,7 +352,7 @@ export default {
         rights: "",
         license: "",
         bureauCode: ["020:00"],
-        programCode: ["020:098"],
+        programCode: ["020:000"],
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
@@ -447,13 +447,13 @@ export default {
     validateElement(mdElement) {
       var mdElementValue = this.findElement(this.doc, mdElement);
       var elementConfig = this.findElement(this.config, mdElement);
-      var validationResults = "";
+      var validationResults = "Empty.";
       if (elementConfig) {
         if (Array.isArray(mdElementValue) && mdElement == "distribution") {
-          validationResults = "";
-          var hasErrors = mdElementValue.find(entry => entry.validations > "");
+          var hasErrors = mdElementValue.find(entry => entry.validation > "");
           if (hasErrors)
             validationResults = "You have entries that are not validating.";
+          else if (mdElementValue.length) validationResults = "";
         } else
           validationResults = this.applyValidators(
             elementConfig,
