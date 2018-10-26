@@ -6,7 +6,6 @@
     <q-page-container>
 
         <Intro/>
-
 <!--
         <q-card  class="q-ma-sm">
           <q-card-main>
@@ -21,7 +20,7 @@
             :mandatory="config['title']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter a title for the dataset" :userText.sync="doc.title" />
+            <TextInput defaultText="Please enter a title for the dataset" v-model="doc.title" />
           </q-card-main>
         </q-card>
 
@@ -32,7 +31,7 @@
             :mandatory="config['description']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter a description for the dataset" multiLine  :userText.sync="doc.description" />
+            <TextInput defaultText="Please enter a description for the dataset" multiLine  v-model="doc.description" />
           </q-card-main>
         </q-card>
 
@@ -98,7 +97,7 @@
             :mandatory="config['publisher']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the name of the publishing organization for the dataset" :userText.sync="doc.publisher" />
+            <TextInput defaultText="Please enter the name of the publishing organization for the dataset" v-model="doc.publisher" />
           </q-card-main>
         </q-card>
 
@@ -109,7 +108,7 @@
             :mandatory="config.contactPoint.fn['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the name of the publisher for the dataset" :userText.sync="doc.contactPoint.fn" />
+            <TextInput defaultText="Please enter the name of the publisher for the dataset" v-model="doc.contactPoint.fn" />
           </q-card-main>
         </q-card>
 
@@ -120,7 +119,7 @@
             :mandatory="config.contactPoint.hasEmail['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the email address of the publisher for the dataset" :userText.sync="doc.contactPoint.hasEmail" />
+            <TextInput defaultText="Please enter the email address of the publisher for the dataset" v-model="doc.contactPoint.hasEmail" />
           </q-card-main>
         </q-card>
 
@@ -164,7 +163,7 @@
             :mandatory="doc.accessLevel!=='public'"
           />
           <q-card-main>
-            <TextInput v-if="!doc.accessLevel || doc.accessLevel=='public'" defaultText="Restrictions on the dataset" :userText.sync="doc.rights" />
+            <TextInput v-if="!doc.accessLevel || doc.accessLevel=='public'" defaultText="Restrictions on the dataset" v-model="doc.rights" />
             <OptionSelector v-else :selectedOption.sync="doc.rights" :availableOptions.sync="config['rights']['availableOptions']"/>
           </q-card-main>
         </q-card>
@@ -176,7 +175,7 @@
             :mandatory="config['license']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="URL of the license for the dataset" :userText.sync="doc.license" />
+            <TextInput defaultText="URL of the license for the dataset" v-model="doc.license" />
           </q-card-main>
         </q-card>
 
@@ -198,7 +197,7 @@
             :mandatory="config['issued']['mandatory']"
           />
           <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.issued" />
+            <DateOrRangeInput v-model="doc.issued" />
           </q-card-main>
         </q-card>
 
@@ -231,7 +230,7 @@
             :mandatory="config['conformsTo']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.conformsTo" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.conformsTo" />
           </q-card-main>
         </q-card>
 
@@ -242,7 +241,7 @@
             :mandatory="config['describedBy']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.describedBy" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.describedBy" />
             <OptionSelector 
               :selectedOption.sync="doc.describedByType" 
               :availableOptions.sync="config['describedByType']['availableOptions']"
@@ -257,7 +256,7 @@
             :mandatory="config['landingPage']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.landingPage" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.landingPage" />
           </q-card-main>
         </q-card>
 
@@ -268,7 +267,7 @@
             :mandatory="config['references']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.references" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.references" />
           </q-card-main>
         </q-card>
 <!--
