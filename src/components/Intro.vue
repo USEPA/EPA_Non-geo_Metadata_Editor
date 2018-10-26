@@ -5,7 +5,7 @@
         </div>
         <hr class="q-hr q-my-lg">
         <div class="tb">
-            This tool allows extramural researchers to author, save, and submit metadata records that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>.</br>
+            This tool allows extramural researchers to author, save, and submit metadata records for non-geospatial data that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>. If you wish to submit metadata for geospatial data, please contact the <a href="mailto:edg@epa.gov">EPA EDG team</a> for further assistance.</br>
             Each element has a corresponding status: 
             <q-icon :name="validationStyles().empty.mandatory.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.mandatory.color"/>  Mandatory (empty),
             <q-icon :name="validationStyles().empty.optional.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.optional.color"/>  Optional (empty),
