@@ -1,6 +1,6 @@
 <template>    
   <div>
-    <q-modal v-model="modalOpen">
+    <q-modal v-model="saveModalOpen">
         <q-modal-layout>
             <q-layout-header>
 
@@ -9,7 +9,7 @@
                         {{filenameFull}}
                     </q-toolbar-title>
 
-                    <q-btn flat round dense icon="close" @click="closeModal"/>
+                    <q-btn flat round dense icon="close" @click="closeSaveModal"/>
                 </q-toolbar>
 
             </q-layout-header>
@@ -33,6 +33,40 @@
         </q-modal-layout>
     </q-modal>
 
+
+    <q-modal v-model="loadModalOpen">
+        <q-modal-layout>
+            <q-layout-header>
+
+                <q-toolbar color="primary">
+                    <q-toolbar-title>
+                        Load Metadata File
+                    </q-toolbar-title>
+
+                    <q-btn flat round dense icon="close" @click="closeLoadModal"/>
+                </q-toolbar>
+
+            </q-layout-header>
+
+            <q-page-container>
+                <q-page>
+                    <pre v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
+                </q-page>
+            </q-page-container>
+
+            <q-layout-footer style="background-color:white">
+                <q-item>
+                    <q-item-main label="" style="width:60%">
+                      <input type='file' accept='application/json' @change="openFile"/>
+                    </q-item-main>
+                    <q-item-side right>
+                        <q-btn icon="edit" color="primary" @click="loadDoc"/>
+                    </q-item-side>
+                </q-item>
+            </q-layout-footer>
+        </q-modal-layout>
+    </q-modal>
+
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-fab
             color="primary"
@@ -50,7 +84,7 @@
 
             <q-fab-action
                 color="primary"
-                @click="openModal()"
+                @click="openSaveModal()"
                 icon="fas fa-eye"
             >
                 <q-tooltip anchor="center left" self="center right">View</q-tooltip>
@@ -58,7 +92,7 @@
 
             <q-fab-action
                 color="primary"
-                @click="$q.notify('Not implemented yet!')"
+                @click="openLoadModal()"
                 icon="fas fa-cloud-upload-alt"
             >
                 <q-tooltip anchor="center left" self="center right">Load</q-tooltip>
@@ -76,26 +110,49 @@ import saveAs from "file-saver";
 
 export default {
   name: "DocumentActions",
-  props: {
-    doc: Object
-  },
+  props: {},
   components: {
     TextInput
   },
   methods: {
-    openModal: function() {
-      this.filenameInternal = this.doc.userGivenFilename;
-      delete this.doc.userGivenFilename;
-      this.modalOpen = true;
+    openLoadModal: function() {
+      this.loadModalOpen = true;
     },
 
-    closeModal: function() {
+    closeLoadModal: function() {
+      this.loadModalOpen = false;
+    },
+
+    openFile: function(e) {
+      var reader = new FileReader();
+      var that = this;
+
+      reader.onload = function(e) {
+        that.docToLoad = JSON.parse(reader.result);
+      };
+      var file = e.target.files[0];
+      reader.readAsText(file);
+    },
+
+    loadDoc: function(e) {
+      console.log("Emitting event");
+      this.$emit("loadMd", this.docToLoad);
+      this.closeLoadModal();
+    },
+
+    openSaveModal: function() {
+      this.filenameInternal = this.doc.userGivenFilename;
+      delete this.doc.userGivenFilename;
+      this.saveModalOpen = true;
+    },
+
+    closeSaveModal: function() {
       this.doc.userGivenFilename = this.filenameInternal;
-      this.modalOpen = false;
+      this.saveModalOpen = false;
     },
 
     fastSaveDoc: function() {
-      if (!this.filenameInternal) this.openModal();
+      if (!this.filenameInternal) this.openSaveModal();
       else {
         this.saveDoc();
       }
@@ -136,16 +193,18 @@ export default {
     },
     filenameFull: {
       get: function() {
-        return (
-          this.filenameInternal || this.doc.dataset[0].identifier + ".json"
-        );
+        return "ZZZ.JSON";
+        //this.filenameInternal || this.doc.dataset[0].identifier + ".json"
       }
     }
   },
   data() {
     return {
-      modalOpen: false,
-      filenameInternal: ""
+      saveModalOpen: false,
+      loadModalOpen: false,
+      filenameInternal: "",
+      doc: {},
+      docToLoad: Object
     };
   }
 };
