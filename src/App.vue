@@ -141,7 +141,7 @@
             :mandatory="config['identifier']['mandatory']"
           />
           <q-card-main>
-            <DocId :userText.sync="doc.identifier" />
+            <DocId v-model="doc.identifier" />
           </q-card-main>
         </q-card>
 
@@ -528,6 +528,8 @@ export default {
       this.doc.landingPage = inDoc.landingPage;
       this.doc.references = inDoc.references.join(",");
       this.doc.accessLevel = inDoc.accessLevel;
+      this.doc.identifier = inDoc.identifier;
+
       /*
       this.doc = {
         tags_epa_theme: [],
@@ -535,7 +537,6 @@ export default {
         tags_iso: [],
         epa_org: [],
         modified: inDoc.modified,
-        identifier: "",
 *        accessLevel: "public",
         language: "",
         dataQuality: false,
