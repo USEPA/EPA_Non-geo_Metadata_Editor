@@ -275,7 +275,7 @@
 -->
         <br/><br/><br/>
 
-        <DocumentActions :doc="materializeDoc" />
+        <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
     </q-page-container>
   </q-layout>
@@ -505,6 +505,44 @@ export default {
           )
             delete doc[prop];
         }
+    },
+
+    loadDocFrom: function(newDoc) {
+      console.log("newDoc");
+      console.log(newDoc);
+      var inDoc = newDoc.dataset[0];
+      this.doc.title = inDoc.title;
+      this.doc.description = inDoc.description;
+      this.doc.publisher = inDoc.publisher.name;
+      this.doc.contactPoint = {
+        fn: inDoc.contactPoint.fn,
+        hasEmail: inDoc.contactPoint.hasEmail.replace("mailto:", "")
+      };
+      this.doc.rights = inDoc.rights;
+      this.doc.license = inDoc.license;
+      this.doc.temporal = inDoc.temporal;
+      this.doc.issued = inDoc.issued;
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
+      this.doc.conformsTo = inDoc.conformsTo;
+      this.doc.describedBy = inDoc.describedBy;
+      this.doc.landingPage = inDoc.landingPage;
+      this.doc.references = inDoc.references.join(",");
+      this.doc.accessLevel = inDoc.accessLevel;
+      /*
+      this.doc = {
+        tags_epa_theme: [],
+        tags_place: [],
+        tags_iso: [],
+        epa_org: [],
+        modified: inDoc.modified,
+        identifier: "",
+*        accessLevel: "public",
+        language: "",
+        dataQuality: false,
+        describedByType: "",
+        distribution: ""
+      };
+      */
     }
   },
   watch: {
