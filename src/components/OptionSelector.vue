@@ -1,10 +1,9 @@
 <template>
 
   <q-select
-    v-model="selectedOption"
+    v-model="modelValue"
     :options="availableOptions"
     :filter="availableOptions.length>10"
-    @input="emitUpdate()"
     :placeholder="placeHolderText"
   />
   
@@ -13,19 +12,30 @@
 <script>
 export default {
   name: "OptionSelector",
+
   props: {
+    value: String,
     availableOptions: Array,
     placeHolderText: String
   },
+
+  watch: {
+    modelValue(newValue) {
+      this.$emit("input", newValue);
+    },
+    value(newValue) {
+      var item = this.availableOptions.find(
+        x => x.value == newValue || x.label == newValue
+      );
+      if (item) this.modelValue = item.value;
+      else this.modelValue = this.availableOptions[0].value;
+    }
+  },
+
   data() {
     return {
-      selectedOption: this.availableOptions[0].value
+      modelValue: this.availableOptions[0].value
     };
-  },
-  methods: {
-    emitUpdate: function() {
-      this.$emit("update:selectedOption", this.selectedOption);
-    }
   }
 };
 </script>

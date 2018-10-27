@@ -152,7 +152,7 @@
             :mandatory="config['accessLevel']['mandatory']"
           />
           <q-card-main>
-            <OptionSelector :selectedOption.sync="doc.accessLevel" :availableOptions.sync="config['accessLevel']['availableOptions']"/>
+            <OptionSelector v-model="doc.accessLevel" :availableOptions.sync="config['accessLevel']['availableOptions']"/>
           </q-card-main>
         </q-card>
 
@@ -164,7 +164,7 @@
           />
           <q-card-main>
             <TextInput v-if="!doc.accessLevel || doc.accessLevel=='public'" defaultText="Restrictions on the dataset" v-model="doc.rights" />
-            <OptionSelector v-else :selectedOption.sync="doc.rights" :availableOptions.sync="config['rights']['availableOptions']"/>
+            <OptionSelector v-else v-model="doc.rights" :availableOptions.sync="config['rights']['availableOptions']"/>
           </q-card-main>
         </q-card>
 
@@ -243,7 +243,7 @@
           <q-card-main>
             <TextInput defaultText="Please provide a URL" v-model="doc.describedBy" />
             <OptionSelector 
-              :selectedOption.sync="doc.describedByType" 
+              v-model="doc.describedByType" 
               :availableOptions.sync="config['describedByType']['availableOptions']"
               placeHolderText="Please select the type of file pointed by the above URL"/>
           </q-card-main>
@@ -532,6 +532,7 @@ export default {
       this.doc.issued = inDoc.issued;
       this.doc.modified = inDoc.modified;
       this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
+      this.doc.describedByType = inDoc.describedByType;
 
       /*
       this.doc = {
