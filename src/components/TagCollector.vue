@@ -5,9 +5,8 @@
     filter
     chips 
     clearable
-    v-model="collectedTags"
+    v-model="modelValue"
     :options="availableTags"
-    @input="emitUpdate()"
     filter-placeholder="Type here to filter"
   />
 
@@ -16,17 +15,24 @@
 <script>
 export default {
   name: "TagCollector",
+
   props: {
+    value: Array,
     availableTags: Array
   },
-  methods: {
-    emitUpdate: function() {
-      this.$emit("update:collectedTags", this.collectedTags);
+
+  watch: {
+    modelValue(newValue) {
+      this.$emit("input", newValue);
+    },
+    value(newValue) {
+      this.modelValue = newValue;
     }
   },
+
   data() {
     return {
-      collectedTags: []
+      modelValue: this.value
     };
   }
 };

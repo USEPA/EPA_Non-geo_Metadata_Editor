@@ -42,7 +42,7 @@
             :mandatory="config['tags_place']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_place" :availableTags.sync="config['tags_place']['availableTags']"/>
+            <TagCollector v-model="doc.tags_place" :availableTags.sync="config['tags_place']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -53,7 +53,7 @@
             :mandatory="config['tags_iso']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_iso" :availableTags.sync="config['tags_iso']['availableTags']"/>
+            <TagCollector v-model="doc.tags_iso" :availableTags.sync="config['tags_iso']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -64,7 +64,7 @@
             :mandatory="config['tags_epa_theme']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_epa_theme" :availableTags.sync="config['tags_epa_theme']['availableTags']"/>
+            <TagCollector v-model="doc.tags_epa_theme" :availableTags.sync="config['tags_epa_theme']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -208,7 +208,7 @@
             :mandatory="config['language']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.language" :availableTags.sync="config['language']['availableTags']"/>
+            <TagCollector v-model="doc.language" :availableTags.sync="config['language']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -355,7 +355,7 @@ export default {
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
-        language: "",
+        language: [],
         dataQuality: false,
         conformsTo: "",
         describedBy: "",
@@ -493,6 +493,14 @@ export default {
       return Object.values(keywords);
     },
 
+    extractTags: function(tags, tagOptions) {
+      return tags.filter(tag =>
+        tagOptions.find(
+          option => option.value.toLowerCase() == tag.toLowerCase()
+        )
+      );
+    },
+
     pruneDoc: function(doc) {
       for (var prop in doc)
         if (doc.hasOwnProperty(prop)) {
@@ -533,14 +541,25 @@ export default {
       this.doc.modified = inDoc.modified;
       this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
       this.doc.describedByType = inDoc.describedByType;
+      this.doc.tags_place = this.extractTags(
+        inDoc.keyword,
+        config.tags_place.availableTags
+      );
+      this.doc.tags_iso = this.extractTags(
+        inDoc.keyword,
+        config.tags_iso.availableTags
+      );
+      this.doc.tags_epa_theme = this.extractTags(
+        inDoc.keyword,
+        config.tags_epa_theme.availableTags
+      );
+      this.doc.language = this.extractTags(
+        inDoc.language,
+        config.language.availableTags
+      );
 
       /*
       this.doc = {
-        tags_epa_theme: [],
-        tags_place: [],
-        tags_iso: [],
-        epa_org: [],
-        language: "",
         distribution: ""
       };
       */
@@ -707,6 +726,19 @@ export default {
       get: function() {
         // Deep copy the working document
         var outDoc = JSON.parse(JSON.stringify(this.doc));
+
+        if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
+          var keyword = this.mergeArrays(
+            outDoc.tags_epa_theme,
+            outDoc.tags_place,
+            outDoc.tags_iso
+          );
+          if (keyword.length) outDoc.keyword = keyword;
+          delete outDoc.tags_epa_theme;
+          delete outDoc.tags_place;
+          delete outDoc.tags_iso;
+        }
+
         // Remove empty elements
         this.pruneDoc(outDoc);
         // Fix up hasEmail
@@ -731,18 +763,6 @@ export default {
 
         if (outDoc.references) {
           outDoc.references = outDoc.references.split(",").map(u => u.trim());
-        }
-
-        if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
-          var keyword = this.mergeArrays(
-            outDoc.tags_epa_theme,
-            outDoc.tags_place,
-            outDoc.tags_iso
-          );
-          if (keyword.length) outDoc.keyword = keyword;
-          delete outDoc.tags_epa_theme;
-          delete outDoc.tags_place;
-          delete outDoc.tags_iso;
         }
 
         outDoc = {
