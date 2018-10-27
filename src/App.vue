@@ -540,9 +540,7 @@ export default {
         tags_place: [],
         tags_iso: [],
         epa_org: [],
-*        accessLevel: "public",
         language: "",
-        describedByType: "",
         distribution: ""
       };
       */
@@ -705,61 +703,62 @@ export default {
     }
   },
   computed: {
-    materializeDoc() {
-      // Deep copy the working document
-      var outDoc = JSON.parse(JSON.stringify(this.doc));
-      // Remove empty elements
-      this.pruneDoc(outDoc);
-      // Fix up hasEmail
-      if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
-        outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
-      // Fix up modified using accrualPeriodicity if needed
-      if (
-        !outDoc.modified &&
-        outDoc.accrualPeriodicity &&
-        outDoc.accrualPeriodicity.startsWith("R/P")
-      )
-        outDoc.modified = outDoc.accrualPeriodicity;
+    materializeDoc: {
+      get: function() {
+        // Deep copy the working document
+        var outDoc = JSON.parse(JSON.stringify(this.doc));
+        // Remove empty elements
+        this.pruneDoc(outDoc);
+        // Fix up hasEmail
+        if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
+          outDoc.contactPoint.hasEmail =
+            "mailto:" + outDoc.contactPoint.hasEmail;
+        // Fix up modified using accrualPeriodicity if needed
+        if (
+          !outDoc.modified &&
+          outDoc.accrualPeriodicity &&
+          outDoc.accrualPeriodicity.startsWith("R/P")
+        )
+          outDoc.modified = outDoc.accrualPeriodicity;
 
-      if (this.doc.publisher)
-        outDoc.publisher = {
-          "@type": "org:Organization",
-          name: this.doc.publisher
+        if (this.doc.publisher)
+          outDoc.publisher = {
+            "@type": "org:Organization",
+            name: this.doc.publisher
+          };
+
+        if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
+
+        if (outDoc.references) {
+          outDoc.references = outDoc.references.split(",").map(u => u.trim());
+        }
+
+        if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
+          var keyword = this.mergeArrays(
+            outDoc.tags_epa_theme,
+            outDoc.tags_place,
+            outDoc.tags_iso
+          );
+          if (keyword.length) outDoc.keyword = keyword;
+          delete outDoc.tags_epa_theme;
+          delete outDoc.tags_place;
+          delete outDoc.tags_iso;
+        }
+
+        outDoc = {
+          "@context":
+            "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+          "@id": "https://replace.me",
+          "@type": "dcat:Catalog",
+          conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
+          describedBy:
+            "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+          dataset: [outDoc]
         };
 
-      if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
-
-      if (outDoc.references) {
-        outDoc.references = outDoc.references.split(",").map(u => u.trim());
+        // Return prettified document
+        return outDoc;
       }
-
-      if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
-        var keyword = this.mergeArrays(
-          outDoc.tags_epa_theme,
-          outDoc.tags_place,
-          outDoc.tags_iso
-        );
-        if (keyword.length) outDoc.keyword = keyword;
-        delete outDoc.tags_epa_theme;
-        delete outDoc.tags_place;
-        delete outDoc.tags_iso;
-      }
-
-      //          "@type": "vcard:Contact",
-
-      outDoc = {
-        "@context":
-          "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
-        "@id": "https://replace.me",
-        "@type": "dcat:Catalog",
-        conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
-        describedBy:
-          "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
-        dataset: [outDoc]
-      };
-
-      // Return prettified document
-      return outDoc;
     }
   }
 };

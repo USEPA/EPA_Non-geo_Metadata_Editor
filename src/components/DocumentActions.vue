@@ -23,7 +23,7 @@
             <q-layout-footer style="background-color:white">
                 <q-item>
                     <q-item-main label="Filename (leave empty to use document identifier):">
-                        <TextInput :userText.sync="filename" :defaultText="filenameFull" />
+                        <TextInput v-model="filename" :defaultText="filenameFull" />
                     </q-item-main>
                     <q-item-side right>
                         <q-btn icon="fas fa-cloud-download-alt" color="primary" @click="saveDoc"/>
@@ -110,7 +110,9 @@ import saveAs from "file-saver";
 
 export default {
   name: "DocumentActions",
-  props: {},
+  props: {
+    doc: {}
+  },
   components: {
     TextInput
   },
@@ -193,8 +195,9 @@ export default {
     },
     filenameFull: {
       get: function() {
-        return "ZZZ.JSON";
-        //this.filenameInternal || this.doc.dataset[0].identifier + ".json"
+        return (
+          this.filenameInternal || this.doc.dataset[0].identifier + ".json"
+        );
       }
     }
   },
@@ -203,7 +206,6 @@ export default {
       saveModalOpen: false,
       loadModalOpen: false,
       filenameInternal: "",
-      doc: {},
       docToLoad: Object
     };
   }
