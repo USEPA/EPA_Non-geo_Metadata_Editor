@@ -75,7 +75,7 @@
             :mandatory="config['modified']['mandatory']"
           />
           <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.modified" />
+            <DateOrRangeInput v-model="doc.modified" />
           </q-card-main>
         </q-card>
 
@@ -186,7 +186,7 @@
             :mandatory="config['temporal']['mandatory']"
           />
           <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.temporal" :range="true" />
+            <DateOrRangeInput v-model="doc.temporal" :range="true" />
           </q-card-main>
         </q-card>
 
@@ -521,7 +521,6 @@ export default {
       this.doc.rights = inDoc.rights;
       this.doc.license = inDoc.license;
       this.doc.temporal = inDoc.temporal;
-      this.doc.issued = inDoc.issued;
       this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
       this.doc.conformsTo = inDoc.conformsTo;
       this.doc.describedBy = inDoc.describedBy;
@@ -530,6 +529,9 @@ export default {
       this.doc.accessLevel = inDoc.accessLevel;
       this.doc.identifier = inDoc.identifier;
       this.doc.dataQuality = inDoc.dataQuality;
+      this.doc.issued = inDoc.issued;
+      this.doc.modified = inDoc.modified;
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
 
       /*
       this.doc = {
@@ -537,7 +539,6 @@ export default {
         tags_place: [],
         tags_iso: [],
         epa_org: [],
-        modified: inDoc.modified,
 *        accessLevel: "public",
         language: "",
         describedByType: "",

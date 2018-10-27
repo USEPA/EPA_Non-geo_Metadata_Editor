@@ -1,42 +1,59 @@
 <template>
     <div class="aligned">
       <div v-if="range">Start:&nbsp;</div>
-      <q-input type="date" v-model="datePart" @input="emitUpdate()"/> 
+      <q-input type="date" v-model="modelValue1"/> 
       <div v-if="range">&nbsp;&nbsp;&nbsp;End:&nbsp;</div>
-      <q-input v-if="this.range" type="date" v-model="datePart2" @input="emitUpdate()"/> 
+      <q-input v-if="this.range" type="date" v-model="modelValue2"/> 
     </div>
 </template>
 
 <script>
-var noop = function() {};
-
 export default {
   name: "DateOrRangeInput",
+
   props: {
+    value: String,
     range: false
   },
-  data() {
-    return {
-      datePart: "",
-      datePart2: ""
-    };
+
+  watch: {
+    modelValue1(newValue) {
+      this.$emit("input", this.modelValue);
+    },
+    modelValue2(newValue) {
+      if (this.range) this.$emit("input", this.modelValue);
+    },
+    value(newValue) {
+      var values = this.parseInput(newValue);
+      if (this.modelValue1 != values[0]) this.modelValue1 = values[0];
+      if (this.modelValue2 != values[1]) this.modelValue2 = values[1];
+    }
   },
+
   methods: {
-    emitUpdate: function() {
-      this.$emit("update:userInput", this.userInput);
+    parseInput: function(inp) {
+      if (!inp || inp == "") {
+        return ["", ""];
+      }
+      var parts = inp.split("/");
+      parts = parts.map(item => item.trim());
+      if (parts.length < 1) parts[0] = "";
+      if (parts.length < 2) parts[1] = "";
+      return parts;
     }
   },
+
   computed: {
-    userInput: {
-      get: function() {
-        var result = this.datePart;
-        if (this.range) result += "/" + this.datePart2;
-        return result;
-      },
-      set: function(newValue) {
-        noop(newValue);
-      }
+    modelValue: function() {
+      var result = this.modelValue1;
+      if (this.range) result += "/" + (this.modelValue2 || "");
+      return result;
     }
+  },
+
+  data() {
+    var values = this.parseInput(this.value);
+    return { modelValue1: values[0], modelValue2: values[2] };
   }
 };
 </script>
