@@ -35,7 +35,7 @@
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
                   <OptionSelector 
-                    :selectedOption.sync="item.mediaType" 
+                    v-model="item.mediaType" 
                     :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
                     placeHolderText="Please select the file format of the distribution's download URL"
                   />
@@ -43,7 +43,7 @@
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
                   <OptionSelector 
-                    :selectedOption.sync="item.formatType" 
+                    v-model="item.formatType" 
                     :availableOptions.sync="config['distribution']['format']['availableOptions']"
                     placeHolderText="Is the URL above for an API?"
                   />
@@ -51,19 +51,19 @@
                 </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
-                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
+                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" v-model="item.describedBy"/>
                   </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
                     <OptionSelector 
-                      :selectedOption.sync="item.describedByType" 
+                      v-model="item.describedByType" 
                       :availableOptions.sync="config['describedByType']['availableOptions']"
                       placeHolderText="Please select the type of file for the data dictionary"
                     />
                   </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
-                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
+                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" v-model="item.conformsTo"/>
                   </FieldWrapper>
 
                 <br/>
@@ -88,12 +88,15 @@ import config from "../config.js";
 
 export default {
   name: "Distribution",
+
   components: {
     TextInput,
     OptionSelector,
     FieldWrapper
   },
-  props: {},
+
+  props: { value: Array },
+
   methods: {
     addAnother: function() {
       this.distInner.push({
@@ -271,15 +274,26 @@ export default {
       }
     }
   },
+
   data() {
     return {
+      modelValue: this.value,
       indexBeingEdited: -1,
       distInner: [],
       validations: [],
       config: config
     };
   },
+
   watch: {
+    modelValue(newValue) {
+      this.$emit("input", newValue);
+    },
+
+    value(newValue) {
+      this.modelValue = newValue;
+    },
+
     distInner: {
       handler: function() {
         if (this.indexBeingEdited > -1)
@@ -293,6 +307,7 @@ export default {
       deep: true
     }
   },
+
   filters: {
     capitalize: config.capitalize
   }

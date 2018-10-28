@@ -557,14 +557,10 @@ export default {
         inDoc.language,
         config.language.availableTags
       );
-
-      /*
-      this.doc = {
-        distribution: ""
-      };
-      */
+      this.doc.distribution = inDoc.distribution;
     }
   },
+
   watch: {
     "doc.title": {
       handler: function() {
