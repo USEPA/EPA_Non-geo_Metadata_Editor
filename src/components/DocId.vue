@@ -1,10 +1,8 @@
 <template>
-    <div v-show="this.emitUpdate()">
+    <div>
       <q-input
-        type="text"
-        :float-label="defaultText()"
-        :value="userDoi"
-         @keyup="emitUpdate()"
+        v-model="modelValue"
+        :float-label="placeholderText()"
       />
     </div>
 </template>
@@ -17,41 +15,38 @@ var noop = function() {};
 export default {
   name: "DoiInput",
   props: {
-    userDoi: {
-      type: String,
-      default: ""
-    },
+    value: "",
     defaultId: {
       type: String,
-      default: "" + uuid.v4()
-    }
-  },
-  computed: {
-    userText: {
-      get: function() {
-        if (this.userDoi.trim() > "") {
-          return this.userDoi;
-        } else {
-          return this.defaultId;
-        }
-      },
-      set: function(newValue) {
-        this.emitUpdate();
-        noop(newValue);
-      }
+      default: uuid.v4().toString()
     }
   },
   methods: {
-    defaultText: function() {
+    placeholderText: function() {
       return (
         "Please enter a DOI for the dataset or leave empty to use: " +
         this.defaultId
       );
-    },
-    emitUpdate: function() {
-      this.$emit("update:userText", this.userText);
-      return true;
     }
+  },
+  watch: {
+    modelValue(newValue) {
+      // Broadcast new value (if any) or the default DOI we generated
+      this.$emit("input", newValue ? newValue : this.defaultId);
+    },
+    value(newValue) {
+      // Intern the new value only if it's not the DOI we generated as default
+      if (newValue != this.defaultId) this.modelValue = newValue;
+    }
+  },
+  data() {
+    return {
+      modelValue: this.value
+    };
+  },
+  mounted: function() {
+    // Force broadcast of component value upon mount
+    this.$emit("input", this.value ? this.value : this.defaultId);
   }
 };
 </script>

@@ -6,7 +6,6 @@
     <q-page-container>
 
         <Intro/>
-
 <!--
         <q-card  class="q-ma-sm">
           <q-card-main>
@@ -21,7 +20,7 @@
             :mandatory="config['title']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter a title for the dataset" :userText.sync="doc.title" />
+            <TextInput defaultText="Please enter a title for the dataset" v-model="doc.title" />
           </q-card-main>
         </q-card>
 
@@ -32,7 +31,7 @@
             :mandatory="config['description']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter a description for the dataset" multiLine  :userText.sync="doc.description" />
+            <TextInput defaultText="Please enter a description for the dataset" multiLine  v-model="doc.description" />
           </q-card-main>
         </q-card>
 
@@ -43,7 +42,7 @@
             :mandatory="config['tags_place']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_place" :availableTags.sync="config['tags_place']['availableTags']"/>
+            <TagCollector v-model="doc.tags_place" :availableTags.sync="config['tags_place']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -54,7 +53,7 @@
             :mandatory="config['tags_iso']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_iso" :availableTags.sync="config['tags_iso']['availableTags']"/>
+            <TagCollector v-model="doc.tags_iso" :availableTags.sync="config['tags_iso']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -65,29 +64,7 @@
             :mandatory="config['tags_epa_theme']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.tags_epa_theme" :availableTags.sync="config['tags_epa_theme']['availableTags']"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="Last Update" 
-            :guidance="getGuidanceFor('modified')"
-            :validations.sync="validations.modified"
-            :mandatory="config['modified']['mandatory']"
-          />
-          <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.modified" />
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="Update Frequency" 
-            :guidance="getGuidanceFor('accrualPeriodicity')"
-            :validations.sync="validations.accrualPeriodicity"
-            :mandatory="config['accrualPeriodicity']['mandatory']"
-          />
-          <q-card-main>
-            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
+            <TagCollector v-model="doc.tags_epa_theme" :availableTags.sync="config['tags_epa_theme']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -98,7 +75,7 @@
             :mandatory="config['publisher']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the name of the publishing organization for the dataset" :userText.sync="doc.publisher" />
+            <TextInput defaultText="Please enter the name of the publishing organization for the dataset" v-model="doc.publisher" />
           </q-card-main>
         </q-card>
 
@@ -109,7 +86,7 @@
             :mandatory="config.contactPoint.fn['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the name of the publisher for the dataset" :userText.sync="doc.contactPoint.fn" />
+            <TextInput defaultText="Please enter the name of the publisher for the dataset" v-model="doc.contactPoint.fn" />
           </q-card-main>
         </q-card>
 
@@ -120,7 +97,7 @@
             :mandatory="config.contactPoint.hasEmail['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please enter the email address of the publisher for the dataset" :userText.sync="doc.contactPoint.hasEmail" />
+            <TextInput defaultText="Please enter the email address of the publisher for the dataset" v-model="doc.contactPoint.hasEmail" />
           </q-card-main>
         </q-card>
 
@@ -142,7 +119,7 @@
             :mandatory="config['identifier']['mandatory']"
           />
           <q-card-main>
-            <DocId :userText.sync="doc.identifier" />
+            <DocId v-model="doc.identifier" />
           </q-card-main>
         </q-card>
 
@@ -153,7 +130,7 @@
             :mandatory="config['accessLevel']['mandatory']"
           />
           <q-card-main>
-            <OptionSelector :selectedOption.sync="doc.accessLevel" :availableOptions.sync="config['accessLevel']['availableOptions']"/>
+            <OptionSelector v-model="doc.accessLevel" :availableOptions.sync="config['accessLevel']['availableOptions']"/>
           </q-card-main>
         </q-card>
 
@@ -164,8 +141,8 @@
             :mandatory="doc.accessLevel!=='public'"
           />
           <q-card-main>
-            <TextInput v-if="!doc.accessLevel || doc.accessLevel=='public'" defaultText="Restrictions on the dataset" :userText.sync="doc.rights" />
-            <OptionSelector v-else :selectedOption.sync="doc.rights" :availableOptions.sync="config['rights']['availableOptions']"/>
+            <TextInput v-if="!doc.accessLevel || doc.accessLevel=='public'" defaultText="Restrictions on the dataset" v-model="doc.rights" />
+            <OptionSelector v-else v-model="doc.rights" :availableOptions.sync="config['rights']['availableOptions']"/>
           </q-card-main>
         </q-card>
 
@@ -176,7 +153,7 @@
             :mandatory="config['license']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="URL of the license for the dataset" :userText.sync="doc.license" />
+            <TextInput defaultText="URL of the license for the dataset" v-model="doc.license" />
           </q-card-main>
         </q-card>
 
@@ -187,7 +164,29 @@
             :mandatory="config['temporal']['mandatory']"
           />
           <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.temporal" :range="true" />
+            <DateOrRangeInput v-model="doc.temporal" :range="true" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Last Update" 
+            :guidance="getGuidanceFor('modified')"
+            :validations.sync="validations.modified"
+            :mandatory="config['modified']['mandatory']"
+          />
+          <q-card-main>
+            <DateOrRangeInput v-model="doc.modified" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Update Frequency" 
+            :guidance="getGuidanceFor('accrualPeriodicity')"
+            :validations.sync="validations.accrualPeriodicity"
+            :mandatory="config['accrualPeriodicity']['mandatory']"
+          />
+          <q-card-main>
+            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
           </q-card-main>
         </q-card>
 
@@ -198,7 +197,7 @@
             :mandatory="config['issued']['mandatory']"
           />
           <q-card-main>
-            <DateOrRangeInput :userInput.sync="doc.issued" />
+            <DateOrRangeInput v-model="doc.issued" />
           </q-card-main>
         </q-card>
 
@@ -209,7 +208,7 @@
             :mandatory="config['language']['mandatory']"
           />
           <q-card-main>
-            <TagCollector :collectedTags.sync="doc.language" :availableTags.sync="config['language']['availableTags']"/>
+            <TagCollector v-model="doc.language" :availableTags.sync="config['language']['availableTags']"/>
           </q-card-main>
         </q-card>
 
@@ -220,7 +219,7 @@
             :mandatory="config['dataQuality']['mandatory']"
           />
           <q-card-main>
-            <BooleanSelector :userSelection.sync="doc.dataQuality" />
+            <BooleanSelector v-model="doc.dataQuality" />
           </q-card-main>
         </q-card>
 
@@ -231,7 +230,7 @@
             :mandatory="config['conformsTo']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.conformsTo" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.conformsTo" />
           </q-card-main>
         </q-card>
 
@@ -242,9 +241,9 @@
             :mandatory="config['describedBy']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.describedBy" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.describedBy" />
             <OptionSelector 
-              :selectedOption.sync="doc.describedByType" 
+              v-model="doc.describedByType" 
               :availableOptions.sync="config['describedByType']['availableOptions']"
               placeHolderText="Please select the type of file pointed by the above URL"/>
           </q-card-main>
@@ -257,7 +256,7 @@
             :mandatory="config['landingPage']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.landingPage" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.landingPage" />
           </q-card-main>
         </q-card>
 
@@ -268,7 +267,7 @@
             :mandatory="config['references']['mandatory']"
           />
           <q-card-main>
-            <TextInput defaultText="Please provide a URL" :userText.sync="doc.references" />
+            <TextInput defaultText="Please provide a URL" v-model="doc.references" />
           </q-card-main>
         </q-card>
 <!--
@@ -276,7 +275,7 @@
 -->
         <br/><br/><br/>
 
-        <DocumentActions :doc="materializeDoc" />
+        <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
     </q-page-container>
   </q-layout>
@@ -356,7 +355,7 @@ export default {
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
-        language: "",
+        language: [],
         dataQuality: false,
         conformsTo: "",
         describedBy: "",
@@ -494,6 +493,14 @@ export default {
       return Object.values(keywords);
     },
 
+    extractTags: function(tags, tagOptions) {
+      return tags.filter(tag =>
+        tagOptions.find(
+          option => option.value.toLowerCase() == tag.toLowerCase()
+        )
+      );
+    },
+
     pruneDoc: function(doc) {
       for (var prop in doc)
         if (doc.hasOwnProperty(prop)) {
@@ -506,6 +513,56 @@ export default {
           )
             delete doc[prop];
         }
+    },
+
+    loadDocFrom: function(newDoc) {
+      console.log("newDoc");
+      console.log(newDoc);
+      var inDoc = newDoc.dataset[0];
+      this.doc.title = inDoc.title;
+      this.doc.description = inDoc.description;
+      this.doc.publisher = inDoc.publisher.name;
+      this.doc.contactPoint = {
+        fn: inDoc.contactPoint.fn,
+        hasEmail: inDoc.contactPoint.hasEmail.replace("mailto:", "")
+      };
+      this.doc.rights = inDoc.rights;
+      this.doc.license = inDoc.license;
+      this.doc.temporal = inDoc.temporal;
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
+      this.doc.conformsTo = inDoc.conformsTo;
+      this.doc.describedBy = inDoc.describedBy;
+      this.doc.landingPage = inDoc.landingPage;
+      this.doc.references = inDoc.references.join(",");
+      this.doc.accessLevel = inDoc.accessLevel;
+      this.doc.identifier = inDoc.identifier;
+      this.doc.dataQuality = inDoc.dataQuality;
+      this.doc.issued = inDoc.issued;
+      this.doc.modified = inDoc.modified;
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
+      this.doc.describedByType = inDoc.describedByType;
+      this.doc.tags_place = this.extractTags(
+        inDoc.keyword,
+        config.tags_place.availableTags
+      );
+      this.doc.tags_iso = this.extractTags(
+        inDoc.keyword,
+        config.tags_iso.availableTags
+      );
+      this.doc.tags_epa_theme = this.extractTags(
+        inDoc.keyword,
+        config.tags_epa_theme.availableTags
+      );
+      this.doc.language = this.extractTags(
+        inDoc.language,
+        config.language.availableTags
+      );
+
+      /*
+      this.doc = {
+        distribution: ""
+      };
+      */
     }
   },
   watch: {
@@ -665,61 +722,63 @@ export default {
     }
   },
   computed: {
-    materializeDoc() {
-      // Deep copy the working document
-      var outDoc = JSON.parse(JSON.stringify(this.doc));
-      // Remove empty elements
-      this.pruneDoc(outDoc);
-      // Fix up hasEmail
-      if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
-        outDoc.contactPoint.hasEmail = "mailto:" + outDoc.contactPoint.hasEmail;
-      // Fix up modified using accrualPeriodicity if needed
-      if (
-        !outDoc.modified &&
-        outDoc.accrualPeriodicity &&
-        outDoc.accrualPeriodicity.startsWith("R/P")
-      )
-        outDoc.modified = outDoc.accrualPeriodicity;
+    materializeDoc: {
+      get: function() {
+        // Deep copy the working document
+        var outDoc = JSON.parse(JSON.stringify(this.doc));
 
-      if (this.doc.publisher)
-        outDoc.publisher = {
-          "@type": "org:Organization",
-          name: this.doc.publisher
+        if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
+          var keyword = this.mergeArrays(
+            outDoc.tags_epa_theme,
+            outDoc.tags_place,
+            outDoc.tags_iso
+          );
+          if (keyword.length) outDoc.keyword = keyword;
+          delete outDoc.tags_epa_theme;
+          delete outDoc.tags_place;
+          delete outDoc.tags_iso;
+        }
+
+        // Remove empty elements
+        this.pruneDoc(outDoc);
+        // Fix up hasEmail
+        if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
+          outDoc.contactPoint.hasEmail =
+            "mailto:" + outDoc.contactPoint.hasEmail;
+        // Fix up modified using accrualPeriodicity if needed
+        if (
+          !outDoc.modified &&
+          outDoc.accrualPeriodicity &&
+          outDoc.accrualPeriodicity.startsWith("R/P")
+        )
+          outDoc.modified = outDoc.accrualPeriodicity;
+
+        if (this.doc.publisher)
+          outDoc.publisher = {
+            "@type": "org:Organization",
+            name: this.doc.publisher
+          };
+
+        if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
+
+        if (outDoc.references) {
+          outDoc.references = outDoc.references.split(",").map(u => u.trim());
+        }
+
+        outDoc = {
+          "@context":
+            "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+          "@id": "https://replace.me",
+          "@type": "dcat:Catalog",
+          conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
+          describedBy:
+            "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+          dataset: [outDoc]
         };
 
-      if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
-
-      if (outDoc.references) {
-        outDoc.references = outDoc.references.split(",").map(u => u.trim());
+        // Return prettified document
+        return outDoc;
       }
-
-      if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
-        var keyword = this.mergeArrays(
-          outDoc.tags_epa_theme,
-          outDoc.tags_place,
-          outDoc.tags_iso
-        );
-        if (keyword.length) outDoc.keyword = keyword;
-        delete outDoc.tags_epa_theme;
-        delete outDoc.tags_place;
-        delete outDoc.tags_iso;
-      }
-
-      //          "@type": "vcard:Contact",
-
-      outDoc = {
-        "@context":
-          "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
-        "@id": "https://replace.me",
-        "@type": "dcat:Catalog",
-        conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
-        describedBy:
-          "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
-        dataset: [outDoc]
-      };
-
-      // Return prettified document
-      return outDoc;
     }
   }
 };
