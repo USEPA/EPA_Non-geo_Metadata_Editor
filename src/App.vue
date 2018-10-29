@@ -69,28 +69,6 @@
         </q-card>
 
         <q-card  class="q-ma-sm">
-          <ElementHeader title="Last Update" 
-            :guidance="getGuidanceFor('modified')"
-            :validations.sync="validations.modified"
-            :mandatory="config['modified']['mandatory']"
-          />
-          <q-card-main>
-            <DateOrRangeInput v-model="doc.modified" />
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="Update Frequency" 
-            :guidance="getGuidanceFor('accrualPeriodicity')"
-            :validations.sync="validations.accrualPeriodicity"
-            :mandatory="config['accrualPeriodicity']['mandatory']"
-          />
-          <q-card-main>
-            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
           <ElementHeader title="Publishing Organization" 
             :guidance="getGuidanceFor('publisher')"
             :validations.sync="validations.publisher"
@@ -187,6 +165,28 @@
           />
           <q-card-main>
             <DateOrRangeInput v-model="doc.temporal" :range="true" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Last Update" 
+            :guidance="getGuidanceFor('modified')"
+            :validations.sync="validations.modified"
+            :mandatory="config['modified']['mandatory']"
+          />
+          <q-card-main>
+            <DateOrRangeInput v-model="doc.modified" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Update Frequency" 
+            :guidance="getGuidanceFor('accrualPeriodicity')"
+            :validations.sync="validations.accrualPeriodicity"
+            :mandatory="config['accrualPeriodicity']['mandatory']"
+          />
+          <q-card-main>
+            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
           </q-card-main>
         </q-card>
 
