@@ -58,7 +58,7 @@
         </q-card>
 
         <q-card  class="q-ma-sm">
-          <ElementHeader title="EPA Theme" 
+          <ElementHeader title="EPA Keywords" 
             :guidance="getGuidanceFor('tags_epa_theme')"
             :validations.sync="validations.tags_epa_theme"
             :mandatory="config['tags_epa_theme']['mandatory']"
