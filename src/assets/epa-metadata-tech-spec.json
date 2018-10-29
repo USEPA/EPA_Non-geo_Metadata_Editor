@@ -229,7 +229,7 @@
     "required": "Always",
     "schema": "All",
     "guidance": "This element is the date when the data resource was published or otherwise made available for release. Dates should be in the format YYYY-MM-DD. If a dataset is updated very frequently or continously, specify a recurring interval in the Frequency element and leave this field blank and the recurring interval will be reported in place of a date. Otherwise specify a date.",
-    "geoguidance":"Geospatial records should use //gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:userDefinedMaintenanceFrequency/gts:TM_PeriodDuration to document frequent maintenance intervals per the official guidance.",
+    "geoguidance": "Geospatial records should use //gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:userDefinedMaintenanceFrequency/gts:TM_PeriodDuration to document frequent maintenance intervals per the official guidance.",
     "domaindescription": "Plain Text",
     "domainurl": "http://en.wikipedia.org/wiki/ISO_8601",
     "example": "\"2012-01-15\"",
@@ -295,7 +295,7 @@
       "required": "Always",
       "schema": "All",
       "guidance": "This element should contain the full name of a person responsible for the publication of a dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the name of the helpdesk team is acceptable. ",
-      "geoguidance":"The ISO Role code must be set to 'publisher' for this contact.",
+      "geoguidance": "The ISO Role code must be set to 'publisher' for this contact.",
       "domaindescription": "Full Name",
       "domainurl": "",
       "example": "\"Jane Doe\"",
@@ -582,7 +582,7 @@
     "definition": "The frequency with which dataset is published.",
     "schema": "All",
     "guidance": "The frequency with which changes and additions are made to the data resource after the initial data resource is completed.",
-    "geoguidance":"Geospatial records may choose from a standard list: \"continual, daily, weekly, fortnightly, monthly, quarterly, biannually, annually, as needed, irregular, not planned, unknown\"",
+    "geoguidance": "Geospatial records may choose from a standard list: \"continual, daily, weekly, fortnightly, monthly, quarterly, biannually, annually, as needed, irregular, not planned, unknown\"",
     "domaindescription": "ISO 8601 Interval or ISO Code",
     "domainurl": "",
     "example": "weekly or R/P1W",
@@ -761,6 +761,37 @@
         "url": "https://www.fgdc.gov/csdgmgraphical/distr/storder/digform.htm"
       }
     ]
+  },
+  "epa_grant": {
+    "field": "",
+    "definition": "",
+    "schema": "",
+    "guidance": "Please enter the grant number under which you performed the research associated with this dataset. If you are not an EPA Grantee, please describe the nature of your affiliation with the EPA.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "",
+    "crosswalk": [
+      {
+        "schema": "",
+        "xpath": "",
+        "url": ""
+      }
+    ]
+  },
+  "epa_contact": {
+    "field": "",
+    "definition": "",
+    "schema": "",
+    "guidance": "Please enter the email address of your EPA grant manager, sponsor, or other point of contact who can verify your relationship with the EPA.",
+    "domaindescription": "",
+    "domainurl": "",
+    "example": "",
+    "crosswalk": [
+      {
+        "schema": "",
+        "xpath": "",
+        "url": ""
+      }
+    ]
   }
-  
 }

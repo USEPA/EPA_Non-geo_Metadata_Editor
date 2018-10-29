@@ -14,6 +14,28 @@
         </q-card>
 -->
         <q-card  class="q-ma-sm">
+          <ElementHeader title="EPA Grant" 
+            :guidance="getGuidanceFor('epa_grant')"
+            :validations.sync="validations.epa_grant"
+            :mandatory="config['epa_grant']['mandatory']"
+          />
+          <q-card-main>
+            <TextInput defaultText="Please enter EPA grant no" v-model="doc.epa_grant" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="EPA Contact Email" 
+            :guidance="getGuidanceFor('epa_contact')"
+            :validations.sync="validations.epa_contact"
+            :mandatory="config['epa_contact']['mandatory']"
+          />
+          <q-card-main>
+            <TextInput defaultText="Please enter EPA contact's email" v-model="doc.epa_contact" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
           <ElementHeader title="Title" 
             :guidance="getGuidanceFor('title')"
             :validations.sync="validations.title"
@@ -362,7 +384,9 @@ export default {
         describedByType: "",
         landingPage: "",
         references: "",
-        distribution: ""
+        distribution: "",
+        epa_grant: "",
+        epa_contact: ""
       },
       validations: {
         title: "",
@@ -391,7 +415,9 @@ export default {
         describedByType: "",
         landingPage: "",
         references: "",
-        distribution: ""
+        distribution: "",
+        epa_grant: "",
+        epa_contact: ""
       },
       mdSpec: mdSpec,
       config: config,
@@ -557,6 +583,8 @@ export default {
         inDoc.language,
         config.language.availableTags
       );
+      this.doc.epa_grant = inDoc.epa_grant;
+      this.doc.epa_contact = inDoc.epa_contact;
 
       /*
       this.doc = {
@@ -717,6 +745,18 @@ export default {
     "doc.distribution": {
       handler: function() {
         this.validateElement("distribution");
+      },
+      immediate: true
+    },
+    "doc.epa_grant": {
+      handler: function() {
+        this.validateElement("epa_grant");
+      },
+      immediate: true
+    },
+    "doc.epa_contact": {
+      handler: function() {
+        this.validateElement("epa_contact");
       },
       immediate: true
     }
