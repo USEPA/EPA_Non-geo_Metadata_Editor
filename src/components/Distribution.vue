@@ -47,7 +47,7 @@
                     :availableOptions.sync="config['distribution']['format']['availableOptions']"
                     placeHolderText="Is the URL above for an API?"
                   />
-                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" :userText.sync="item.format"/>
+                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" v-model="item.format"/>
                 </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
@@ -180,14 +180,11 @@ export default {
       else if (item.format == "API") item.format = "";
 
       // Auto detect mediaType from file extension embedded in URL, if any
-      console.log(item.url);
       if (item.url) {
         var ext = item.url.split(".").pop();
         var mime = config.extension2mimeType(ext);
-        //item.mediaType = "text/plain"; //mime;
+        item.mediaType = mime;
       }
-      console.log(item.mediaType);
-      console.log("");
 
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {
