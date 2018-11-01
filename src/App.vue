@@ -130,7 +130,7 @@
             :mandatory="config['distribution']['mandatory']"
           />
           <q-card-main>
-            <Distribution :distribution.sync="doc.distribution"/>
+            <Distribution v-model="doc.distribution"/>
           </q-card-main>
         </q-card>
 
@@ -384,7 +384,7 @@ export default {
         describedByType: "",
         landingPage: "",
         references: "",
-        distribution: "",
+        distribution: []
         epa_grant: "",
         epa_contact: ""
       },
@@ -475,7 +475,12 @@ export default {
       var validationResults = "Empty.";
       if (elementConfig) {
         if (Array.isArray(mdElementValue) && mdElement == "distribution") {
-          var hasErrors = mdElementValue.find(entry => entry.validation > "");
+          validationResults = this.applyValidators(
+            elementConfig,
+            mdElementValue
+          );
+
+          var hasErrors = mdElementValue.find(entry => entry.validations > "");
           if (hasErrors)
             validationResults = "You have entries that are not validating.";
           else if (mdElementValue.length) validationResults = "";
@@ -544,7 +549,7 @@ export default {
     loadDocFrom: function(newDoc) {
       console.log("newDoc");
       console.log(newDoc);
-      var inDoc = newDoc.dataset[0];
+      var inDoc = JSON.parse(JSON.stringify(newDoc.dataset[0]));
       this.doc.title = inDoc.title;
       this.doc.description = inDoc.description;
       this.doc.publisher = inDoc.publisher.name;
@@ -583,16 +588,12 @@ export default {
         inDoc.language,
         config.language.availableTags
       );
+      this.doc.distribution = inDoc.distribution;
       this.doc.epa_grant = inDoc.epa_grant;
       this.doc.epa_contact = inDoc.epa_contact;
-
-      /*
-      this.doc = {
-        distribution: ""
-      };
-      */
     }
   },
+
   watch: {
     "doc.title": {
       handler: function() {
@@ -778,6 +779,11 @@ export default {
           delete outDoc.tags_place;
           delete outDoc.tags_iso;
         }
+
+        outDoc.distribution.map(item => {
+          delete item.validations;
+          if (item.interned) delete item.interned;
+        });
 
         // Remove empty elements
         this.pruneDoc(outDoc);

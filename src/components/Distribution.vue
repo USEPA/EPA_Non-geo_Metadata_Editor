@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
+        <q-card v-for="(item, index) in modelValue" :key="index" class="q-ma-sm">
             <q-card-main>
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'title')">
@@ -35,7 +35,7 @@
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
                   <OptionSelector 
-                    :selectedOption.sync="item.mediaType" 
+                    v-model="item.mediaType" 
                     :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
                     placeHolderText="Please select the file format of the distribution's download URL"
                   />
@@ -43,27 +43,27 @@
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
                   <OptionSelector 
-                    :selectedOption.sync="item.formatType" 
+                    v-model="item.formatType" 
                     :availableOptions.sync="config['distribution']['format']['availableOptions']"
                     placeHolderText="Is the URL above for an API?"
                   />
-                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" :userText.sync="item.format"/>
+                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" v-model="item.format"/>
                 </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
-                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" :userText.sync="item.describedBy"/>
+                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" v-model="item.describedBy"/>
                   </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
                     <OptionSelector 
-                      :selectedOption.sync="item.describedByType" 
+                      v-model="item.describedByType" 
                       :availableOptions.sync="config['describedByType']['availableOptions']"
                       placeHolderText="Please select the type of file for the data dictionary"
                     />
                   </FieldWrapper>
 
                   <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
-                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" :userText.sync="item.conformsTo"/>
+                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" v-model="item.conformsTo"/>
                   </FieldWrapper>
 
                 <br/>
@@ -76,7 +76,7 @@
         </q-card>
 
         <br/>
-        <q-btn icon="fas fa-plus" :label="'Add '+(distInner.length?'another':'a')+' distribution entry'" @click="addAnother()"/>
+        <q-btn icon="fas fa-plus" :label="'Add '+(modelValue.length?'another':'a')+' distribution entry'" @click="addAnother()"/>
     </div>
 </template>
 
@@ -88,15 +88,24 @@ import config from "../config.js";
 
 export default {
   name: "Distribution",
+
   components: {
     TextInput,
     OptionSelector,
     FieldWrapper
   },
-  props: {},
+
+  props: {
+    value: {
+      type: Array,
+      default: []
+    }
+  },
+
   methods: {
-    addAnother: function() {
-      this.distInner.push({
+    makeEmptyDistribution: function() {
+      return {
+        interned: true, // True if we created the record (from scratch or by interning a loaded record)
         title: "",
         description: "",
         url: "",
@@ -107,9 +116,35 @@ export default {
         describedBy: "",
         describedByType: "",
         conformsTo: ""
-      });
+      };
+    },
 
-      this.validations.push({
+    intern: function(fromItem) {
+      // Ignore already interned items
+      if (!fromItem || fromItem.interned) return fromItem;
+
+      // Start with empty distribution
+      var item = this.makeEmptyDistribution();
+      // Copy properties that are mapped directly
+      Object.keys(item).map(prop => {
+        if (fromItem[prop]) item[prop] = fromItem[prop];
+      });
+      // Handle special cases
+      if (fromItem["downloadURL"]) {
+        item.url = fromItem["downloadURL"];
+        item.urlType = "download";
+      } else {
+        item.url = fromItem["accessURL"] || "";
+        item.urlType = "access";
+      }
+
+      item.interned = true;
+
+      return item;
+    },
+
+    makeEmptyValidation: function() {
+      return {
         title: "",
         url: "",
         mediaType: "",
@@ -119,9 +154,19 @@ export default {
         describedBy: "",
         describedByType: "",
         conformsTo: ""
-      });
+      };
+    },
 
-      this.indexBeingEdited = this.distInner.length - 1;
+    makeEmptyValidationsFor: function(dist) {
+      return dist.map(item => this.makeEmptyValidation());
+    },
+
+    addAnother: function() {
+      this.modelValue.push(this.makeEmptyDistribution());
+
+      this.validations.push(this.makeEmptyValidation());
+
+      this.indexBeingEdited = this.modelValue.length - 1;
     },
 
     editThis: function(index) {
@@ -133,20 +178,16 @@ export default {
     },
 
     deleteThis: function(index) {
-      this.distInner.splice(index, 1);
+      this.modelValue.splice(index, 1);
       this.validations.splice(index, 1);
       this.indexBeingEdited = -1;
-    },
-
-    emitUpdate: function() {
-      this.$emit("update:distribution", this.distribution);
     },
 
     getPropInfo: function(index, prop) {
       return {
         name: prop,
         mandatory: config.distribution[prop].mandatory,
-        value: this.distInner[index][prop],
+        value: this.modelValue[index][prop],
         validation: this.validations[index][prop],
         editMode: this.isBeingEdited(index)
       };
@@ -173,18 +214,16 @@ export default {
     },
 
     validate: function(item, validations) {
+      console.log("validate");
       if (item.formatType == "API") item.format = "API";
       else if (item.format == "API") item.format = "";
 
       // Auto detect mediaType from file extension embedded in URL, if any
-      console.log(item.url);
       if (item.url) {
         var ext = item.url.split(".").pop();
         var mime = config.extension2mimeType(ext);
-        //item.mediaType = "text/plain"; //mime;
+        item.mediaType = mime;
       }
-      console.log(item.mediaType);
-      console.log("");
 
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {
@@ -261,38 +300,49 @@ export default {
         };
 
         var dist = [];
-        for (var i = 0; i < this.distInner.length; i++) {
-          dist.push(normalize(this.distInner[i], this.validations[i]));
+        for (var i = 0; i < this.modelValue.length; i++) {
+          dist.push(normalize(this.modelValue[i], this.validations[i]));
         }
+
         return dist;
       },
+
       set: function(newValue) {
         config.noop(newValue);
       }
     }
   },
+
   data() {
     return {
-      indexBeingEdited: -1,
-      distInner: [],
+      modelValue: this.value,
       validations: [],
+      indexBeingEdited: -1,
       config: config
     };
   },
+
   watch: {
-    distInner: {
-      handler: function() {
-        if (this.indexBeingEdited > -1)
-          this.validate(
-            this.distInner[this.indexBeingEdited],
-            this.validations[this.indexBeingEdited]
-          );
-        this.emitUpdate();
+    value(newValue) {
+      if (newValue.length && !newValue[0].interned) {
+        this.indexBeingEdited = -1;
+        this.modelValue = newValue.map(item => this.intern(item));
+      }
+    },
+
+    modelValue: {
+      handler: function(newValue) {
+        this.validations = this.makeEmptyValidationsFor(newValue);
+        for (var i = 0; i < this.modelValue.length; i++)
+          if (this.indexBeingEdited == -1 || this.indexBeingEdited == i)
+            this.validate(this.modelValue[i], this.validations[i]);
+        this.$emit("input", this.distribution);
       },
       immediate: true,
       deep: true
     }
   },
+
   filters: {
     capitalize: config.capitalize
   }
