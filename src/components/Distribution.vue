@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-card v-for="(item, index) in distInner" :key="index" class="q-ma-sm">
+        <q-card v-for="(item, index) in modelValue" :key="index" class="q-ma-sm">
             <q-card-main>
 
                 <FieldWrapper :propInfo="getPropInfo(index, 'title')">
@@ -76,7 +76,7 @@
         </q-card>
 
         <br/>
-        <q-btn icon="fas fa-plus" :label="'Add '+(distInner.length?'another':'a')+' distribution entry'" @click="addAnother()"/>
+        <q-btn icon="fas fa-plus" :label="'Add '+(modelValue.length?'another':'a')+' distribution entry'" @click="addAnother()"/>
     </div>
 </template>
 
@@ -95,11 +95,17 @@ export default {
     FieldWrapper
   },
 
-  props: { value: Array },
+  props: {
+    value: {
+      type: Array,
+      default: []
+    }
+  },
 
   methods: {
-    addAnother: function() {
-      this.distInner.push({
+    makeEmptyDistribution: function() {
+      return {
+        interned: true, // True if we created the record (from scratch or by interning a loaded record)
         title: "",
         description: "",
         url: "",
@@ -110,9 +116,35 @@ export default {
         describedBy: "",
         describedByType: "",
         conformsTo: ""
-      });
+      };
+    },
 
-      this.validations.push({
+    intern: function(fromItem) {
+      // Ignore already interned items
+      if (!fromItem || fromItem.interned) return fromItem;
+
+      // Start with empty distribution
+      var item = this.makeEmptyDistribution();
+      // Copy properties that are mapped directly
+      Object.keys(item).map(prop => {
+        if (fromItem[prop]) item[prop] = fromItem[prop];
+      });
+      // Handle special cases
+      if (fromItem["downloadURL"]) {
+        item.url = fromItem["downloadURL"];
+        item.urlType = "download";
+      } else {
+        item.url = fromItem["accessURL"] || "";
+        item.urlType = "access";
+      }
+
+      item.interned = true;
+
+      return item;
+    },
+
+    makeEmptyValidation: function() {
+      return {
         title: "",
         url: "",
         mediaType: "",
@@ -122,9 +154,19 @@ export default {
         describedBy: "",
         describedByType: "",
         conformsTo: ""
-      });
+      };
+    },
 
-      this.indexBeingEdited = this.distInner.length - 1;
+    makeEmptyValidationsFor: function(dist) {
+      return dist.map(item => this.makeEmptyValidation());
+    },
+
+    addAnother: function() {
+      this.modelValue.push(this.makeEmptyDistribution());
+
+      this.validations.push(this.makeEmptyValidation());
+
+      this.indexBeingEdited = this.modelValue.length - 1;
     },
 
     editThis: function(index) {
@@ -136,20 +178,16 @@ export default {
     },
 
     deleteThis: function(index) {
-      this.distInner.splice(index, 1);
+      this.modelValue.splice(index, 1);
       this.validations.splice(index, 1);
       this.indexBeingEdited = -1;
-    },
-
-    emitUpdate: function() {
-      this.$emit("update:distribution", this.distribution);
     },
 
     getPropInfo: function(index, prop) {
       return {
         name: prop,
         mandatory: config.distribution[prop].mandatory,
-        value: this.distInner[index][prop],
+        value: this.modelValue[index][prop],
         validation: this.validations[index][prop],
         editMode: this.isBeingEdited(index)
       };
@@ -176,6 +214,7 @@ export default {
     },
 
     validate: function(item, validations) {
+      console.log("validate");
       if (item.formatType == "API") item.format = "API";
       else if (item.format == "API") item.format = "";
 
@@ -261,11 +300,13 @@ export default {
         };
 
         var dist = [];
-        for (var i = 0; i < this.distInner.length; i++) {
-          dist.push(normalize(this.distInner[i], this.validations[i]));
+        for (var i = 0; i < this.modelValue.length; i++) {
+          dist.push(normalize(this.modelValue[i], this.validations[i]));
         }
+
         return dist;
       },
+
       set: function(newValue) {
         config.noop(newValue);
       }
@@ -275,30 +316,27 @@ export default {
   data() {
     return {
       modelValue: this.value,
-      indexBeingEdited: -1,
-      distInner: [],
       validations: [],
+      indexBeingEdited: -1,
       config: config
     };
   },
 
   watch: {
-    modelValue(newValue) {
-      this.$emit("input", newValue);
-    },
-
     value(newValue) {
-      this.modelValue = newValue;
+      if (newValue.length && !newValue[0].interned) {
+        this.indexBeingEdited = -1;
+        this.modelValue = newValue.map(item => this.intern(item));
+      }
     },
 
-    distInner: {
-      handler: function() {
-        if (this.indexBeingEdited > -1)
-          this.validate(
-            this.distInner[this.indexBeingEdited],
-            this.validations[this.indexBeingEdited]
-          );
-        this.emitUpdate();
+    modelValue: {
+      handler: function(newValue) {
+        this.validations = this.makeEmptyValidationsFor(newValue);
+        for (var i = 0; i < this.modelValue.length; i++)
+          if (this.indexBeingEdited == -1 || this.indexBeingEdited == i)
+            this.validate(this.modelValue[i], this.validations[i]);
+        this.$emit("input", this.distribution);
       },
       immediate: true,
       deep: true
