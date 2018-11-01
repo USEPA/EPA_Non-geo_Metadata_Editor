@@ -1,7 +1,7 @@
 <template>
   <q-toggle 
     v-model="modelValue"
-    :label="(modelValue ? 'Meets' : 'Does not meet') + ' the agency’s Information Quality Guidelines'"
+    :label="(modelValue ? 'Meets' : 'Does not meet') + ' your organization’s Information Quality Guidelines'"
   />
 </template>
 

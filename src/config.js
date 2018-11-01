@@ -401,5 +401,13 @@ export default {
       validators: [],
       availableOptions: mimeTypeOptions
     }
+  },
+  epa_grant: {
+    mandatory: false,
+    validators: [{ fn: global_validators.nonEmpty, args: {} }]
+  },
+  epa_contact: {
+    mandatory: false,
+    validators: [{ fn: global_validators.validEmail, args: {} }]
   }
 };

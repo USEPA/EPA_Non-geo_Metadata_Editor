@@ -14,6 +14,28 @@
         </q-card>
 -->
         <q-card  class="q-ma-sm">
+          <ElementHeader title="EPA Grant" 
+            :guidance="getGuidanceFor('epa_grant')"
+            :validations.sync="validations.epa_grant"
+            :mandatory="config['epa_grant']['mandatory']"
+          />
+          <q-card-main>
+            <TextInput defaultText="Please enter EPA grant no" v-model="doc.epa_grant" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="EPA Contact Email" 
+            :guidance="getGuidanceFor('epa_contact')"
+            :validations.sync="validations.epa_contact"
+            :mandatory="config['epa_contact']['mandatory']"
+          />
+          <q-card-main>
+            <TextInput defaultText="Please enter EPA contact's email" v-model="doc.epa_contact" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
           <ElementHeader title="Title" 
             :guidance="getGuidanceFor('title')"
             :validations.sync="validations.title"
@@ -58,35 +80,13 @@
         </q-card>
 
         <q-card  class="q-ma-sm">
-          <ElementHeader title="EPA Theme" 
+          <ElementHeader title="EPA Keywords" 
             :guidance="getGuidanceFor('tags_epa_theme')"
             :validations.sync="validations.tags_epa_theme"
             :mandatory="config['tags_epa_theme']['mandatory']"
           />
           <q-card-main>
             <TagCollector v-model="doc.tags_epa_theme" :availableTags.sync="config['tags_epa_theme']['availableTags']"/>
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="Last Update" 
-            :guidance="getGuidanceFor('modified')"
-            :validations.sync="validations.modified"
-            :mandatory="config['modified']['mandatory']"
-          />
-          <q-card-main>
-            <DateOrRangeInput v-model="doc.modified" />
-          </q-card-main>
-        </q-card>
-
-        <q-card  class="q-ma-sm">
-          <ElementHeader title="Update Frequency" 
-            :guidance="getGuidanceFor('accrualPeriodicity')"
-            :validations.sync="validations.accrualPeriodicity"
-            :mandatory="config['accrualPeriodicity']['mandatory']"
-          />
-          <q-card-main>
-            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
           </q-card-main>
         </q-card>
 
@@ -187,6 +187,28 @@
           />
           <q-card-main>
             <DateOrRangeInput v-model="doc.temporal" :range="true" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Last Update" 
+            :guidance="getGuidanceFor('modified')"
+            :validations.sync="validations.modified"
+            :mandatory="config['modified']['mandatory']"
+          />
+          <q-card-main>
+            <DateOrRangeInput v-model="doc.modified" />
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
+          <ElementHeader title="Update Frequency" 
+            :guidance="getGuidanceFor('accrualPeriodicity')"
+            :validations.sync="validations.accrualPeriodicity"
+            :mandatory="config['accrualPeriodicity']['mandatory']"
+          />
+          <q-card-main>
+            <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
           </q-card-main>
         </q-card>
 
@@ -363,6 +385,8 @@ export default {
         landingPage: "",
         references: "",
         distribution: []
+        epa_grant: "",
+        epa_contact: ""
       },
       validations: {
         title: "",
@@ -391,7 +415,9 @@ export default {
         describedByType: "",
         landingPage: "",
         references: "",
-        distribution: ""
+        distribution: "",
+        epa_grant: "",
+        epa_contact: ""
       },
       mdSpec: mdSpec,
       config: config,
@@ -563,6 +589,8 @@ export default {
         config.language.availableTags
       );
       this.doc.distribution = inDoc.distribution;
+      this.doc.epa_grant = inDoc.epa_grant;
+      this.doc.epa_contact = inDoc.epa_contact;
     }
   },
 
@@ -718,6 +746,18 @@ export default {
     "doc.distribution": {
       handler: function() {
         this.validateElement("distribution");
+      },
+      immediate: true
+    },
+    "doc.epa_grant": {
+      handler: function() {
+        this.validateElement("epa_grant");
+      },
+      immediate: true
+    },
+    "doc.epa_contact": {
+      handler: function() {
+        this.validateElement("epa_contact");
       },
       immediate: true
     }

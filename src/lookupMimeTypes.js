@@ -9,7 +9,7 @@ export default [
   },
   {
     value: "text/csv",
-    label: "Comma-Seperated Values (.csv)"
+    label: "Comma-Separated Values (.csv)"
   },
   {
     value: "text/html",
@@ -2475,7 +2475,7 @@ export default [
   },
   {
     value: "text/tab-separated-values",
-    label: "Tab Seperated Values (.tsv)"
+    label: "Tab Separated Values (.tsv)"
   },
   {
     value: "image/tiff",

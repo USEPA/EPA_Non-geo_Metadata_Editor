@@ -1,7 +1,7 @@
 <template>
   <div @click="show($event)">
 
-    <q-card-title style="background-color:#dddddd;padding: 0px">
+    <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
         <q-item>
           <q-item-tile :icon="getValiMandaVisualizer().icon" :style="getValiMandaVisualizer().style"/>
           <q-item-main :label="title"  style="font-size:1.4em"/>
