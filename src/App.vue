@@ -384,7 +384,7 @@ export default {
         describedByType: "",
         landingPage: "",
         references: "",
-        distribution: []
+        distribution: [],
         epa_grant: "",
         epa_contact: ""
       },
