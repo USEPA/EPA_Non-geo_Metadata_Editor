@@ -726,6 +726,10 @@ export default {
     "doc.describedBy": {
       handler: function() {
         this.validateElement("describedBy");
+
+        // Auto detect describedByType from file extension embedded in URL, if any
+        if (this.doc.describedBy)
+          this.doc.describedByType = config.url2mimeType(this.doc.describedBy);
       },
       immediate: true
     },

@@ -219,11 +219,11 @@ export default {
       else if (item.format == "API") item.format = "";
 
       // Auto detect mediaType from file extension embedded in URL, if any
-      if (item.url) {
-        var ext = item.url.split(".").pop();
-        var mime = config.extension2mimeType(ext);
-        item.mediaType = mime;
-      }
+      if (item.url) item.mediaType = config.url2mimeType(item.url);
+
+      // Auto detect describedByType from file extension embedded in URL, if any
+      if (item.describedBy)
+        item.describedByType = config.url2mimeType(item.describedBy);
 
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {

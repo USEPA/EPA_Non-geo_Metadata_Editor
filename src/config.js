@@ -135,7 +135,8 @@ export default {
   validationIsEmpty: validationIsEmpty,
   validation_config: validation_config,
 
-  extension2mimeType: function(ext) {
+  url2mimeType: function(url) {
+    var ext = url.split(".").pop();
     if (!ext) return "";
     var searchStr = "(." + ext + ")";
     var item = mimeTypeOptions.find(o => o.label.indexOf(searchStr) > -1);
