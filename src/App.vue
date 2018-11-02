@@ -549,29 +549,33 @@ export default {
     loadDocFrom: function(newDoc) {
       console.log("newDoc");
       console.log(newDoc);
-      var inDoc = JSON.parse(JSON.stringify(newDoc.dataset[0]));
-      this.doc.title = inDoc.title;
-      this.doc.description = inDoc.description;
-      this.doc.publisher = inDoc.publisher.name;
+      var inDoc = JSON.parse(JSON.stringify(newDoc.dataset || [{}]));
+      inDoc = inDoc[0];
+      this.doc.title = inDoc.title || "";
+      this.doc.description = inDoc.description || "";
+      if (!inDoc.publisher) inDoc.publisher = [];
+      this.doc.publisher = inDoc.publisher.name || "";
+      if (!inDoc.contactPoint) inDoc.contactPoint = {};
       this.doc.contactPoint = {
-        fn: inDoc.contactPoint.fn,
-        hasEmail: inDoc.contactPoint.hasEmail.replace("mailto:", "")
+        fn: inDoc.contactPoint.fn || "",
+        hasEmail: (inDoc.contactPoint.hasEmail || "").replace("mailto:", "")
       };
-      this.doc.rights = inDoc.rights;
-      this.doc.license = inDoc.license;
-      this.doc.temporal = inDoc.temporal;
-      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
-      this.doc.conformsTo = inDoc.conformsTo;
-      this.doc.describedBy = inDoc.describedBy;
-      this.doc.landingPage = inDoc.landingPage;
-      this.doc.references = inDoc.references.join(",");
-      this.doc.accessLevel = inDoc.accessLevel;
-      this.doc.identifier = inDoc.identifier;
-      this.doc.dataQuality = inDoc.dataQuality;
-      this.doc.issued = inDoc.issued;
-      this.doc.modified = inDoc.modified;
-      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity;
-      this.doc.describedByType = inDoc.describedByType;
+      this.doc.rights = inDoc.rights || "";
+      this.doc.license = inDoc.license || "";
+      this.doc.temporal = inDoc.temporal || "";
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity || "";
+      this.doc.conformsTo = inDoc.conformsTo || "";
+      this.doc.describedBy = inDoc.describedBy || "";
+      this.doc.landingPage = inDoc.landingPage || "";
+      this.doc.references = (inDoc.references || []).join(",");
+      this.doc.accessLevel = inDoc.accessLevel || "";
+      this.doc.identifier = inDoc.identifier || "";
+      this.doc.dataQuality = inDoc.dataQuality || false;
+      this.doc.issued = inDoc.issued || "";
+      this.doc.modified = inDoc.modified || "";
+      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity || "";
+      this.doc.describedByType = inDoc.describedByType || "";
+      if (!inDoc.keyword) inDoc.keyword = [];
       this.doc.tags_place = this.extractTags(
         inDoc.keyword,
         config.tags_place.availableTags
@@ -585,12 +589,12 @@ export default {
         config.tags_epa_theme.availableTags
       );
       this.doc.language = this.extractTags(
-        inDoc.language,
+        inDoc.language || [],
         config.language.availableTags
       );
-      this.doc.distribution = inDoc.distribution;
-      this.doc.epa_grant = inDoc.epa_grant;
-      this.doc.epa_contact = inDoc.epa_contact;
+      this.doc.distribution = inDoc.distribution || [];
+      this.doc.epa_grant = inDoc.epa_grant || "";
+      this.doc.epa_contact = inDoc.epa_contact || "";
     }
   },
 

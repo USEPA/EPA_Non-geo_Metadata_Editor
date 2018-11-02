@@ -127,7 +127,7 @@ export default {
       var item = this.makeEmptyDistribution();
       // Copy properties that are mapped directly
       Object.keys(item).map(prop => {
-        if (fromItem[prop]) item[prop] = fromItem[prop];
+        if (fromItem[prop]) item[prop] = fromItem[prop] || "";
       });
       // Handle special cases
       if (fromItem["downloadURL"]) {
