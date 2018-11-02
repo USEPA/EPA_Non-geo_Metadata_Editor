@@ -48,19 +48,20 @@
 
             </q-layout-header>
 
-            <q-page-container>
+            <q-page-container id="xxx">
                 <q-page>
-                    <pre v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
+                  <pre v-if="loadError"> {{loadErrorMessage}} </pre>
+                  <pre v-else v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
                 </q-page>
             </q-page-container>
 
             <q-layout-footer style="background-color:white">
                 <q-item>
                     <q-item-main label="" style="width:60%">
-                      <input type='file' accept='application/json' @change="openFile"/>
+                      <input type='file' accept='application/json' @input="openFile" @click="loadError=false; $event.target.value=null"/>
                     </q-item-main>
                     <q-item-side right>
-                        <q-btn icon="edit" color="primary" @click="loadDoc"/>
+                        <q-btn icon="edit" color="primary" @click="loadDoc" :disable="loadError"/>
                     </q-item-side>
                 </q-item>
             </q-layout-footer>
@@ -127,13 +128,36 @@ export default {
 
     openFile: function(e) {
       var reader = new FileReader();
-      var that = this;
 
-      reader.onload = function(e) {
-        that.docToLoad = JSON.parse(reader.result);
+      reader.onloaderror = function(err) {
+        console.log("ERROR");
+        console.log(err);
       };
+
+      reader.onloadend = (function(that) {
+        return function(ev) {
+          that.parseFile(ev.target.result);
+        };
+      })(this);
+
       var file = e.target.files[0];
       reader.readAsText(file);
+    },
+
+    parseFile: function(s) {
+      var parsedObj;
+      try {
+        parsedObj = JSON.parse(s);
+        this.loadError = false;
+        this.loadErrorMessage = "";
+      } catch (ex) {
+        parsedObj = {};
+        this.loadError = true;
+        this.loadErrorMessage =
+          "Encountered '" + ex.name + "' while reading file.";
+      }
+      this.docToLoad = parsedObj;
+      document.getElementById("xxx").scrollTop = 0;
     },
 
     loadDoc: function(e) {
@@ -206,7 +230,9 @@ export default {
       saveModalOpen: false,
       loadModalOpen: false,
       filenameInternal: "",
-      docToLoad: Object
+      docToLoad: Object,
+      loadError: false,
+      loadErrorMessage: ""
     };
   }
 };
