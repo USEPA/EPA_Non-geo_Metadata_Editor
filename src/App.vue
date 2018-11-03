@@ -568,13 +568,13 @@ export default {
       this.doc.describedBy = inDoc.describedBy || "";
       this.doc.landingPage = inDoc.landingPage || "";
       this.doc.references = (inDoc.references || []).join(",");
-      this.doc.accessLevel = inDoc.accessLevel || "";
+      this.doc.accessLevel = config.checkAndFix(inDoc, "accessLevel", "public");
       this.doc.identifier = inDoc.identifier || "";
       this.doc.dataQuality = inDoc.dataQuality || false;
       this.doc.issued = inDoc.issued || "";
       this.doc.modified = inDoc.modified || "";
       this.doc.accrualPeriodicity = inDoc.accrualPeriodicity || "";
-      this.doc.describedByType = inDoc.describedByType || "";
+      this.doc.describedByType = config.checkAndFix(inDoc, "describedByType");
       if (!inDoc.keyword) inDoc.keyword = [];
       this.doc.tags_place = this.extractTags(
         inDoc.keyword,

@@ -130,7 +130,7 @@ var validation_config = {
   }
 };
 
-export default {
+var config = {
   global_validators: global_validators,
   validationIsEmpty: validationIsEmpty,
   validation_config: validation_config,
@@ -173,6 +173,14 @@ export default {
     if (forIcon) style += ";font-size:2em;width:2em;";
     //;text-shadow: 3px 3px 16px #666666
     return { icon: icon, style: style };
+  },
+
+  checkAndFix: function(doc, prop, defaultValue = "") {
+    if (config[prop].availableOptions) {
+      var item = config[prop].availableOptions.find(i => i.value == doc[prop]);
+      if (!item) return defaultValue;
+    }
+    return doc[prop] || defaultValue;
   },
 
   title: {
@@ -412,3 +420,5 @@ export default {
     validators: [{ fn: global_validators.validEmail, args: {} }]
   }
 };
+
+export default config;

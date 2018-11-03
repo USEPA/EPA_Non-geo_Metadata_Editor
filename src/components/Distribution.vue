@@ -138,6 +138,9 @@ export default {
         item.urlType = "access";
       }
 
+      // Check and fix if not in lookup
+      item.describedByType = config.checkAndFix(item, "describedByType");
+
       item.interned = true;
 
       return item;
