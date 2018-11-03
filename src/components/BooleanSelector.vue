@@ -10,19 +10,14 @@ export default {
   name: "BooleanSelector",
 
   props: {
-    value: Boolean
-  },
-
-  methods: {
-    emitUpdate: function(e) {
-      this.$emit("update:modelValue", e);
-    }
+    value: { type: Boolean, default: false }
   },
 
   watch: {
     modelValue(newValue) {
       this.$emit("input", newValue);
     },
+
     value(newValue) {
       this.modelValue = newValue;
     }
@@ -30,7 +25,7 @@ export default {
 
   data() {
     return {
-      modelValue: false
+      modelValue: this.value
     };
   }
 };
