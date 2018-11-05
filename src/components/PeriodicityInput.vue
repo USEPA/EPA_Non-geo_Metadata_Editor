@@ -11,7 +11,7 @@
 </template>
 
 <script>
-var noop = function() {};
+import config from "../config.js";
 
 export default {
   name: "PeriodicityInput",
@@ -49,7 +49,7 @@ export default {
         return result;
       },
       set: function(newValue) {
-        noop(newValue);
+        config.noop(newValue);
         //TODO
       }
     }

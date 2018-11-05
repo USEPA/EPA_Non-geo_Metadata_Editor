@@ -331,11 +331,8 @@ import OptionSelector from "./components/OptionSelector.vue";
 import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
 import DocumentActions from "./components/DocumentActions.vue";
-import { uuid } from "vue-uuid";
 import merge from "deepmerge";
 import clean from "obj-clean";
-
-var noop = function() {};
 
 export default {
   name: "app",
@@ -422,7 +419,6 @@ export default {
       holder: {},
       mdSpec: mdSpec,
       config: config,
-      uuid: uuid,
       isEpaUser: false
     };
   },
@@ -499,7 +495,7 @@ export default {
 
     findElement(doc, elementPath) {
       var tempRoot = doc;
-      noop(tempRoot);
+      config.noop(tempRoot);
       try {
         return eval("tempRoot." + elementPath);
       } catch (e) {
@@ -513,7 +509,7 @@ export default {
       var leaf = elementPath.substring(i + 1);
       elementPath = elementPath.substring(0, i);
       var tempRoot = doc;
-      noop(tempRoot);
+      config.noop(tempRoot);
       var element = eval(elementPath);
       element[leaf] = newValue;
     },

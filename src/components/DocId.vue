@@ -10,8 +10,6 @@
 <script>
 import { uuid } from "vue-uuid";
 
-var noop = function() {};
-
 export default {
   name: "DoiInput",
   props: {
