@@ -175,12 +175,28 @@ var config = {
     return { icon: icon, style: style };
   },
 
-  checkAndFix: function(doc, prop, defaultValue = "") {
-    if (config[prop].availableOptions) {
-      var item = config[prop].availableOptions.find(i => i.value == doc[prop]);
-      if (!item) return defaultValue;
+  // Extract property from document and check if value is acceptable
+  // Fallback to a default value, if not.
+  extract: function(
+    doc,
+    prop,
+    { defaultValue = "", extract = true, conf = config, lookup = true } = {}
+  ) {
+    // Store value of property sought
+    var val = doc[prop];
+    // Remove the property from the document (unless overriden: extract = false)
+    if (extract) delete doc[prop];
+    // Match against lookup list if applicable
+    if (lookup && conf[prop] && conf[prop].availableOptions) {
+      var item = conf[prop].availableOptions.find(i => i.value == val);
+      // Fallback to default value if no match
+      if (!item) val = defaultValue;
     }
-    return doc[prop] || defaultValue;
+    return val || defaultValue;
+  },
+
+  clone: function(o) {
+    return JSON.parse(JSON.stringify(o));
   },
 
   title: {

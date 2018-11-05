@@ -98,7 +98,9 @@ export default {
   props: {
     value: {
       type: Array,
-      default: []
+      default: function() {
+        return [];
+      }
     }
   },
 
@@ -139,7 +141,11 @@ export default {
       }
 
       // Check and fix if not in lookup
-      item.describedByType = config.checkAndFix(item, "describedByType");
+      item.describedByType = config.extract(item, "describedByType", {
+        defaultValue: "",
+        extract: false,
+        lookup: false
+      });
 
       item.interned = true;
 
@@ -217,7 +223,6 @@ export default {
     },
 
     validate: function(item, validations) {
-      console.log("validate");
       if (item.formatType == "API") item.format = "API";
       else if (item.format == "API") item.format = "";
 

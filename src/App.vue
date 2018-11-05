@@ -332,6 +332,8 @@ import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
 import DocumentActions from "./components/DocumentActions.vue";
 import { uuid } from "vue-uuid";
+import merge from "deepmerge";
+import clean from "obj-clean";
 
 var noop = function() {};
 
@@ -361,7 +363,6 @@ export default {
         tags_epa_theme: [],
         tags_place: [],
         tags_iso: [],
-        epa_org: [],
         modified: "",
         publisher: "",
         contactPoint: {
@@ -394,7 +395,6 @@ export default {
         tags_epa_theme: "",
         tags_place: "",
         tags_iso: "",
-        epa_org: "",
         modified: "",
         publisher: "",
         contactPoint: {
@@ -419,6 +419,7 @@ export default {
         epa_grant: "",
         epa_contact: ""
       },
+      holder: {},
       mdSpec: mdSpec,
       config: config,
       uuid: uuid,
@@ -524,57 +525,60 @@ export default {
       return Object.values(keywords);
     },
 
+    // Destructively extract and return tags found in tagOptions
     extractTags: function(tags, tagOptions) {
-      return tags.filter(tag =>
+      // Find matching ones to be returned
+      var matchedTags = tags.filter(tag =>
         tagOptions.find(
           option => option.value.toLowerCase() == tag.toLowerCase()
         )
       );
-    },
-
-    pruneDoc: function(doc) {
-      for (var prop in doc)
-        if (doc.hasOwnProperty(prop)) {
-          if (typeof doc[prop] == "object" && !Array.isArray(doc[prop]))
-            this.pruneDoc(doc[prop]);
-          if (
-            !doc[prop] ||
-            Object.keys(doc[prop]).length == 0 ||
-            (Array.isArray(doc[prop]) && doc[prop].length == 0)
-          )
-            delete doc[prop];
-        }
+      // Find unmatched ones
+      var unmatchedTags = tags.filter(tag => matchedTags.indexOf(tag) == -1);
+      // In-place modify tags array to consist only of unmatched tags
+      for (let i = 0; i < unmatchedTags.length; i++) tags[i] = unmatchedTags[i];
+      tags.length = unmatchedTags.length;
+      // Return matched tags
+      return matchedTags;
     },
 
     loadDocFrom: function(newDoc) {
-      console.log("newDoc");
-      console.log(newDoc);
-      var inDoc = JSON.parse(JSON.stringify(newDoc.dataset || [{}]));
+      // Deep clone the document read as we will apply destructive ops
+      this.holder = config.clone(newDoc || {});
+      var inDoc = this.holder.dataset || [];
+      if (inDoc.length == 0) inDoc.push({});
       inDoc = inDoc[0];
-      this.doc.title = inDoc.title || "";
-      this.doc.description = inDoc.description || "";
+      this.doc.title = config.extract(inDoc, "title");
+      this.doc.description = config.extract(inDoc, "description");
       if (!inDoc.publisher) inDoc.publisher = [];
-      this.doc.publisher = inDoc.publisher.name || "";
+      this.doc.publisher = config.extract(inDoc.publisher, "name");
       if (!inDoc.contactPoint) inDoc.contactPoint = {};
       this.doc.contactPoint = {
-        fn: inDoc.contactPoint.fn || "",
-        hasEmail: (inDoc.contactPoint.hasEmail || "").replace("mailto:", "")
+        fn: config.extract(inDoc.contactPoint, "fn"),
+        hasEmail: config
+          .extract(inDoc.contactPoint, "hasEmail")
+          .replace("mailto:", "")
       };
-      this.doc.rights = inDoc.rights || "";
-      this.doc.license = inDoc.license || "";
-      this.doc.temporal = inDoc.temporal || "";
-      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity || "";
-      this.doc.conformsTo = inDoc.conformsTo || "";
-      this.doc.describedBy = inDoc.describedBy || "";
-      this.doc.landingPage = inDoc.landingPage || "";
-      this.doc.references = (inDoc.references || []).join(",");
-      this.doc.accessLevel = config.checkAndFix(inDoc, "accessLevel", "public");
-      this.doc.identifier = inDoc.identifier || "";
-      this.doc.dataQuality = inDoc.dataQuality || false;
-      this.doc.issued = inDoc.issued || "";
-      this.doc.modified = inDoc.modified || "";
-      this.doc.accrualPeriodicity = inDoc.accrualPeriodicity || "";
-      this.doc.describedByType = config.checkAndFix(inDoc, "describedByType");
+      this.doc.rights = config.extract(inDoc, "rights", { lookup: false });
+      this.doc.license = config.extract(inDoc, "license");
+      this.doc.temporal = config.extract(inDoc, "temporal");
+      this.doc.accrualPeriodicity = config.extract(inDoc, "accrualPeriodicity");
+      this.doc.conformsTo = config.extract(inDoc, "conformsTo");
+      this.doc.describedBy = config.extract(inDoc, "describedBy");
+      this.doc.landingPage = config.extract(inDoc, "landingPage");
+      this.doc.references = config
+        .extract(inDoc, "references", { defaultValue: [] })
+        .join(",");
+      this.doc.accessLevel = config.extract(inDoc, "accessLevel", {
+        defaultValue: "public"
+      });
+      this.doc.identifier = config.extract(inDoc, "identifier");
+      this.doc.dataQuality = config.extract(inDoc, "dataQuality", {
+        defaultValue: false
+      });
+      this.doc.issued = config.extract(inDoc, "issued");
+      this.doc.modified = config.extract(inDoc, "modified");
+      this.doc.describedByType = config.extract(inDoc, "describedByType");
       if (!inDoc.keyword) inDoc.keyword = [];
       this.doc.tags_place = this.extractTags(
         inDoc.keyword,
@@ -588,13 +592,17 @@ export default {
         inDoc.keyword,
         config.tags_epa_theme.availableTags
       );
+
+      if (!inDoc.language) inDoc.language = [];
       this.doc.language = this.extractTags(
-        inDoc.language || [],
+        config.extract(inDoc, "language", { defaultValue: [] }),
         config.language.availableTags
       );
-      this.doc.distribution = inDoc.distribution || [];
-      this.doc.epa_grant = inDoc.epa_grant || "";
-      this.doc.epa_contact = inDoc.epa_contact || "";
+      this.doc.distribution = config.extract(inDoc, "distribution", {
+        defaultValue: []
+      });
+      this.doc.epa_grant = config.extract(inDoc, "epa_grant");
+      this.doc.epa_contact = config.extract(inDoc, "epa_contact");
     }
   },
 
@@ -608,12 +616,6 @@ export default {
     "doc.description": {
       handler: function() {
         this.validateElement("description");
-      },
-      immediate: true
-    },
-    "doc.epa_org": {
-      handler: function() {
-        this.validateElement("epa_org");
       },
       immediate: true
     },
@@ -774,7 +776,7 @@ export default {
     materializeDoc: {
       get: function() {
         // Deep copy the working document
-        var outDoc = JSON.parse(JSON.stringify(this.doc));
+        var outDoc = config.clone(this.doc);
 
         if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
           var keyword = this.mergeArrays(
@@ -794,11 +796,14 @@ export default {
         });
 
         // Remove empty elements
-        this.pruneDoc(outDoc);
+        outDoc = clean(outDoc, { preserveArrays: false });
+
         // Fix up hasEmail
+        if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
         if (outDoc.contactPoint && outDoc.contactPoint.hasEmail)
           outDoc.contactPoint.hasEmail =
             "mailto:" + outDoc.contactPoint.hasEmail;
+
         // Fix up modified using accrualPeriodicity if needed
         if (
           !outDoc.modified &&
@@ -813,25 +818,36 @@ export default {
             name: this.doc.publisher
           };
 
-        if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
-
         if (outDoc.references) {
           outDoc.references = outDoc.references.split(",").map(u => u.trim());
         }
 
-        outDoc = {
+        // Need to merge the main part of the object separate from the array (dataset) part
+        // due to how deepmerge works
+        var holderMain = config.clone(this.holder);
+        if (!holderMain.dataset || holderMain.dataset.length == 0)
+          holderMain.dataset = [{}];
+        var holderDataset = holderMain.dataset.shift();
+
+        var docMain = {
           "@context":
             "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
           "@id": "https://replace.me",
           "@type": "dcat:Catalog",
           conformsTo: "https://project-open-data.cio.gov/v1.1/schema",
           describedBy:
-            "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
-          dataset: [outDoc]
+            "https://project-open-data.cio.gov/v1.1/schema/catalog.json"
         };
+        holderMain = merge(docMain, holderMain);
+
+        outDoc = merge(holderDataset, outDoc, {
+          arrayMerge: merge.combineMerge
+        });
+
+        holderMain.dataset.unshift(outDoc);
 
         // Return prettified document
-        return outDoc;
+        return holderMain;
       }
     }
   }
