@@ -5,8 +5,6 @@ import placeTags from "./lookupPlaceTags.js";
 import languages from "./lookupLanguages.js";
 import rights from "./lookupRights.js";
 
-var noop = function() {};
-
 var global_validators = {
   nonTrivialText: function(txt, options) {
     if (txt.trim().length === 0) return "Empty.";
@@ -20,13 +18,13 @@ var global_validators = {
   },
 
   mustSelectAtLeastOneTag: function(selectedTags, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     if (selectedTags.length >= 1) return "";
     else return "Must select at least one.";
   },
 
   validDate: function(txt, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     txt = txt.trim();
     if (txt == "") return "Empty.";
     // Is it a valid date
@@ -35,7 +33,7 @@ var global_validators = {
   },
 
   validRange: function(txt, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     txt = txt.trim();
     if (txt == "" || txt == "/") return "Empty.";
     // Is it a valid date range
@@ -60,7 +58,7 @@ var global_validators = {
   },
 
   validDateOrRepetition: function(txt, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     // Is it a repetition
     if (txt.match(/^R\/PT?\d+[DHMWY]$/)) return "";
     // Is it a valid date
@@ -69,16 +67,17 @@ var global_validators = {
   },
 
   validEmail: function(email, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     if (email.trim() == "") return "Empty.";
     // Email validation is tricky business... and in the eye of the beprovider...
+    // eslint-disable-next-line
     var re = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
     if (re.test(String(email).toLowerCase())) return "";
     return "Invalid email address.";
   },
 
   validUrl: function(url, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     if (url.trim() == "") return "Empty.";
     var urlRegexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
 
@@ -87,13 +86,13 @@ var global_validators = {
   },
 
   nonEmpty: function(txt, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     if (txt.trim() > "") return "";
     return "Empty.";
   },
 
   crossValidateModifiedAndAccrualPeriodicity: function(txt, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     if (options.doc.modified || options.doc.accrualPeriodicity) return "";
     if (!options.doc.modified || !options.doc.accrualPeriodicity)
       return "Empty.";
@@ -101,7 +100,7 @@ var global_validators = {
   },
 
   passThruValidation: function(obj, options) {
-    noop(options); // So that linter does not complain
+    config.noop(options); // So that linter does not complain
     var val;
     if (obj && Array.isArray(obj)) {
       val = obj.find(item => item.validations);
@@ -134,6 +133,8 @@ var config = {
   global_validators: global_validators,
   validationIsEmpty: validationIsEmpty,
   validation_config: validation_config,
+
+  noop: function() {},
 
   url2mimeType: function(url) {
     var ext = url.split(".").pop();
@@ -208,6 +209,7 @@ var config = {
       }
     ]
   },
+
   description: {
     mandatory: true,
     validators: [
@@ -217,21 +219,25 @@ var config = {
       }
     ]
   },
+
   tags_iso: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: isoTags
   },
+
   tags_epa_theme: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: epaThemeTags
   },
+
   tags_place: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: placeTags
   },
+
   modified: {
     mandatory: true,
     validators: [
@@ -241,6 +247,7 @@ var config = {
       }
     ]
   },
+
   publisher: {
     mandatory: true,
     validators: [
@@ -250,6 +257,7 @@ var config = {
       }
     ]
   },
+
   contactPoint: {
     fn: {
       mandatory: true,
@@ -260,15 +268,18 @@ var config = {
         }
       ]
     },
+
     hasEmail: {
       mandatory: true,
       validators: [{ fn: global_validators.validEmail, args: {} }]
     }
   },
+
   identifier: {
     mandatory: true,
     validators: [{ fn: global_validators.nonEmpty, args: {} }]
   },
+
   accessLevel: {
     mandatory: true,
     validators: [{ fn: global_validators.nonEmpty, args: {} }],
@@ -278,6 +289,7 @@ var config = {
       { value: "non-public", label: "non-public" }
     ]
   },
+
   rights: {
     mandatory: false,
     validators: [
@@ -288,27 +300,33 @@ var config = {
     ],
     availableOptions: rights
   },
+
   license: {
     mandatory: true,
     validators: [{ fn: global_validators.validUrl, args: {} }]
   },
+
   temporal: {
     mandatory: true,
     validators: [{ fn: global_validators.validRange, args: {} }]
   },
+
   issued: {
     mandatory: false,
     validators: [{ fn: global_validators.validDate, args: {} }]
   },
+
   language: {
     mandatory: false,
     validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
     availableTags: languages
   },
+
   dataQuality: {
     mandatory: false,
     validators: []
   },
+
   accrualPeriodicity: {
     mandatory: false,
     validators: [
@@ -318,6 +336,7 @@ var config = {
       }
     ]
   },
+
   conformsTo: {
     mandatory: false,
     validators: [
@@ -327,6 +346,7 @@ var config = {
       }
     ]
   },
+
   describedBy: {
     mandatory: false,
     validators: [
@@ -336,11 +356,13 @@ var config = {
       }
     ]
   },
+
   describedByType: {
     mandatory: false,
     validators: [],
     availableOptions: mimeTypeOptions
   },
+
   landingPage: {
     mandatory: false,
     validators: [
@@ -350,6 +372,7 @@ var config = {
       }
     ]
   },
+
   references: {
     mandatory: false,
     validators: [
@@ -359,6 +382,7 @@ var config = {
       }
     ]
   },
+
   distribution: {
     mandatory: false,
     validators: [
@@ -367,6 +391,7 @@ var config = {
         args: {}
       }
     ],
+
     title: {
       mandatory: false,
       validators: [
@@ -376,10 +401,12 @@ var config = {
         }
       ]
     },
+
     description: {
       mandatory: false,
       validators: []
     },
+
     url: {
       mandatory: true,
       validators: [
@@ -389,11 +416,13 @@ var config = {
         }
       ]
     },
+
     mediaType: {
       mandatory: true,
       validators: [{ fn: global_validators.nonEmpty, args: {} }],
       availableOptions: mimeTypeOptions
     },
+
     format: {
       mandatory: false,
       validators: [],
@@ -403,6 +432,7 @@ var config = {
         { value: "Other", label: "Other" }
       ]
     },
+
     conformsTo: {
       mandatory: false,
       validators: [
@@ -412,6 +442,7 @@ var config = {
         }
       ]
     },
+
     describedBy: {
       mandatory: false,
       validators: [
@@ -421,16 +452,19 @@ var config = {
         }
       ]
     },
+
     describedByType: {
       mandatory: false,
       validators: [],
       availableOptions: mimeTypeOptions
     }
   },
+
   epa_grant: {
     mandatory: false,
     validators: [{ fn: global_validators.nonEmpty, args: {} }]
   },
+
   epa_contact: {
     mandatory: false,
     validators: [{ fn: global_validators.validEmail, args: {} }]

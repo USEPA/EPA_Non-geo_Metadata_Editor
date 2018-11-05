@@ -167,7 +167,7 @@ export default {
     },
 
     makeEmptyValidationsFor: function(dist) {
-      return dist.map(item => this.makeEmptyValidation());
+      return dist.map(() => this.makeEmptyValidation());
     },
 
     addAnother: function() {

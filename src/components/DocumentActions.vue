@@ -48,7 +48,7 @@
 
             </q-layout-header>
 
-            <q-page-container id="xxx">
+            <q-page-container>
                 <q-page>
                   <pre v-if="loadError"> {{loadErrorMessage}} </pre>
                   <pre v-else v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
@@ -108,6 +108,7 @@
 <script>
 import TextInput from "../components/TextInput.vue";
 import saveAs from "file-saver";
+import config from "../config";
 
 export default {
   name: "DocumentActions",
@@ -130,8 +131,8 @@ export default {
       var reader = new FileReader();
 
       reader.onloaderror = function(err) {
-        console.log("ERROR");
-        console.log(err);
+        config.noop(err);
+        // TODO: implement handling of errors while browser attempts to read the file
       };
 
       reader.onloadend = (function(that) {
@@ -157,11 +158,10 @@ export default {
           "Encountered '" + ex.name + "' while reading file.";
       }
       this.docToLoad = parsedObj;
-      document.getElementById("xxx").scrollTop = 0;
     },
 
     loadDoc: function(e) {
-      console.log("Emitting event");
+      config.noop(e);
       this.$emit("loadMd", this.docToLoad);
       this.closeLoadModal();
     },
@@ -193,9 +193,7 @@ export default {
         "application/json;charset=" + window.document.charset
       );
 
-      this.$q.notify(
-        "Metadata document '" + this.filenameInternal + "' downloaded"
-      );
+      this.$q.notify("Metadata document '" + this.filename + "' downloaded");
     },
 
     SaveAsFile: function(t, f, m) {
