@@ -34,7 +34,7 @@ export default {
 
   data() {
     return {
-      modelValue: this.availableOptions[0].value
+      modelValue: this.value
     };
   }
 };
