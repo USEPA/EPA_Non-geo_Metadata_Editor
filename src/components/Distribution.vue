@@ -141,10 +141,17 @@ export default {
       }
 
       // Check and fix if not in lookup
+      item.mediaType = config.extract(item, "mediaType", {
+        defaultValue: "",
+        extract: false,
+        conf: config.distribution
+      });
+
+      // Check and fix if not in lookup
       item.describedByType = config.extract(item, "describedByType", {
         defaultValue: "",
         extract: false,
-        lookup: false
+        conf: config.distribution
       });
 
       item.interned = true;
@@ -230,8 +237,10 @@ export default {
       if (item.url) item.mediaType = config.url2mimeType(item.url);
 
       // Auto detect describedByType from file extension embedded in URL, if any
-      if (item.describedBy)
-        item.describedByType = config.url2mimeType(item.describedBy);
+      if (item.describedBy) {
+        let mime = config.url2mimeType(item.describedBy);
+        if (mime) item.describedByType = mime;
+      }
 
       for (var key in item) {
         if (item.hasOwnProperty(key) && key != "urlType") {
