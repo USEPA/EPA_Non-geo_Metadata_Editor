@@ -91,6 +91,17 @@
         </q-card>
 
         <q-card  class="q-ma-sm">
+          <ElementHeader title="General Keywords" 
+            :guidance="getGuidanceFor('tags_general')"
+            :validations.sync="validations.tags_general"
+            :mandatory="config['tags_general']['mandatory']"
+          />
+          <q-card-main>
+            <UserTags v-model="doc.tags_general"/>
+          </q-card-main>
+        </q-card>
+
+        <q-card  class="q-ma-sm">
           <ElementHeader title="Publishing Organization" 
             :guidance="getGuidanceFor('publisher')"
             :validations.sync="validations.publisher"
@@ -332,6 +343,7 @@ import OptionSelector from "./components/OptionSelector.vue";
 import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
 import DocumentActions from "./components/DocumentActions.vue";
+import UserTags from "./components/UserTags.vue";
 import merge from "deepmerge";
 import clean from "obj-clean";
 
@@ -367,7 +379,8 @@ export default {
     OptionSelector,
     BooleanSelector,
     Distribution,
-    DocumentActions
+    DocumentActions,
+    UserTags
 
     //, ORCID
   },
@@ -379,6 +392,7 @@ export default {
         tags_epa_theme: [],
         tags_place: [],
         tags_iso: [],
+        tags_general: [],
         modified: "",
         publisher: "",
         contactPoint: {
@@ -411,6 +425,7 @@ export default {
         tags_epa_theme: "",
         tags_place: "",
         tags_iso: "",
+        tags_general: "",
         modified: "",
         publisher: "",
         contactPoint: {
@@ -595,6 +610,8 @@ export default {
       this.doc.modified = config.extract(inDoc, "modified");
       this.doc.describedByType = config.extract(inDoc, "describedByType");
       if (!inDoc.keyword) inDoc.keyword = [];
+
+      // Extract tags into applicable categories
       this.doc.tags_place = this.extractTags(
         inDoc.keyword,
         config.tags_place.availableTags
@@ -607,6 +624,9 @@ export default {
         inDoc.keyword,
         config.tags_epa_theme.availableTags
       );
+      // Remaning tags are moved to general category
+      this.doc.tags_general = config.clone(inDoc.keyword);
+      inDoc.keyword.length = 0;
 
       if (!inDoc.language) inDoc.language = [];
       this.doc.language = this.extractTags(
@@ -649,6 +669,12 @@ export default {
     "doc.tags_epa_theme": {
       handler: function() {
         this.validateElement("tags_epa_theme");
+      },
+      immediate: true
+    },
+    "doc.tags_general": {
+      handler: function() {
+        this.validateElement("tags_general");
       },
       immediate: true
     },
@@ -797,12 +823,14 @@ export default {
           var keyword = this.mergeArrays(
             outDoc.tags_epa_theme,
             outDoc.tags_place,
-            outDoc.tags_iso
+            outDoc.tags_iso,
+            outDoc.tags_general
           );
           if (keyword.length) outDoc.keyword = keyword;
           delete outDoc.tags_epa_theme;
           delete outDoc.tags_place;
           delete outDoc.tags_iso;
+          delete outDoc.tags_general;
         }
 
         outDoc.distribution.map(item => {

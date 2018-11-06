@@ -17,10 +17,10 @@ var global_validators = {
     else return "You need to provide a non-trivial value.";
   },
 
-  mustSelectAtLeastOneTag: function(selectedTags, options) {
-    config.noop(options); // So that linter does not complain
-    if (selectedTags.length >= 1) return "";
-    else return "Must select at least one.";
+  mustSelectSomeTags: function(selectedTags, { minTags = 1 } = {}) {
+    if (selectedTags.length == 0) return "Empty.";
+    if (selectedTags.length >= minTags) return "";
+    else return "Must select at least " + minTags + " keywords.";
   },
 
   validDate: function(txt, options) {
@@ -222,20 +222,27 @@ var config = {
 
   tags_iso: {
     mandatory: true,
-    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
+    validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
     availableTags: isoTags
   },
 
   tags_epa_theme: {
     mandatory: true,
-    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
+    validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
     availableTags: epaThemeTags
   },
 
   tags_place: {
     mandatory: true,
-    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
+    validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
     availableTags: placeTags
+  },
+
+  tags_general: {
+    mandatory: true,
+    validators: [
+      { fn: global_validators.mustSelectSomeTags, args: { minTags: 3 } }
+    ]
   },
 
   modified: {
@@ -318,7 +325,7 @@ var config = {
 
   language: {
     mandatory: false,
-    validators: [{ fn: global_validators.mustSelectAtLeastOneTag, args: {} }],
+    validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
     availableTags: languages
   },
 
