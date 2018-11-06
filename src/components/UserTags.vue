@@ -2,6 +2,7 @@
   <q-chips-input
     v-model="modelValue"
     placeholder="Please enter keywords that don't belong in other categories"
+    add-icon="fas fa-plus"
   />
 </template>
 
