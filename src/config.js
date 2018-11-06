@@ -85,9 +85,9 @@ var global_validators = {
     return "Invalid URL.";
   },
 
-  nonEmpty: function(txt, options) {
-    config.noop(options); // So that linter does not complain
-    if (txt.trim() > "") return "";
+  nonEmpty: function(inp, { typ = String } = {}) {
+    if (typ == String && inp.trim() > "") return "";
+    if (typ == Boolean && inp != null) return "";
     return "Empty.";
   },
 
@@ -324,7 +324,7 @@ var config = {
 
   dataQuality: {
     mandatory: false,
-    validators: []
+    validators: [{ fn: global_validators.nonEmpty, args: { typ: Boolean } }]
   },
 
   accrualPeriodicity: {

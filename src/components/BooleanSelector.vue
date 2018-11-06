@@ -1,7 +1,14 @@
 <template>
-  <q-toggle 
+  <q-btn-toggle
     v-model="modelValue"
-    :label="(modelValue ? 'Meets' : 'Does not meet') + ' your organization’s Information Quality Guidelines'"
+    toggle-color="primary"
+    push
+    glossy
+    :options="[
+      {label: 'Skip', value: null},
+      {label: 'No', value: false},
+      {label: 'Yes', value: true}
+    ]"
   />
 </template>
 
@@ -10,7 +17,7 @@ export default {
   name: "BooleanSelector",
 
   props: {
-    value: { type: Boolean, default: false }
+    value: { type: Boolean, default: null }
   },
 
   watch: {

@@ -241,6 +241,7 @@
             :mandatory="config['dataQuality']['mandatory']"
           />
           <q-card-main>
+            Does the dataset meet your organization’s Information Quality Guidelines? &nbsp;
             <BooleanSelector v-model="doc.dataQuality" />
           </q-card-main>
         </q-card>
@@ -394,7 +395,7 @@ export default {
         issued: "",
         accrualPeriodicity: "",
         language: [],
-        dataQuality: false,
+        dataQuality: null,
         conformsTo: "",
         describedBy: "",
         describedByType: "",
