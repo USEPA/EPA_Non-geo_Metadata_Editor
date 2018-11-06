@@ -193,7 +193,9 @@ export default {
         "application/json;charset=" + window.document.charset
       );
 
-      this.$q.notify("Metadata document '" + this.filename + "' downloaded");
+      this.$q.notify(
+        "Metadata document '" + this.filenameFull + "' downloaded"
+      );
     },
 
     SaveAsFile: function(t, f, m) {
