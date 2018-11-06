@@ -131,7 +131,9 @@ export default {
       Object.keys(item).map(prop => {
         if (fromItem[prop]) item[prop] = fromItem[prop] || "";
       });
+
       // Handle special cases
+
       if (fromItem["downloadURL"]) {
         item.url = fromItem["downloadURL"];
         item.urlType = "download";
@@ -139,6 +141,10 @@ export default {
         item.url = fromItem["accessURL"] || "";
         item.urlType = "access";
       }
+
+      if (item.format == "API") item.formatType = "API";
+      else if (item.format > "") item.formatType = "Other";
+      else item.formatType = "";
 
       // Check and fix if not in lookup
       item.mediaType = config.extract(item, "mediaType", {
