@@ -311,6 +311,8 @@
 
         <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
+        <Submitter :doc="materializeDoc"/>
+
     </q-page-container>
   </q-layout>
 
@@ -344,6 +346,7 @@ import BooleanSelector from "./components/BooleanSelector.vue";
 import Distribution from "./components/Distribution.vue";
 import DocumentActions from "./components/DocumentActions.vue";
 import UserTags from "./components/UserTags.vue";
+import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
 import clean from "obj-clean";
 
@@ -380,7 +383,8 @@ export default {
     BooleanSelector,
     Distribution,
     DocumentActions,
-    UserTags
+    UserTags,
+    Submitter
 
     //, ORCID
   },
