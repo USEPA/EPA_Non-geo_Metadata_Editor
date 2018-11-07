@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import config from "../config";
+
 export default {
   name: "Submitter",
 
@@ -70,39 +72,38 @@ export default {
       this.submitModalOpen = false;
     },
 
+    checkForErrors: function(response) {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response;
+    },
+
+    notifySuccess: config.notifySuccess,
+
+    notifyError: config.notifyError,
+
     submitToEpa: function() {
       //let submitUrl = "https://www.google.com/search?q=test";
       let token = "token=" + encodeURIComponent("recaptchaToken");
       let sponsor = "sponsor=" + encodeURIComponent("greene.ana@epa.gov");
       let metadata =
         "metadata=" + encodeURIComponent(JSON.stringify(this.doc, null, 4));
-      let publisher =
-        "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
+      let publisher = "publisher=Jane"; // + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
 
       let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${metadata}&${publisher}`;
       console.log(submitUrl);
       //return;
 
-      let checkForErrors = function(response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      };
-
       fetch(submitUrl)
-        .then(checkForErrors)
-        .then(response => {
-          response
-            .json()
-            .then(result => {
-              if (result.status == "success")
-                this.$q.notify("Metadata submitted to EPA successfully.");
-              else throw Error("EPA service returned failure.");
-            })
-            .catch(error => this.$q.notify(error.message));
+        .then(this.checkForErrors)
+        .then(response => response.json())
+        .then(result => {
+          if (result.status == "success")
+            this.notifySuccess("Metadata submitted to EPA successfully.");
+          else throw Error("EPA service returned failure.");
         })
-        .catch(error => this.$q.notify(error.message));
+        .catch(error => this.notifyError(error));
     }
   },
 

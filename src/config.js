@@ -200,6 +200,33 @@ var config = {
     return JSON.parse(JSON.stringify(o));
   },
 
+  notifyError: function(error) {
+    this.$q.notify({
+      message: "Error while submitting metadata to EPA",
+      detail: error.message,
+      type: "negative",
+      timeout: 0,
+      actions: [
+        {
+          label: "Dismiss"
+        }
+      ]
+    });
+  },
+
+  notifySuccess: function(message) {
+    this.$q.notify({
+      message: message,
+      type: "positive",
+      timeout: 0,
+      actions: [
+        {
+          label: "Dismiss"
+        }
+      ]
+    });
+  },
+
   title: {
     mandatory: true,
     validators: [
