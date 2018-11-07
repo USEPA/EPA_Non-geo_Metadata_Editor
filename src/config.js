@@ -201,9 +201,16 @@ var config = {
   },
 
   notifyError: function(error) {
+    let msg = "",
+      dtl = "";
+    if (typeof error == "object") {
+      msg = error.name;
+      dtl = error.message;
+    } else msg = error;
+
     this.$q.notify({
-      message: "Error while submitting metadata to EPA",
-      detail: error.message,
+      message: msg,
+      detail: dtl,
       type: "negative",
       timeout: 0,
       actions: [
@@ -214,9 +221,9 @@ var config = {
     });
   },
 
-  notifySuccess: function(message) {
+  notifySuccess: function(msg) {
     this.$q.notify({
-      message: message,
+      message: msg,
       type: "positive",
       timeout: 0,
       actions: [

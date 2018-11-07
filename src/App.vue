@@ -311,7 +311,7 @@
 
         <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
-        <Submitter :doc="materializeDoc"/>
+        <Submitter :doc="materializeDoc" :docIsValid="true"/>
 
     </q-page-container>
   </q-layout>

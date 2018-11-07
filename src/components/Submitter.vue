@@ -44,10 +44,12 @@
     <q-page-sticky position="bottom-right" :offset="[80, 24]">
         <q-btn
             round
-            color="primary"
-            @click="openSubmitModal"
+            :color="docIsValid?'positive':'negative'"
+            @click="attemptSubmit"
             icon="fas fa-paper-plane"
-        />
+        >
+            <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
+        </q-btn>
     </q-page-sticky>
 
   </div>
@@ -60,7 +62,8 @@ export default {
   name: "Submitter",
 
   props: {
-    doc: Object
+    doc: Object,
+    docIsValid: Boolean
   },
 
   methods: {
@@ -72,6 +75,12 @@ export default {
       this.submitModalOpen = false;
     },
 
+    attemptSubmit: function() {
+      console.log(this.docIsValid);
+      if (this.docIsValid) this.openSubmitModal();
+      else this.notifyError("Doc not valid!");
+    },
+
     checkForErrors: function(response) {
       if (!response.ok) {
         throw Error(response.statusText);
@@ -81,27 +90,30 @@ export default {
 
     notifySuccess: config.notifySuccess,
 
-    notifyError: config.notifyError,
+    notifyError: function(error) {
+      error.name = "Error while submitting metadata to EPA";
+      let notify = config.notifyError.bind(this);
+      notify(error);
+    },
 
     submitToEpa: function() {
-      //let submitUrl = "https://www.google.com/search?q=test";
       let token = "token=" + encodeURIComponent("recaptchaToken");
       let sponsor = "sponsor=" + encodeURIComponent("greene.ana@epa.gov");
-      let metadata =
-        "metadata=" + encodeURIComponent(JSON.stringify(this.doc, null, 4));
       let publisher = "publisher=Jane"; // + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
 
-      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${metadata}&${publisher}`;
+      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}`;
       console.log(submitUrl);
-      //return;
 
-      fetch(submitUrl)
+      let metadata = JSON.stringify(this.doc, null, 4);
+
+      fetch(submitUrl, { method: "POST", body: metadata })
         .then(this.checkForErrors)
         .then(response => response.json())
         .then(result => {
+          console.log(JSON.stringify(result));
           if (result.status == "success")
             this.notifySuccess("Metadata submitted to EPA successfully.");
-          else throw Error("EPA service returned failure.");
+          else throw Error("EPA service returned " + result.status);
         })
         .catch(error => this.notifyError(error));
     }
