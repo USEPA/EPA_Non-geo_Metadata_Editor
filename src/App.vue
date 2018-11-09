@@ -311,7 +311,7 @@
 
         <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
-        <Submitter :doc="materializeDoc" :docIsValid="true"/>
+        <Submitter :doc="materializeDoc" :docError="docError()"/>
 
     </q-page-container>
   </q-layout>
@@ -349,6 +349,7 @@ import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
 import clean from "obj-clean";
+import traverse from "traverse";
 
 // Prompt user if they really want to navigate away from the page
 var confirmOnPageExit = function(e) {
@@ -642,6 +643,28 @@ export default {
       });
       this.doc.epa_grant = config.extract(inDoc, "epa_grant");
       this.doc.epa_contact = config.extract(inDoc, "epa_contact");
+    },
+
+    docError: function() {
+      let fn = function(val, n) {
+        if (val) return val;
+
+        if (this.isLeaf) {
+          n = n.trim();
+          let isMandatory = traverse(config).get(this.path)["mandatory"];
+          if (n && n != "Empty.") return this.path;
+          if (n && isMandatory) return this.path;
+        }
+        return "";
+      };
+
+      let failingElement = traverse(this.validations).reduce(fn, "");
+      if (failingElement)
+        return {
+          name: traverse(mdSpec).get(failingElement)["field"],
+          message: this.validations[failingElement]
+        };
+      else return "";
     }
   },
 

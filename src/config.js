@@ -20,7 +20,7 @@ var global_validators = {
   mustSelectSomeTags: function(selectedTags, { minTags = 1 } = {}) {
     if (selectedTags.length == 0) return "Empty.";
     if (selectedTags.length >= minTags) return "";
-    else return "Must select at least " + minTags + " keywords.";
+    else return "Must have at least " + minTags + " keywords.";
   },
 
   validDate: function(txt, options) {

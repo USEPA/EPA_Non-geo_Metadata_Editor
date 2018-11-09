@@ -44,7 +44,7 @@
     <q-page-sticky position="bottom-right" :offset="[80, 24]">
         <q-btn
             round
-            :color="docIsValid?'positive':'negative'"
+            :color="docError?'negative':'positive'"
             @click="attemptSubmit"
             icon="fas fa-paper-plane"
         >
@@ -63,7 +63,7 @@ export default {
 
   props: {
     doc: Object,
-    docIsValid: Boolean
+    docError: ""
   },
 
   methods: {
@@ -76,9 +76,8 @@ export default {
     },
 
     attemptSubmit: function() {
-      console.log(this.docIsValid);
-      if (this.docIsValid) this.openSubmitModal();
-      else this.notifyError("Doc not valid!");
+      if (!this.docError) this.openSubmitModal();
+      else this.notifyError(this.docError);
     },
 
     checkForErrors: function(response) {
@@ -91,7 +90,6 @@ export default {
     notifySuccess: config.notifySuccess,
 
     notifyError: function(error) {
-      error.name = "Error while submitting metadata to EPA";
       let notify = config.notifyError.bind(this);
       notify(error);
     },
@@ -99,10 +97,10 @@ export default {
     submitToEpa: function() {
       let token = "token=" + encodeURIComponent("recaptchaToken");
       let sponsor = "sponsor=" + encodeURIComponent("greene.ana@epa.gov");
-      let publisher = "publisher=Jane"; // + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
+      let publisher =
+        "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
 
       let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}`;
-      console.log(submitUrl);
 
       let metadata = JSON.stringify(this.doc, null, 4);
 
@@ -110,12 +108,23 @@ export default {
         .then(this.checkForErrors)
         .then(response => response.json())
         .then(result => {
-          console.log(JSON.stringify(result));
           if (result.status == "success")
             this.notifySuccess("Metadata submitted to EPA successfully.");
           else throw Error("EPA service returned " + result.status);
         })
-        .catch(error => this.notifyError(error));
+        .catch(error =>
+          this.notifyError({
+            name: "Error while submitting metadata to EPA",
+            message: error.message
+          })
+        );
+    },
+
+    tooltipMessage: function() {
+      let msg = "Submit";
+      if (this.docError) msg += "<br/>";
+      msg += this.docError.name + ": " + this.docError.message;
+      return msg;
     }
   },
 
