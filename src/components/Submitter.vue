@@ -104,7 +104,13 @@ export default {
 
       let metadata = JSON.stringify(this.doc, null, 4);
 
-      fetch(submitUrl, { method: "POST", body: metadata })
+      fetch(submitUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body: "metadata=" + encodeURIComponent(metadata)
+      })
         .then(this.checkForErrors)
         .then(response => response.json())
         .then(result => {
