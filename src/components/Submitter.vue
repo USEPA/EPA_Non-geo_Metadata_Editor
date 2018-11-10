@@ -136,6 +136,15 @@ export default {
     }
   },
 
+  watch: {
+    doc: {
+      handler: function() {
+        this.doc.dataset.length = 1;
+      },
+      immediate: true
+    }
+  },
+
   data() {
     return {
       submitModalOpen: false
