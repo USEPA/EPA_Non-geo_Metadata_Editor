@@ -115,9 +115,10 @@ export default {
         .then(this.checkForErrors)
         .then(response => response.json())
         .then(result => {
-          if (result.status == "success")
+          if (result.status == "success") {
+            this.closeSubmitModal();
             this.notifySuccess("Metadata submitted to EPA successfully.");
-          else throw Error("EPA service returned " + result.status);
+          } else throw Error("EPA service returned " + result.status);
         })
         .catch(error =>
           this.notifyError({
