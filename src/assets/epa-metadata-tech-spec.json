@@ -763,7 +763,7 @@
     ]
   },
   "epa_grant": {
-    "field": "",
+    "field": "EPA Grant",
     "definition": "",
     "schema": "",
     "guidance": "Please enter the grant number under which you performed the research associated with this dataset. If you are not an EPA Grantee, please describe the nature of your affiliation with the EPA.",
@@ -779,7 +779,7 @@
     ]
   },
   "epa_contact": {
-    "field": "",
+    "field": "EPA Contact Email",
     "definition": "",
     "schema": "",
     "guidance": "Please enter the email address of your EPA grant manager, sponsor, or other point of contact who can verify your relationship with the EPA.",

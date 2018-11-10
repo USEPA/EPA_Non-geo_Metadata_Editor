@@ -96,7 +96,8 @@ export default {
 
     submitToEpa: function() {
       let token = "token=" + encodeURIComponent("recaptchaToken");
-      let sponsor = "sponsor=" + encodeURIComponent("greene.ana@epa.gov");
+      let sponsor =
+        "sponsor=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
       let publisher =
         "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
 

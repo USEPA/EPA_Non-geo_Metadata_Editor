@@ -507,7 +507,7 @@ var config = {
   },
 
   epa_contact: {
-    mandatory: false,
+    mandatory: true,
     validators: [{ fn: global_validators.validEmail, args: {} }]
   }
 };
