@@ -103,7 +103,10 @@ export default {
 
       let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}`;
 
-      let metadata = JSON.stringify(this.doc, null, 4);
+      // Make a copy of the document and limit to the first dataset for submission
+      let outDoc = config.clone(this.doc);
+      outDoc.dataset.length = 1;
+      let metadata = JSON.stringify(outDoc, null, 4);
 
       fetch(submitUrl, {
         method: "POST",
@@ -133,15 +136,6 @@ export default {
       if (this.docError) msg += "<br/>";
       msg += this.docError.name + ": " + this.docError.message;
       return msg;
-    }
-  },
-
-  watch: {
-    doc: {
-      handler: function() {
-        this.doc.dataset.length = 1;
-      },
-      immediate: true
     }
   },
 
