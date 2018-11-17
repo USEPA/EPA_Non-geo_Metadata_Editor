@@ -18,6 +18,7 @@
     "quasar-framework": "^0.17.16",
     "traverse": "^0.6.6",
     "vue": "^2.5.17",
+    "vue-recaptcha": "^1.1.1",
     "vue-uuid": "^1.0.0",
     "yarn": "^1.10.1"
   },
