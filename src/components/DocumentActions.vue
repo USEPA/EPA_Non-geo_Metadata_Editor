@@ -34,7 +34,7 @@
     </q-modal>
 
 
-    <q-modal v-model="loadModalOpen">
+    <q-modal v-model="loadModalOpen" :content-css="{'height':'auto', 'min-width': '25vw'}">
         <q-modal-layout>
             <q-layout-header>
 
@@ -49,7 +49,7 @@
             </q-layout-header>
 
             <q-page-container>
-                <q-page>
+                <q-page v-if="docSize">
                   <pre v-if="loadError"> {{loadErrorMessage}} </pre>
                   <pre v-else v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
                 </q-page>
@@ -61,7 +61,7 @@
                       <input type='file' accept='application/json' @input="openFile" @click="loadError=false; $event.target.value=null"/>
                     </q-item-main>
                     <q-item-side right>
-                        <q-btn icon="edit" color="primary" @click="loadDoc" :disable="loadError"/>
+                        <q-btn v-if="docSize" icon="edit" color="primary" @click="loadDoc" :disable="loadError"/>
                     </q-item-side>
                 </q-item>
             </q-layout-footer>
@@ -209,6 +209,9 @@ export default {
     }
   },
   computed: {
+    docSize() {
+      return Object.keys(this.docToLoad).length
+    },
     filename: {
       get: function() {
         return this.filenameInternal;
