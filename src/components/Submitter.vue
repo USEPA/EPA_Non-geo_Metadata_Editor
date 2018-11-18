@@ -16,7 +16,6 @@
             </q-layout-header>
 
             <q-page-container>
- Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
                 <q-page padding>
 Clicking Submit will send your metadata record to EPA's metadata team for review. 
 You will receive confirmation via email if it is accepted into EPA's metadata inventory. 
@@ -29,9 +28,20 @@ Please contact edg@epa.gov if you wish to make changes to your record at any poi
                 <q-item>
                     <q-item-main>
                     </q-item-main>
+                    <q-item-side left>
+                        <vue-recaptcha 
+                          sitekey="6LdCVXsUAAAAABiV3upBSR5y_bzMQolNatwNLrQG" 
+                          ref="recaptcha"
+                          badge="inline"
+                          @verify="onCaptchaVerified"
+                          @expired="onCaptchaExpired"
+                          size="invisible">
+                        </vue-recaptcha>
+                    </q-item-side>
                     <q-item-side right>
-                        <q-btn label="Submit" color="primary" @click="submitToEpa"/>
-                        &nbsp;
+                      <q-btn label="Submit" color="primary" @click="submit"/>
+                    </q-item-side>
+                    <q-item-side right>
                         <q-btn label="Cancel" color="primary" @click="closeSubmitModal"/>
                     </q-item-side>
                 </q-item>
@@ -54,10 +64,13 @@ Please contact edg@epa.gov if you wish to make changes to your record at any poi
 </template>
 
 <script>
+import VueRecaptcha from "vue-recaptcha";
 import config from "../config";
 
 export default {
   name: "Submitter",
+
+  components: { VueRecaptcha },
 
   props: {
     doc: Object,
@@ -92,8 +105,8 @@ export default {
       notify(error);
     },
 
-    submitToEpa: function() {
-      let token = "token=" + encodeURIComponent("recaptchaToken");
+    submitToEpa: function(recaptchaToken) {
+      let token = "token=" + encodeURIComponent(recaptchaToken);
       let sponsor =
         "sponsor=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
       let publisher =
@@ -134,6 +147,21 @@ export default {
       if (this.docError) msg += "<br/>";
       msg += this.docError.name + ": " + this.docError.message;
       return msg;
+    },
+
+    submit: function() {
+      this.$refs.recaptcha.execute();
+    },
+
+    onCaptchaVerified: function(recaptchaToken) {
+      const self = this;
+      self.status = "submitting";
+      self.$refs.recaptcha.reset();
+      self.submitToEpa(recaptchaToken);
+    },
+
+    onCaptchaExpired: function() {
+      this.$refs.recaptcha.reset();
     }
   },
 
