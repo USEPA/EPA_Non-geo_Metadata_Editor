@@ -17,10 +17,10 @@ export default {
   },
 
   watch: {
-    modelValue1(newValue) {
+    modelValue1() {
       this.$emit("input", this.modelValue);
     },
-    modelValue2(newValue) {
+    modelValue2() {
       if (this.range) this.$emit("input", this.modelValue);
     },
     value(newValue) {

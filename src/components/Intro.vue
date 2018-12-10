@@ -1,21 +1,45 @@
 <template>
-    <q-jumbotron dark img-src="https://www.epa.gov/sites/production/files/styles/microsite_banner/public/2018-08/epa-banner-images/banners_xcpp_aug2018.jpg">
-        <div class="q-subheading tb">
-        Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.
-        </div>
-        <hr class="q-hr q-my-lg">
-        <div class="tb">
-            This tool allows extramural researchers to author, save, and submit metadata records for non-geospatial data that are compliant with <a href="https://www.epa.gov/geospatial/epa-metadata-technical-specification">EPA's Metadata Technical Specification</a>. If you wish to submit metadata for geospatial data, please contact the <a href="mailto:edg@epa.gov">EPA EDG team</a> for further assistance.</br>
-            Each element has a corresponding status: 
-            <q-icon :name="validationStyles().empty.mandatory.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.mandatory.color"/>  Mandatory (empty),
-            <q-icon :name="validationStyles().empty.optional.icon" :style="'text-shadow:none;color:#'+validationStyles().empty.optional.color"/>  Optional (empty),
-            <q-icon :name="validationStyles().nonempty.invalid.icon" :style="'text-shadow:none;color:#'+validationStyles().nonempty.invalid.color"/>  Invalid, and 
-            <q-icon :name="validationStyles().nonempty.valid.icon" :style="'text-shadow:none;color:#'+validationStyles().nonempty.valid.color"/>  Valid.
-            Additional guidance and best practices are available by clicking each element's status icon.</br> 
-            Use the blue button at the lower right to save, load, or submit records or log in as an EPA user. 
-            Please contact the <a href="mailto:edg@epa.gov">EPA EDG team</a> with any questions.
-        </div>
-    </q-jumbotron>
+  <q-jumbotron
+    dark
+    img-src="https://www.epa.gov/sites/production/files/styles/microsite_banner/public/2018-08/epa-banner-images/banners_xcpp_aug2018.jpg"
+  >
+    <div
+      class="q-subheading tb"
+    >Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.</div>
+    <hr class="q-hr q-my-lg">
+    <div class="tb">
+      This tool allows extramural researchers to author, save, and submit metadata records for non-geospatial data that are compliant with
+      <a
+        href="https://www.epa.gov/geospatial/epa-metadata-technical-specification"
+      >EPA's Metadata Technical Specification</a>. If you wish to submit metadata for geospatial data, please contact the
+      <a
+        href="mailto:edg@epa.gov"
+      >EPA EDG team</a> for further assistance.
+      <br>Each element has a corresponding status:
+      <q-icon
+        :name="validationStyles().empty.mandatory.icon"
+        :style="'text-shadow:none;color:#'+validationStyles().empty.mandatory.color"
+      />Mandatory (empty),
+      <q-icon
+        :name="validationStyles().empty.optional.icon"
+        :style="'text-shadow:none;color:#'+validationStyles().empty.optional.color"
+      />Optional (empty),
+      <q-icon
+        :name="validationStyles().nonempty.invalid.icon"
+        :style="'text-shadow:none;color:#'+validationStyles().nonempty.invalid.color"
+      />Invalid, and
+      <q-icon
+        :name="validationStyles().nonempty.valid.icon"
+        :style="'text-shadow:none;color:#'+validationStyles().nonempty.valid.color"
+      />Valid.
+      Additional guidance and best practices are available by clicking each element's status icon.
+      <br>Use the blue button at the lower right to save, load, or submit records or log in as an EPA user.
+      Please contact the
+      <a
+        href="mailto:edg@epa.gov"
+      >EPA EDG team</a> with any questions.
+    </div>
+  </q-jumbotron>
 </template>
 
 <script>
