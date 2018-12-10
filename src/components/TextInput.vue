@@ -1,10 +1,10 @@
 <template>
-      <q-input
-        v-model="modelValue"
-        :type="multiLine ? 'textarea' : 'text'"
-        :float-label="defaultText"
-        :rows="multiLine ? 4 : 1"
-      />
+  <q-input
+    v-model="modelValue"
+    :type="multiLine ? 'textarea' : 'text'"
+    :float-label="defaultText"
+    :rows="multiLine ? 4 : 1"
+  />
 </template>
 
 <script>

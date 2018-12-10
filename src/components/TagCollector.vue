@@ -1,15 +1,13 @@
 <template>
-
   <q-select
     multiple
     filter
-    chips 
+    chips
     clearable
     v-model="modelValue"
     :options="availableTags"
     filter-placeholder="Type here to filter"
   />
-
 </template>
 
 <script>

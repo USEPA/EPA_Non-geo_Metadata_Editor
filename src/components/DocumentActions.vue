@@ -1,107 +1,97 @@
-<template>    
+<template>
   <div>
     <q-modal v-model="saveModalOpen">
-        <q-modal-layout>
-            <q-layout-header>
+      <q-modal-layout>
+        <q-layout-header>
+          <q-toolbar color="primary">
+            <q-toolbar-title>{{filenameFull}}</q-toolbar-title>
 
-                <q-toolbar color="primary">
-                    <q-toolbar-title>
-                        {{filenameFull}}
-                    </q-toolbar-title>
+            <q-btn flat round dense icon="close" @click="closeSaveModal"/>
+          </q-toolbar>
+        </q-layout-header>
 
-                    <q-btn flat round dense icon="close" @click="closeSaveModal"/>
-                </q-toolbar>
+        <q-page-container>
+          <q-page>
+            <pre
+              v-highlightjs="JSON.stringify(doc, null, 4)"
+              style="margin-top:0px;margin-bottom:0px"
+            ><code class="JSON"/></pre>
+          </q-page>
+        </q-page-container>
 
-            </q-layout-header>
-
-            <q-page-container>
-                <q-page>
-                    <pre v-highlightjs="JSON.stringify(doc, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
-                </q-page>
-            </q-page-container>
-
-            <q-layout-footer style="background-color:white">
-                <q-item>
-                    <q-item-main label="Filename (leave empty to use document identifier):">
-                        <TextInput v-model="filename" :defaultText="filenameFull" />
-                    </q-item-main>
-                    <q-item-side right>
-                        <q-btn icon="fas fa-cloud-download-alt" color="primary" @click="saveDoc"/>
-                    </q-item-side>
-                </q-item>
-            </q-layout-footer>
-        </q-modal-layout>
+        <q-layout-footer style="background-color:white">
+          <q-item>
+            <q-item-main label="Filename (leave empty to use document identifier):">
+              <TextInput v-model="filename" :defaultText="filenameFull"/>
+            </q-item-main>
+            <q-item-side right>
+              <q-btn icon="fas fa-cloud-download-alt" color="primary" @click="saveDoc"/>
+            </q-item-side>
+          </q-item>
+        </q-layout-footer>
+      </q-modal-layout>
     </q-modal>
 
-
     <q-modal v-model="loadModalOpen" :content-css="{'height':'auto', 'min-width': '25vw'}">
-        <q-modal-layout>
-            <q-layout-header>
+      <q-modal-layout>
+        <q-layout-header>
+          <q-toolbar color="primary">
+            <q-toolbar-title>Load Metadata File</q-toolbar-title>
 
-                <q-toolbar color="primary">
-                    <q-toolbar-title>
-                        Load Metadata File
-                    </q-toolbar-title>
+            <q-btn flat round dense icon="close" @click="closeLoadModal"/>
+          </q-toolbar>
+        </q-layout-header>
 
-                    <q-btn flat round dense icon="close" @click="closeLoadModal"/>
-                </q-toolbar>
+        <q-page-container>
+          <q-page v-if="docSize">
+            <pre v-if="loadError"> {{loadErrorMessage}} </pre>
+            <pre
+              v-else
+              v-highlightjs="JSON.stringify(docToLoad, null, 4)"
+              style="margin-top:0px;margin-bottom:0px"
+            ><code class="JSON"/></pre>
+          </q-page>
+        </q-page-container>
 
-            </q-layout-header>
-
-            <q-page-container>
-                <q-page v-if="docSize">
-                  <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-                  <pre v-else v-highlightjs="JSON.stringify(docToLoad, null, 4)" style="margin-top:0px;margin-bottom:0px"><code class="JSON"/></pre>
-                </q-page>
-            </q-page-container>
-
-            <q-layout-footer style="background-color:white">
-                <q-item>
-                    <q-item-main label="" style="width:60%">
-                      <input type='file' accept='application/json' @input="openFile" @click="loadError=false; $event.target.value=null"/>
-                    </q-item-main>
-                    <q-item-side right>
-                        <q-btn v-if="docSize" icon="edit" color="primary" @click="loadDoc" :disable="loadError"/>
-                    </q-item-side>
-                </q-item>
-            </q-layout-footer>
-        </q-modal-layout>
+        <q-layout-footer style="background-color:white">
+          <q-item>
+            <q-item-main label style="width:60%">
+              <input
+                type="file"
+                accept="application/json"
+                @input="openFile"
+                @click="loadError=false; $event.target.value=null"
+              >
+            </q-item-main>
+            <q-item-side right>
+              <q-btn
+                v-if="docSize"
+                icon="edit"
+                color="primary"
+                @click="loadDoc"
+                :disable="loadError"
+              />
+            </q-item-side>
+          </q-item>
+        </q-layout-footer>
+      </q-modal-layout>
     </q-modal>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-fab
-            color="primary"
-            icon="fas fa-ellipsis-v"
-            direction="up"
-        >
-            
-            <q-fab-action
-                color="primary"
-                @click="fastSaveDoc"
-                icon="fas fa-cloud-download-alt"
-            >
-                <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
-            </q-fab-action>
+      <q-fab color="primary" icon="fas fa-ellipsis-v" direction="up">
+        <q-fab-action color="primary" @click="fastSaveDoc" icon="fas fa-cloud-download-alt">
+          <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
+        </q-fab-action>
 
-            <q-fab-action
-                color="primary"
-                @click="openSaveModal()"
-                icon="fas fa-eye"
-            >
-                <q-tooltip anchor="center left" self="center right">View</q-tooltip>
-            </q-fab-action>
+        <q-fab-action color="primary" @click="openSaveModal()" icon="fas fa-eye">
+          <q-tooltip anchor="center left" self="center right">View</q-tooltip>
+        </q-fab-action>
 
-            <q-fab-action
-                color="primary"
-                @click="openLoadModal()"
-                icon="fas fa-cloud-upload-alt"
-            >
-                <q-tooltip anchor="center left" self="center right">Load</q-tooltip>
-            </q-fab-action>
-
-    </q-fab>
+        <q-fab-action color="primary" @click="openLoadModal()" icon="fas fa-cloud-upload-alt">
+          <q-tooltip anchor="center left" self="center right">Load</q-tooltip>
+        </q-fab-action>
+      </q-fab>
     </q-page-sticky>
-
   </div>
 </template>
 
@@ -210,7 +200,7 @@ export default {
   },
   computed: {
     docSize() {
-      return Object.keys(this.docToLoad).length
+      return Object.keys(this.docToLoad).length;
     },
     filename: {
       get: function() {

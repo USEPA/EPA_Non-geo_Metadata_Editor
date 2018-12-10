@@ -1,12 +1,10 @@
 <template>
-
   <q-select
     v-model="modelValue"
     :options="availableOptions"
     :filter="availableOptions.length>10"
     :placeholder="placeHolderText"
   />
-  
 </template>
 
 <script>

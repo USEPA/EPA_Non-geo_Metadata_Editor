@@ -1,65 +1,62 @@
 <template>
   <div>
-    <q-modal v-model="submitModalOpen" :content-css="{'padding': '10px','width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}">
-        <q-modal-layout content-class="no-scroll">
-            <q-layout-header>
+    <q-modal
+      v-model="submitModalOpen"
+      :content-css="{'padding': '10px','width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}"
+    >
+      <q-modal-layout content-class="no-scroll">
+        <q-layout-header>
+          <q-toolbar color="primary">
+            <q-btn flat round dense icon="fas fa-paper-plane"/>
+            <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
-                <q-toolbar color="primary">
-                    <q-btn flat round dense icon="fas fa-paper-plane" />
-                    <q-toolbar-title>
-                        Submit to EPA
-                    </q-toolbar-title>
+            <q-btn flat round dense icon="close" @click="closeSubmitModal"/>
+          </q-toolbar>
+        </q-layout-header>
 
-                    <q-btn flat round dense icon="close" @click="closeSubmitModal"/>
-                </q-toolbar>
+        <q-page-container>
+          <q-page>
+            Clicking Submit will send your metadata record to EPA's metadata team for review.
+            You will receive confirmation via email if it is accepted into EPA's metadata inventory.
+            <br>
+            <br>Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
+          </q-page>
+        </q-page-container>
 
-            </q-layout-header>
-
-            <q-page-container>
-                <q-page>
-Clicking Submit will send your metadata record to EPA's metadata team for review. 
-You will receive confirmation via email if it is accepted into EPA's metadata inventory. 
-<br/><br/>
-Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.                    
-                </q-page>
-            </q-page-container>
-
-            <q-layout-footer style="background-color:white">
-                <q-item>
-                    <q-item-main>
-                    </q-item-main>
-                    <q-item-side left>
-                        <vue-recaptcha 
-                          sitekey="6LdCVXsUAAAAABiV3upBSR5y_bzMQolNatwNLrQG" 
-                          ref="recaptcha"
-                          badge="inline"
-                          @verify="onCaptchaVerified"
-                          @expired="onCaptchaExpired"
-                          size="invisible">
-                        </vue-recaptcha>
-                    </q-item-side>
-                    <q-item-side right>
-                      <q-btn label="Submit" color="primary" @click="submit"/>
-                    </q-item-side>
-                    <q-item-side right>
-                        <q-btn label="Cancel" color="primary" @click="closeSubmitModal"/>
-                    </q-item-side>
-                </q-item>
-            </q-layout-footer>
-        </q-modal-layout>
+        <q-layout-footer style="background-color:white">
+          <q-item>
+            <q-item-main></q-item-main>
+            <q-item-side left>
+              <vue-recaptcha
+                sitekey="6LdCVXsUAAAAABiV3upBSR5y_bzMQolNatwNLrQG"
+                ref="recaptcha"
+                badge="inline"
+                @verify="onCaptchaVerified"
+                @expired="onCaptchaExpired"
+                size="invisible"
+              ></vue-recaptcha>
+            </q-item-side>
+            <q-item-side right>
+              <q-btn label="Submit" color="primary" @click="submit"/>
+            </q-item-side>
+            <q-item-side right>
+              <q-btn label="Cancel" color="primary" @click="closeSubmitModal"/>
+            </q-item-side>
+          </q-item>
+        </q-layout-footer>
+      </q-modal-layout>
     </q-modal>
 
     <q-page-sticky position="bottom-right" :offset="[80, 24]">
-        <q-btn
-            round
-            :color="docError?'negative':'positive'"
-            @click="attemptSubmit"
-            icon="fas fa-paper-plane"
-        >
-            <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
-        </q-btn>
+      <q-btn
+        round
+        :color="docError?'negative':'positive'"
+        @click="attemptSubmit"
+        icon="fas fa-paper-plane"
+      >
+        <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
+      </q-btn>
     </q-page-sticky>
-
   </div>
 </template>
 

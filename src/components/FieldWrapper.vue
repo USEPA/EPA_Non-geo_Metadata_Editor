@@ -1,19 +1,26 @@
 <template>
-    <div>
-        <q-field  v-if="propInfo.editMode" :icon="getIcon()" :icon-color="getIconColor()" :error="isError()" :error-label="getErrorLabel()">
-            <slot></slot>
-        </q-field>
+  <div>
+    <q-field
+      v-if="propInfo.editMode"
+      :icon="getIcon()"
+      :icon-color="getIconColor()"
+      :error="isError()"
+      :error-label="getErrorLabel()"
+    >
+      <slot></slot>
+    </q-field>
 
-        <div v-else class="row">
-            <div class="col-md-auto" :style="getStyle()">
-                <b><q-icon :name="getIcon()"/> {{propInfo.name | capitalize}}: &nbsp;</b>
-            </div>
-            <div class="col-md-auto">
-                {{propInfo.value}}
-            </div>
-        </div>
-        <br/>
+    <div v-else class="row">
+      <div class="col-md-auto" :style="getStyle()">
+        <b>
+          <q-icon :name="getIcon()"/>
+          {{propInfo.name | capitalize}}: &nbsp;
+        </b>
+      </div>
+      <div class="col-md-auto">{{propInfo.value}}</div>
     </div>
+    <br>
+  </div>
 </template>
 
 <script>

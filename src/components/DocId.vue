@@ -1,10 +1,7 @@
 <template>
-    <div>
-      <q-input
-        v-model="modelValue"
-        :float-label="placeholderText()"
-      />
-    </div>
+  <div>
+    <q-input v-model="modelValue" :float-label="placeholderText()"/>
+  </div>
 </template>
 
 <script>

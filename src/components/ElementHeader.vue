@@ -1,34 +1,40 @@
 <template>
   <div>
-
     <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
       <div @click="show()">
         <q-item>
-          <q-item-tile :icon="getValiMandaVisualizer().icon" :style="getValiMandaVisualizer().style"/>
-          <q-item-main :label="title"  style="font-size:1.4em"/>
+          <q-item-tile
+            :icon="getValiMandaVisualizer().icon"
+            :style="getValiMandaVisualizer().style"
+          />
+          <q-item-main :label="title" style="font-size:1.4em"/>
         </q-item>
       </div>
     </q-card-title>
 
     <q-card-main>
       <div v-if="guidanceVisible" style="border-color: red;">
-        <br/>
+        <br>
         <q-card inset>
           <q-item dense color="primary">
-            <q-item-tile icon="fas fa-lightbulb" style="padding-left:0.2em;padding-right:1.1em;font-size:2em;color:gold;width:8em;"/>
+            <q-item-tile
+              icon="fas fa-lightbulb"
+              style="padding-left:0.2em;padding-right:1.1em;font-size:2em;color:gold;width:8em;"
+            />
             <q-item-main v-html="guidance" style="color:gray;width:999%"/>
           </q-item>
-            <q-item-separator/>
+          <q-item-separator/>
           <q-item>
-            <q-item-tile :icon="getValiMandaVisualizer().icon" :style="getValiMandaVisualizer().style"/>
+            <q-item-tile
+              :icon="getValiMandaVisualizer().icon"
+              :style="getValiMandaVisualizer().style"
+            />
             <q-item-main :style="getValiMandaVisualizer(false).style" v-html="getValidations()"/>
           </q-item>
         </q-card>
       </div>
     </q-card-main>
-
   </div>
-
 </template>
 
 <script>

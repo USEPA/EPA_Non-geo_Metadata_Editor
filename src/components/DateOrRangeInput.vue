@@ -1,10 +1,10 @@
 <template>
-    <div class="aligned">
-      <div v-if="range">Start:&nbsp;</div>
-      <q-input type="date" v-model="modelValue1"/> 
-      <div v-if="range">&nbsp;&nbsp;&nbsp;End:&nbsp;</div>
-      <q-input v-if="this.range" type="date" v-model="modelValue2"/> 
-    </div>
+  <div class="aligned">
+    <div v-if="range">Start:&nbsp;</div>
+    <q-input type="date" v-model="modelValue1"/>
+    <div v-if="range">&nbsp;&nbsp;&nbsp;End:&nbsp;</div>
+    <q-input v-if="this.range" type="date" v-model="modelValue2"/>
+  </div>
 </template>
 
 <script>

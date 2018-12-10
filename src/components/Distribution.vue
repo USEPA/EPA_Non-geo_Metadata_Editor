@@ -1,83 +1,122 @@
 <template>
-    <div>
-        <q-card v-for="(item, index) in modelValue" :key="index" class="q-ma-sm">
-            <q-card-main>
+  <div>
+    <q-card v-for="(item, index) in modelValue" :key="index" class="q-ma-sm">
+      <q-card-main>
+        <FieldWrapper :propInfo="getPropInfo(index, 'title')">
+          <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
+        </FieldWrapper>
 
-                <FieldWrapper :propInfo="getPropInfo(index, 'title')">
-                  <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
-                </FieldWrapper>
+        <FieldWrapper :propInfo="getPropInfo(index, 'description')">
+          <q-input
+            v-model="item.description"
+            :float-label="'Please enter a description for the dataset'"
+            type="textarea"
+            rows="3"
+          />
+        </FieldWrapper>
 
-                <FieldWrapper :propInfo="getPropInfo(index, 'description')">
-                  <q-input v-model="item.description" :float-label="'Please enter a description for the dataset'" type="textarea" rows="3"/>
-                </FieldWrapper>
+        <div v-if="isBeingEdited(index)">URL type: &nbsp;
+          <q-radio v-model="item.urlType" label="access" val="access"/>&nbsp;&nbsp;
+          <q-radio v-model="item.urlType" label="download" val="download"/>
 
-                <div v-if="isBeingEdited(index)">
-                  URL type: &nbsp;
-                  <q-radio v-model="item.urlType" label="access" val="access"/>
-                  &nbsp;&nbsp;
-                  <q-radio v-model="item.urlType" label="download" val="download"/>
+          <FieldWrapper :propInfo="getPropInfo(index, 'url')">
+            <q-input
+              v-model="item.url"
+              :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"
+            />
+          </FieldWrapper>
+        </div>
+        <div v-else>
+          <div class="row">
+            <div class="col-md-auto" :style="getStyle(index,'url')">
+              <b>
+                <q-icon :name="getIcon(index,'url')"/>
+                {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;
+              </b>
+            </div>
+            <div class="col-md-auto">
+              <a target="previewURL" :href="item.url">{{item.url}}</a>
+            </div>
+          </div>
+        </div>
+        <br>
 
-                  <FieldWrapper :propInfo="getPropInfo(index, 'url')">
-                    <q-input v-model="item.url" :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"/>
-                  </FieldWrapper>
-                </div>
-                <div v-else>
-                    <div class="row">
-                        <div class="col-md-auto" :style="getStyle(index,'url')">
-                            <b><q-icon :name="getIcon(index,'url')"/> {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;</b>
-                        </div>
-                        <div class="col-md-auto">
-                            <a target="previewURL" :href="item.url">{{item.url}}</a>
-                        </div>
-                    </div>
-                </div>
-                <br/>
+        <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
+          <OptionSelector
+            v-model="item.mediaType"
+            :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
+            placeHolderText="Please select the file format of the distribution's download URL"
+          />
+        </FieldWrapper>
 
-                <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
-                  <OptionSelector 
-                    v-model="item.mediaType" 
-                    :availableOptions.sync="config['distribution']['mediaType']['availableOptions']"
-                    placeHolderText="Please select the file format of the distribution's download URL"
-                  />
-                </FieldWrapper>
+        <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
+          <OptionSelector
+            v-model="item.formatType"
+            :availableOptions.sync="config['distribution']['format']['availableOptions']"
+            placeHolderText="Is the URL above for an API?"
+          />
+          <TextInput
+            v-show="item.formatType=='Other'"
+            defaultText="Please enter the a human-readable description of the file format of the distribution"
+            v-model="item.format"
+          />
+        </FieldWrapper>
 
-                <FieldWrapper :propInfo="getPropInfo(index, 'format')" v-show="item.urlType=='access'">
-                  <OptionSelector 
-                    v-model="item.formatType" 
-                    :availableOptions.sync="config['distribution']['format']['availableOptions']"
-                    placeHolderText="Is the URL above for an API?"
-                  />
-                    <TextInput v-show="item.formatType=='Other'" defaultText="Please enter the a human-readable description of the file format of the distribution" v-model="item.format"/>
-                </FieldWrapper>
+        <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
+          <TextInput
+            defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL"
+            v-model="item.describedBy"
+          />
+        </FieldWrapper>
 
-                  <FieldWrapper :propInfo="getPropInfo(index, 'describedBy')">
-                    <TextInput defaultText="Please enter the URL to the data dictionary for the distribution found at the download URL" v-model="item.describedBy"/>
-                  </FieldWrapper>
+        <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
+          <OptionSelector
+            v-model="item.describedByType"
+            :availableOptions.sync="config['describedByType']['availableOptions']"
+            placeHolderText="Please select the type of file for the data dictionary"
+          />
+        </FieldWrapper>
 
-                  <FieldWrapper :propInfo="getPropInfo(index, 'describedByType')">
-                    <OptionSelector 
-                      v-model="item.describedByType" 
-                      :availableOptions.sync="config['describedByType']['availableOptions']"
-                      placeHolderText="Please select the type of file for the data dictionary"
-                    />
-                  </FieldWrapper>
+        <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
+          <TextInput
+            defaultText="Please enter the URI for the standardized specification the distribution conforms to.	"
+            v-model="item.conformsTo"
+          />
+        </FieldWrapper>
 
-                  <FieldWrapper :propInfo="getPropInfo(index, 'conformsTo')">
-                    <TextInput defaultText="Please enter the URI for the standardized specification the distribution conforms to.	" v-model="item.conformsTo"/>
-                  </FieldWrapper>
+        <br>
+        <div class="row">
+          <q-btn
+            class="col-sm"
+            icon="fas fa-pen"
+            label="Edit this distribution entry"
+            @click="editThis(index)"
+            v-show="!isBeingEdited(index)"
+          />
+          <q-btn
+            class="col-sm"
+            icon="fas fa-check"
+            label="Done editing this distribution entry"
+            @click="closeThis()"
+            v-show="isBeingEdited(index)"
+          />
+          <q-btn
+            class="col-sm"
+            icon="fas fa-trash"
+            label="Delete this distribution entry"
+            @click="deleteThis(index)"
+          />
+        </div>
+      </q-card-main>
+    </q-card>
 
-                <br/>
-                <div class="row">
-                  <q-btn class="col-sm" icon="fas fa-pen" label="Edit this distribution entry" @click="editThis(index)" v-show="!isBeingEdited(index)"/>
-                  <q-btn class="col-sm" icon="fas fa-check" label="Done editing this distribution entry" @click="closeThis()" v-show="isBeingEdited(index)"/>
-                  <q-btn class="col-sm" icon="fas fa-trash" label="Delete this distribution entry" @click="deleteThis(index)"/>
-                </div>
-            </q-card-main>
-        </q-card>
-
-        <br/>
-        <q-btn icon="fas fa-plus" :label="'Add '+(modelValue.length?'another':'a')+' distribution entry'" @click="addAnother()"/>
-    </div>
+    <br>
+    <q-btn
+      icon="fas fa-plus"
+      :label="'Add '+(modelValue.length?'another':'a')+' distribution entry'"
+      @click="addAnother()"
+    />
+  </div>
 </template>
 
 <script>

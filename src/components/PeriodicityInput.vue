@@ -1,12 +1,15 @@
 <template>
   <div class="aligned">
-    <q-input type="number" v-model="repeatNumericalPart" @input="emitUpdate()" min="1" max="365" placeholder="number"/>
-
-    <q-select
-      v-model="repeatPeriodPart"
-      :options="periods"
+    <q-input
+      type="number"
+      v-model="repeatNumericalPart"
       @input="emitUpdate()"
+      min="1"
+      max="365"
+      placeholder="number"
     />
+
+    <q-select v-model="repeatPeriodPart" :options="periods" @input="emitUpdate()"/>
   </div>
 </template>
 
