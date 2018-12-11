@@ -42,7 +42,7 @@
         <q-page-container>
           <q-page v-if="docSize">
             <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)"/></pre>
+            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad)"/></pre>
           </q-page>
         </q-page-container>
 
