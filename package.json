@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "add": "^2.0.6",
+    "clean-deep": "^3.0.2",
     "deepmerge": "^2.2.1",
     "file-saver": "^2.0.0-rc.3",
-    "highlight.js": "^9.13.1",
-    "obj-clean": "^2.0.0",
+    "json-format-highlight": "^1.0.1",
+    "json-stringify-safe": "^5.0.1",
     "quasar": "0.0.18",
     "quasar-extras": "^2.0.8",
     "quasar-framework": "^0.17.16",
@@ -20,6 +21,7 @@
     "vue": "^2.5.17",
     "vue-recaptcha": "^1.1.1",
     "vue-uuid": "^1.0.0",
+    "whatwg-fetch": "^3.0.0",
     "yarn": "^1.10.1"
   },
   "devDependencies": {

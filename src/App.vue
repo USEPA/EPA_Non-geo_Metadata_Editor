@@ -412,8 +412,8 @@ import DocumentActions from "./components/DocumentActions.vue";
 import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
-import clean from "obj-clean";
 import traverse from "traverse";
+const cleanDeep = require("clean-deep");
 
 // Prompt user if they really want to navigate away from the page
 var confirmOnPageExit = function(e) {
@@ -930,7 +930,7 @@ export default {
         });
 
         // Remove empty elements
-        outDoc = clean(outDoc, { preserveArrays: false });
+        outDoc = cleanDeep(outDoc);
 
         // Fix up hasEmail
         if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
