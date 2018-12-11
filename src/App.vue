@@ -413,7 +413,7 @@ import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
 import traverse from "traverse";
-const cleanDeep = require("clean-deep");
+import cleanDeep from "clean-deep";
 
 // Prompt user if they really want to navigate away from the page
 var confirmOnPageExit = function(e) {
