@@ -121,7 +121,7 @@ var validationIsEmpty = function(validation) {
 var validation_config = {
   empty: {
     mandatory: { icon: "fas fa-exclamation-triangle", color: "fdae61" },
-    optional: { icon: "fas fa-question-circle", color: "9e9e9e91" }
+    optional: { icon: "fas fa-question-circle", color: "9e9e91" }
   },
   nonempty: {
     valid: { icon: "fas fa-check-circle", color: "1a9641" },
