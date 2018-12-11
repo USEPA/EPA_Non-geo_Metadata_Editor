@@ -12,10 +12,7 @@
 
         <q-page-container>
           <q-page>
-            <pre
-              v-highlightjs="JSON.stringify(doc, null, 4)"
-              style="margin-top:0px;margin-bottom:0px"
-            ><code class="JSON"/></pre>
+            <pre style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)"/></pre>
           </q-page>
         </q-page-container>
 
@@ -45,11 +42,7 @@
         <q-page-container>
           <q-page v-if="docSize">
             <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre
-              v-else
-              v-highlightjs="JSON.stringify(docToLoad, null, 4)"
-              style="margin-top:0px;margin-bottom:0px"
-            ><code class="JSON"/></pre>
+            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)"/></pre>
           </q-page>
         </q-page-container>
 
@@ -99,6 +92,7 @@
 import TextInput from "../components/TextInput.vue";
 import saveAs from "file-saver";
 import config from "../config";
+import formatHighlight from "json-format-highlight";
 
 export default {
   name: "DocumentActions",
@@ -196,7 +190,8 @@ export default {
         // Fall back to forcing a download by opening a new window
         window.open("data:" + m + "," + encodeURIComponent(t), "_blank", "");
       }
-    }
+    },
+    formatHighlight: formatHighlight
   },
   computed: {
     docSize() {
@@ -232,81 +227,4 @@ export default {
 </script>
 
 <style scoped>
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  color: #333;
-  background: #f8f8f8;
-}
-.hljs-comment,
-.hljs-quote {
-  color: #998;
-  font-style: italic;
-}
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-subst {
-  color: #333;
-  font-weight: bold;
-}
-.hljs-number,
-.hljs-literal,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag .hljs-attr {
-  color: #008080;
-}
-.hljs-string,
-.hljs-doctag {
-  color: #d14;
-}
-.hljs-title,
-.hljs-section,
-.hljs-selector-id {
-  color: #900;
-  font-weight: bold;
-}
-.hljs-subst {
-  font-weight: normal;
-}
-.hljs-type,
-.hljs-class .hljs-title {
-  color: #458;
-  font-weight: bold;
-}
-.hljs-tag,
-.hljs-name,
-.hljs-attribute {
-  color: #000080;
-  font-weight: normal;
-}
-.hljs-regexp,
-.hljs-link {
-  color: #009926;
-}
-.hljs-symbol,
-.hljs-bullet {
-  color: #990073;
-}
-.hljs-built_in,
-.hljs-builtin-name {
-  color: #0086b3;
-}
-.hljs-meta {
-  color: #999;
-  font-weight: bold;
-}
-.hljs-deletion {
-  background: #fdd;
-}
-.hljs-addition {
-  background: #dfd;
-}
-.hljs-emphasis {
-  font-style: italic;
-}
-.hljs-strong {
-  font-weight: bold;
-}
 </style>
