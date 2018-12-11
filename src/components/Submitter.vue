@@ -63,6 +63,11 @@
 <script>
 import VueRecaptcha from "vue-recaptcha";
 import config from "../config";
+import "whatwg-fetch";
+
+if (document.querySelector("body").setActive != undefined) {
+  document.querySelector("body").setActive();
+}
 
 export default {
   name: "Submitter",
