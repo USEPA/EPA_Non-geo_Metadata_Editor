@@ -412,7 +412,7 @@ import DocumentActions from "./components/DocumentActions.vue";
 import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
-//import clean from "obj-clean";
+import clean from "obj-clean";
 import traverse from "traverse";
 
 // Prompt user if they really want to navigate away from the page
@@ -930,7 +930,7 @@ export default {
         });
 
         // Remove empty elements
-        //outDoc = clean(outDoc, { preserveArrays: false });
+        outDoc = clean(outDoc, { preserveArrays: false });
 
         // Fix up hasEmail
         if (outDoc.contactPoint) outDoc.contactPoint["@type"] = "vcard:Contact";
