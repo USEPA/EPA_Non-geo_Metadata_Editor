@@ -48,12 +48,10 @@
     </q-modal>
 
     <q-page-sticky position="bottom-right" :offset="[80, 24]">
-      <q-btn
-        round
-        :color="docError?'negative':'positive'"
-        @click="attemptSubmit"
-        icon="fas fa-paper-plane"
-      >
+      <q-btn round :color="docError?'negative':'positive'" @click="attemptSubmit">
+        <img
+          src="https://github.com/encharm/Font-Awesome-SVG-PNG/raw/master/white/png/24/paper-plane.png"
+        >
         <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
       </q-btn>
     </q-page-sticky>
