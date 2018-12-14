@@ -3,10 +3,13 @@
     <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
       <div @click="show()">
         <q-item>
-          <q-item-tile
-            :icon="getValiMandaVisualizer().icon"
-            :style="getValiMandaVisualizer().style"
-          />
+          <q-item-tile image>
+            <img
+              :src="config.imageForIcon(getValiMandaVisualizer().icon)"
+              style="background-color:red"
+            >
+          </q-item-tile>
+
           <q-item-main :label="title" style="font-size:1.4em"/>
         </q-item>
       </div>
@@ -55,7 +58,8 @@ export default {
   data: () => {
     return {
       guidanceVisible: false,
-      validationVisible: false
+      validationVisible: false,
+      config: config
     };
   },
 

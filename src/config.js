@@ -176,6 +176,10 @@ var config = {
     return { icon: icon, style: style };
   },
 
+  imageForIcon: function(descriptor) {
+    return "https://github.com/encharm/Font-Awesome-SVG-PNG/raw/master/white/png/24/paper-plane.png";
+  },
+
   // Extract property from document and check if value is acceptable
   // Fallback to a default value, if not.
   extract: function(
