@@ -151,7 +151,7 @@ var config = {
     return value.charAt(0).toUpperCase() + value.slice(1);
   },
 
-  getValiMandaVisualizer: function(validations, mandatory, forIcon = true) {
+  getValiMandaVisualizer: function(validations, mandatory) {
     var vals = validations.replace(/^\s+|\s+$/g, "");
     var isEmpty = validationIsEmpty(vals);
     var isValid = vals == "";
@@ -170,14 +170,9 @@ var config = {
       icon = validation_config.nonempty.invalid.icon;
       color = validation_config.nonempty.invalid.color;
     }
-    var style = "color:#" + color;
-    if (forIcon) style += ";font-size:2em;width:2em;";
-    //;text-shadow: 3px 3px 16px #666666
+    icon = icon.substring(7);
+    var style = "padding-right:0.3em;color:#" + color;
     return { icon: icon, style: style };
-  },
-
-  imageForIcon: function(descriptor) {
-    return "https://github.com/encharm/Font-Awesome-SVG-PNG/raw/master/white/png/24/paper-plane.png";
   },
 
   // Extract property from document and check if value is acceptable
