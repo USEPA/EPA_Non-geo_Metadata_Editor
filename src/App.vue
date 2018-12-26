@@ -1,9 +1,5 @@
 <template>
   <q-layout id="q-app">
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css"
-    >
     <q-page-container>
       <EPA>
         <q-btn round aria-label="EPA logo" v-model="menuOpen" @click="menuOpen=!menuOpen">
