@@ -445,7 +445,7 @@ import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
 import traverse from "traverse";
-const cleanDeep = require("clean-deep");
+import cleanDeep from "clean-deep";
 import "vue-awesome/icons";
 //import func from "./vue-temp/vue-editor-bridge";
 
