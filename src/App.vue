@@ -4,9 +4,41 @@
       rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css"
     >
-    <EPA/>
-
     <q-page-container>
+      <EPA>
+        <q-btn round aria-label="EPA logo" v-model="menuOpen" @click="menuOpen=!menuOpen">
+          <img
+            alt="EPA logo"
+            style="width:2.7em"
+            src="~@/assets/environmental_protection_agency-logo-white.png"
+            :class="menuOpen?'spinner':''"
+          >
+        </q-btn>
+      </EPA>
+
+      <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
+        <q-list no-border>
+          <q-item>
+            <q-btn flat @click="perform('load')">
+              <v-icon scale="2" name="cloud-download-alt" class="menuIcon"/>
+              <q-item-main label="Load" class="menuLabel"/>
+            </q-btn>
+          </q-item>
+          <q-item>
+            <q-btn flat @click="perform('view')">
+              <v-icon scale="2" name="eye" class="menuIcon"/>
+              <q-item-main label="View" class="menuLabel"/>
+            </q-btn>
+          </q-item>
+          <q-item>
+            <q-btn flat @click="perform('save')">
+              <v-icon scale="2" name="cloud-upload-alt" class="menuIcon"/>
+              <q-item-main label="Save" class="menuLabel"/>
+            </q-btn>
+          </q-item>
+        </q-list>
+      </q-layout-drawer>
+
       <Intro/>
       <!--
         <q-card  class="q-ma-sm">
@@ -375,7 +407,7 @@
       <br>
       <br>
 
-      <DocumentActions :doc="materializeDoc" @loadMd="loadDocFrom"/>
+      <DocumentActions :action="menuAction" :doc="materializeDoc" @loadMd="loadDocFrom"/>
 
       <Submitter :doc="materializeDoc" :docError="docError()"/>
     </q-page-container>
@@ -414,6 +446,8 @@ import Submitter from "./components/Submitter.vue";
 import merge from "deepmerge";
 import traverse from "traverse";
 import cleanDeep from "clean-deep";
+import "vue-awesome/icons";
+//import func from "./vue-temp/vue-editor-bridge";
 
 // Prompt user if they really want to navigate away from the page
 var confirmOnPageExit = function(e) {
@@ -455,6 +489,8 @@ export default {
   },
   data() {
     return {
+      menuOpen: false,
+      menuAction: "",
       doc: {
         title: "",
         description: "",
@@ -729,6 +765,11 @@ export default {
           message: this.validations[failingElement]
         };
       else return "";
+    },
+
+    perform: function(action) {
+      this.menuAction = action;
+      this.menuOpen = false;
     }
   },
 
@@ -984,9 +1025,45 @@ export default {
         return holderMain;
       }
     }
+  },
+
+  mounted: function() {
+    let f = function(open) {
+      this.menuOpen = open;
+    };
+    setTimeout(f.bind(this, true), 1000);
+    setTimeout(f.bind(this, false), 5000);
   }
 };
 </script>
 
 <style>
+.menuIcon {
+  font-size: 2em;
+  margin-right: 0.2em;
+}
+.menuLabel {
+  font-size: 1.5em;
+}
+.spinner {
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 </style>

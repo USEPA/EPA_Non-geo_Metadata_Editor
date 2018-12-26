@@ -16,22 +16,10 @@
         href="mailto:edg@epa.gov"
       >EPA EDG team</a> for further assistance.
       <br>Each element has a corresponding status:
-      <q-icon
-        :name="validationStyles().empty.mandatory.icon"
-        :style="'text-shadow:none;color:#'+validationStyles().empty.mandatory.color"
-      />Mandatory (empty),
-      <q-icon
-        :name="validationStyles().empty.optional.icon"
-        :style="'text-shadow:none;color:#'+validationStyles().empty.optional.color"
-      />Optional (empty),
-      <q-icon
-        :name="validationStyles().nonempty.invalid.icon"
-        :style="'text-shadow:none;color:#'+validationStyles().nonempty.invalid.color"
-      />Invalid, and
-      <q-icon
-        :name="validationStyles().nonempty.valid.icon"
-        :style="'text-shadow:none;color:#'+validationStyles().nonempty.valid.color"
-      />Valid.
+      <ValidationIcon mandatory :scale="1.4" style="margin-bottom:-0.2em"/>Mandatory (empty),
+      <ValidationIcon :scale="1.4" style="margin-bottom:-0.2em"/>Optional (empty),
+      <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em"/>Invalid, and
+      <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em"/>Valid.
       Additional guidance and best practices are available by clicking each element's status icon.
       <br>Use the blue button at the lower right to save, load, or submit records or log in as an EPA user.
       Please contact the
@@ -43,10 +31,14 @@
 </template>
 
 <script>
+import ValidationIcon from "./ValidationIcon.vue";
 import config from "../config.js";
 
 export default {
   name: "Intro",
+
+  components: { ValidationIcon },
+
   methods: {
     validationStyles: function() {
       return config.validation_config;

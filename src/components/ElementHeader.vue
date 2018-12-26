@@ -3,10 +3,7 @@
     <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
       <div @click="show()">
         <q-item>
-          <q-item-tile
-            :icon="getValiMandaVisualizer().icon"
-            :style="getValiMandaVisualizer().style"
-          />
+          <ValidationIcon :validations="validations" :mandatory="mandatory"/>
           <q-item-main :label="title" style="font-size:1.4em"/>
         </q-item>
       </div>
@@ -16,20 +13,18 @@
       <div v-if="guidanceVisible" style="border-color: red;">
         <br>
         <q-card inset>
-          <q-item dense color="primary">
-            <q-item-tile
-              icon="fas fa-lightbulb"
-              style="padding-left:0.2em;padding-right:1.1em;font-size:2em;color:gold;width:8em;"
-            />
-            <q-item-main v-html="guidance" style="color:gray;width:999%"/>
+          <q-item>
+            <q-item-tile>
+              <v-icon scale="2" name="lightbulb" style="color:gold"/>
+            </q-item-tile>
+            <q-item-main v-html="guidance" style="color:gray;padding-left:1.4em"/>
           </q-item>
           <q-item-separator/>
           <q-item>
-            <q-item-tile
-              :icon="getValiMandaVisualizer().icon"
-              :style="getValiMandaVisualizer().style"
-            />
-            <q-item-main :style="getValiMandaVisualizer(false).style" v-html="getValidations()"/>
+            <q-item-tile>
+              <ValidationIcon :validations="validations" :mandatory="mandatory"/>
+            </q-item-tile>
+            <q-item-main :style="getValiMandaVisualizer().style" v-html="getValidations()"/>
           </q-item>
         </q-card>
       </div>
@@ -38,10 +33,16 @@
 </template>
 
 <script>
+import ValidationIcon from "./ValidationIcon.vue";
 import config from "../config.js";
 
 export default {
   name: "ElementHeader",
+
+  components: {
+    ValidationIcon
+  },
+
   props: {
     title: String,
     guidance: {
@@ -55,7 +56,8 @@ export default {
   data: () => {
     return {
       guidanceVisible: false,
-      validationVisible: false
+      validationVisible: false,
+      config: config
     };
   },
 
@@ -70,12 +72,8 @@ export default {
       else return "Valid.";
     },
 
-    getValiMandaVisualizer: function(forIcon = true) {
-      return config.getValiMandaVisualizer(
-        this.validations,
-        this.mandatory,
-        forIcon
-      );
+    getValiMandaVisualizer: function() {
+      return config.getValiMandaVisualizer(this.validations, this.mandatory);
     }
   }
 };

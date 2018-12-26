@@ -15,31 +15,27 @@
           />
         </FieldWrapper>
 
-        <div v-if="isBeingEdited(index)">URL type: &nbsp;
-          <q-radio v-model="item.urlType" label="access" val="access"/>&nbsp;&nbsp;
-          <q-radio v-model="item.urlType" label="download" val="download"/>
+        <q-card flat v-if="isBeingEdited(index)">
+          <q-item>
+            <q-item-main>
+              <q-btn-toggle
+                v-model="item.urlType"
+                toggle-color="primary"
+                :options="[
+              {label: 'Access URL', value: 'access'},
+              {label: 'Download URL', value: 'download'}
+            ]"
+              />
+            </q-item-main>
+          </q-item>
+        </q-card>
 
-          <FieldWrapper :propInfo="getPropInfo(index, 'url')">
-            <q-input
-              v-model="item.url"
-              :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"
-            />
-          </FieldWrapper>
-        </div>
-        <div v-else>
-          <div class="row">
-            <div class="col-md-auto" :style="getStyle(index,'url')">
-              <b>
-                <q-icon :name="getIcon(index,'url')"/>
-                {{item.urlType=="access"?"access":"download" | capitalize}} URL: &nbsp;
-              </b>
-            </div>
-            <div class="col-md-auto">
-              <a target="previewURL" :href="item.url">{{item.url}}</a>
-            </div>
-          </div>
-        </div>
-        <br>
+        <FieldWrapper :propInfo="getPropInfo(index, 'url')" :overrideName="item.urlType+' URL'">
+          <q-input
+            v-model="item.url"
+            :float-label="'Please enter the ' + item.urlType + ' URL for the dataset'"
+          />
+        </FieldWrapper>
 
         <FieldWrapper :propInfo="getPropInfo(index, 'mediaType')" v-show="item.urlType=='download'">
           <OptionSelector
@@ -86,41 +82,30 @@
 
         <br>
         <div class="row">
-          <q-btn
-            class="col-sm"
-            icon="fas fa-pen"
-            label="Edit this distribution entry"
-            @click="editThis(index)"
-            v-show="!isBeingEdited(index)"
-          />
-          <q-btn
-            class="col-sm"
-            icon="fas fa-check"
-            label="Done editing this distribution entry"
-            @click="closeThis()"
-            v-show="isBeingEdited(index)"
-          />
-          <q-btn
-            class="col-sm"
-            icon="fas fa-trash"
-            label="Delete this distribution entry"
-            @click="deleteThis(index)"
-          />
+          <q-btn class="col-sm" @click="editThis(index)" v-show="!isBeingEdited(index)">
+            <v-icon name="pen" style="margin-right:1em"/>Edit this distribution entry
+          </q-btn>
+          <q-btn class="col-sm" @click="closeThis()" v-show="isBeingEdited(index)">
+            <v-icon name="check" style="margin-right:1em"/>Done editing this distribution entry
+          </q-btn>
+          <q-btn class="col-sm" @click="deleteThis(index)">
+            <v-icon name="trash" style="margin-right:1em"/>Delete this distribution entry
+          </q-btn>
         </div>
       </q-card-main>
     </q-card>
 
     <br>
-    <q-btn
-      icon="fas fa-plus"
-      :label="'Add '+(modelValue.length?'another':'a')+' distribution entry'"
-      @click="addAnother()"
-    />
+    <q-btn @click="addAnother()">
+      <v-icon name="plus" style="margin-right:1em"/>
+      {{'Add '+(modelValue.length?'another':'a')+' distribution entry'}}
+    </q-btn>
   </div>
 </template>
 
 <script>
 import TextInput from "../components/TextInput.vue";
+import ValidationIcon from "./ValidationIcon.vue";
 import OptionSelector from "../components/OptionSelector.vue";
 import FieldWrapper from "../components/FieldWrapper.vue";
 import config from "../config.js";
@@ -130,6 +115,7 @@ export default {
 
   components: {
     TextInput,
+    ValidationIcon,
     OptionSelector,
     FieldWrapper
   },
@@ -255,19 +241,12 @@ export default {
     },
 
     getStyle: function(index, prop) {
-      return config.getValiMandaVisualizer(
-        this.validations[index][prop],
-        config.distribution[prop].mandatory,
-        false
-      ).style;
-    },
-
-    getIcon: function(index, prop) {
-      return config.getValiMandaVisualizer(
-        this.validations[index][prop],
-        false,
-        true
-      ).icon;
+      return (
+        config.getValiMandaVisualizer(
+          this.validations[index][prop],
+          config.distribution[prop].mandatory
+        ).style + ";margin-bottom:-0.4em"
+      );
     },
 
     isBeingEdited: function(index) {
