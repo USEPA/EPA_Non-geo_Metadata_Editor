@@ -2,8 +2,6 @@
   <q-btn-toggle
     v-model="modelValue"
     toggle-color="primary"
-    push
-    glossy
     :options="[
       {label: 'Skip', value: null},
       {label: 'No', value: false},

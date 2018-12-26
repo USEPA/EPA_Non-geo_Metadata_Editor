@@ -18,6 +18,9 @@ Vue.use(Quasar, {
   iconSet: iconSet
 });
 
+import Icon from "vue-awesome/components/Icon";
+Vue.component("v-icon", Icon);
+
 Vue.use(UUID);
 Vue.config.productionTip = false;
 

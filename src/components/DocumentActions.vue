@@ -6,7 +6,9 @@
           <q-toolbar color="primary">
             <q-toolbar-title>{{filenameFull}}</q-toolbar-title>
 
-            <q-btn flat round dense icon="close" @click="closeSaveModal"/>
+            <q-btn flat round dense @click="closeSaveModal">
+              <v-icon name="times" scale="1.4"/>
+            </q-btn>
           </q-toolbar>
         </q-layout-header>
 
@@ -22,7 +24,9 @@
               <TextInput v-model="filename" :defaultText="filenameFull"/>
             </q-item-main>
             <q-item-side right>
-              <q-btn icon="fas fa-cloud-download-alt" color="primary" @click="saveDoc"/>
+              <q-btn color="primary" @click="saveDoc">
+                <v-icon name="cloud-download-alt" scale="1.4"/>
+              </q-btn>
             </q-item-side>
           </q-item>
         </q-layout-footer>
@@ -35,7 +39,9 @@
           <q-toolbar color="primary">
             <q-toolbar-title>Load Metadata File</q-toolbar-title>
 
-            <q-btn flat round dense icon="close" @click="closeLoadModal"/>
+            <q-btn flat round dense @click="closeLoadModal">
+              <v-icon name="times" scale="1.4"/>
+            </q-btn>
           </q-toolbar>
         </q-layout-header>
 
@@ -57,34 +63,14 @@
               >
             </q-item-main>
             <q-item-side right>
-              <q-btn
-                v-if="docSize"
-                icon="edit"
-                color="primary"
-                @click="loadDoc"
-                :disable="loadError"
-              />
+              <q-btn v-if="docSize" color="primary" @click="loadDoc" :disable="loadError">
+                <v-icon name="edit" scale="1.4"/>
+              </q-btn>
             </q-item-side>
           </q-item>
         </q-layout-footer>
       </q-modal-layout>
     </q-modal>
-
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-fab color="primary" icon="fas fa-ellipsis-v" direction="up">
-        <q-fab-action color="primary" @click="fastSaveDoc" icon="fas fa-cloud-download-alt">
-          <q-tooltip anchor="center left" self="center right">Save</q-tooltip>
-        </q-fab-action>
-
-        <q-fab-action color="primary" @click="openSaveModal()" icon="fas fa-eye">
-          <q-tooltip anchor="center left" self="center right">View</q-tooltip>
-        </q-fab-action>
-
-        <q-fab-action color="primary" @click="openLoadModal()" icon="fas fa-cloud-upload-alt">
-          <q-tooltip anchor="center left" self="center right">Load</q-tooltip>
-        </q-fab-action>
-      </q-fab>
-    </q-page-sticky>
   </div>
 </template>
 
@@ -97,6 +83,7 @@ import formatHighlight from "json-format-highlight";
 export default {
   name: "DocumentActions",
   props: {
+    action: "",
     doc: {}
   },
   components: {
@@ -191,12 +178,26 @@ export default {
         window.open("data:" + m + "," + encodeURIComponent(t), "_blank", "");
       }
     },
+
+    perform: function(action) {
+      if (action == "load") {
+        this.openLoadModal();
+      } else if (action == "view") {
+        this.fastSaveDoc();
+      } else if (action == "save") {
+        this.openSaveModal();
+      }
+      this.action_ = "";
+    },
+
     formatHighlight: formatHighlight
   },
+
   computed: {
     docSize() {
       return Object.keys(this.docToLoad).length;
     },
+
     filename: {
       get: function() {
         return this.filenameInternal;
@@ -205,6 +206,7 @@ export default {
         this.filenameInternal = newValue;
       }
     },
+
     filenameFull: {
       get: function() {
         return (
@@ -213,8 +215,21 @@ export default {
       }
     }
   },
+
+  watch: {
+    action: {
+      handler: function(newAction) {
+        this.action_ = newAction;
+        this.perform(this.action_);
+      },
+      immediate: true
+    }
+  },
+
   data() {
     return {
+      action_: "",
+      menuOpen: true,
       saveModalOpen: false,
       loadModalOpen: false,
       filenameInternal: "",

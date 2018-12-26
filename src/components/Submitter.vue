@@ -7,10 +7,14 @@
       <q-modal-layout content-class="no-scroll">
         <q-layout-header>
           <q-toolbar color="primary">
-            <q-btn flat round dense icon="fas fa-paper-plane"/>
+            <q-btn flat round dense>
+              <v-icon name="paper-plane" scale="1.4"/>
+            </q-btn>
             <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
-            <q-btn flat round dense icon="close" @click="closeSubmitModal"/>
+            <q-btn flat round dense @click="closeSubmitModal">
+              <v-icon name="times" scale="1.4"/>
+            </q-btn>
           </q-toolbar>
         </q-layout-header>
 
@@ -47,13 +51,9 @@
       </q-modal-layout>
     </q-modal>
 
-    <q-page-sticky position="bottom-right" :offset="[80, 24]">
-      <q-btn
-        round
-        :color="docError?'negative':'positive'"
-        @click="attemptSubmit"
-        icon="fas fa-paper-plane"
-      >
+    <q-page-sticky position="bottom-right" :offset="[24, 24]">
+      <q-btn round :color="docError?'negative':'positive'" @click="attemptSubmit">
+        <v-icon name="paper-plane" :scale="1.4"/>
         <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
       </q-btn>
     </q-page-sticky>

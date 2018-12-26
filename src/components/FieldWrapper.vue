@@ -1,36 +1,44 @@
 <template>
-  <div>
-    <q-field
-      v-if="propInfo.editMode"
-      :icon="getIcon()"
-      :icon-color="getIconColor()"
-      :error="isError()"
-      :error-label="getErrorLabel()"
-    >
-      <slot></slot>
-    </q-field>
+  <q-card flat>
+    <q-item>
+      <ValidationIcon :validations="propInfo.validation" :mandatory="propInfo.mandatory"/>
+      <q-field
+        v-if="propInfo.editMode"
+        :error="isError()"
+        :error-label="getErrorLabel()"
+        style="width:100%"
+      >
+        <slot></slot>
+      </q-field>
 
-    <div v-else class="row">
-      <div class="col-md-auto" :style="getStyle()">
-        <b>
-          <q-icon :name="getIcon()"/>
-          {{propInfo.name | capitalize}}: &nbsp;
-        </b>
+      <div v-else class="row">
+        <div class="col-md-auto" :style="getStyle()">
+          <b>{{overrideName>""?overrideName: propInfo.name | capitalize}}: &nbsp;</b>
+        </div>
+        <a v-if="propInfo.value.startsWith('http')" :href="propInfo.value">{{propInfo.value}}</a>
+        <div v-else class="col-md-auto">{{propInfo.value}}</div>
       </div>
-      <div class="col-md-auto">{{propInfo.value}}</div>
-    </div>
-    <br>
-  </div>
+      <br>
+    </q-item>
+  </q-card>
 </template>
 
 <script>
+import ValidationIcon from "./ValidationIcon.vue";
 import config from "../config.js";
 
 export default {
   name: "FieldWrapper",
-  props: {
-    propInfo: {}
+
+  components: {
+    ValidationIcon
   },
+
+  props: {
+    propInfo: {},
+    overrideName: { type: String, default: "" }
+  },
+
   methods: {
     isError: function() {
       return (
