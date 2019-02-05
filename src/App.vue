@@ -562,6 +562,7 @@ export default {
     getConfigFor(mdElement, cfgElement, defaultValue) {
       var searchDoc;
       if (
+        cfgElement == "definition" ||
         cfgElement == "guidance" ||
         cfgElement == "epaguidance" ||
         cfgElement == "externalguidance"
@@ -575,7 +576,11 @@ export default {
     },
 
     getGuidanceFor(mdElement) {
-      var guidance = this.getConfigFor(mdElement, "guidance") || "";
+      var guidance = "";
+      var definition = this.getConfigFor(mdElement, "definition") || "";
+      if (definition) guidance += "<b>Definition:</b> " + definition;
+      var generalGuidance = this.getConfigFor(mdElement, "guidance") || "";
+      if (generalGuidance) guidance += "<br/><b>Guidance:</b> " + generalGuidance;
       if (this.isEpaUser) {
         var epaguidance = this.getConfigFor(mdElement, "epaguidance") || "";
         if (epaguidance) guidance += "<br/>" + epaguidance;
