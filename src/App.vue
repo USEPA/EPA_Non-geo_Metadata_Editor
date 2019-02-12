@@ -169,14 +169,14 @@
 
       <q-card class="q-ma-sm">
         <ElementHeader
-          title="Publisher"
+          title="Publishing Individual"
           :guidance="getGuidanceFor('contactPoint.fn')"
           :validations.sync="validations.contactPoint.fn"
           :mandatory="config.contactPoint.fn['mandatory']"
         />
         <q-card-main>
           <TextInput
-            defaultText="Please enter the name of the publisher for the dataset"
+            defaultText="Please enter the name of the individual responsible for publishing the dataset"
             v-model="doc.contactPoint.fn"
           />
         </q-card-main>
@@ -298,7 +298,7 @@
           title="Update Frequency"
           :guidance="getGuidanceFor('accrualPeriodicity')"
           :validations.sync="validations.accrualPeriodicity"
-          :mandatory="config['accrualPeriodicity']['mandatory']"
+          :mandatory="config['accrualPeriodicity']['optional']"
         />
         <q-card-main>
           <PeriodicityInput :userInput.sync="doc.accrualPeriodicity"/>
@@ -562,6 +562,7 @@ export default {
     getConfigFor(mdElement, cfgElement, defaultValue) {
       var searchDoc;
       if (
+        cfgElement == "definition" ||
         cfgElement == "guidance" ||
         cfgElement == "epaguidance" ||
         cfgElement == "externalguidance"
@@ -575,7 +576,11 @@ export default {
     },
 
     getGuidanceFor(mdElement) {
-      var guidance = this.getConfigFor(mdElement, "guidance") || "";
+      var guidance = "";
+      var definition = this.getConfigFor(mdElement, "definition") || "";
+      if (definition) guidance += "<b>Definition:</b> " + definition;
+      var generalGuidance = this.getConfigFor(mdElement, "guidance") || "";
+      if (generalGuidance) guidance += "<br/><b>Guidance:</b> " + generalGuidance;
       if (this.isEpaUser) {
         var epaguidance = this.getConfigFor(mdElement, "epaguidance") || "";
         if (epaguidance) guidance += "<br/>" + epaguidance;
