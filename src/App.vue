@@ -47,7 +47,7 @@
         <ElementHeader
           title="EPA Agreement"
           :guidance="getGuidanceFor('epa_agreement_no')"
-          :validations.sync="validations.epa_agreement_no"
+          :validations.sync="this.oneOf('epa_agreement_type', 'Agreement Type: ', 'epa_agreement_no', 'Agreement No: ')"
           :mandatory="config['epa_agreement_no']['mandatory']"
         />
         <q-card-main>
@@ -569,6 +569,12 @@ export default {
   },
 
   methods: {
+    oneOf: function(val1, pref1, val2, pref2) {
+      if (this.validations[val1].trim()) return pref1 + this.validations[val1];
+      if (this.validations[val2].trim()) return pref2 + this.validations[val2];
+      return "";
+    },
+
     getConfigFor(mdElement, cfgElement, defaultValue) {
       var searchDoc;
       if (
