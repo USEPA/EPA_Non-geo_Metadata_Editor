@@ -500,9 +500,21 @@ var config = {
     }
   },
 
-  epa_grant: {
-    mandatory: false,
+  epa_agreement_no: {
+    mandatory: true,
     validators: [{ fn: global_validators.nonEmpty, args: {} }]
+  },
+
+  epa_agreement_type: {
+    mandatory: true,
+    validators: [{ fn: global_validators.nonEmpty, args: {} }],
+    availableOptions: [
+      { value: "Grant", label: "Grant" },
+      { value: "Contract", label: "Contract" },
+      { value: "Cooperative Agreement", label: "Cooperative Agreement" },
+      { value: "Inter-Agency Agreement", label: "Inter-Agency Agreement" },
+      { value: "Other", label: "Other" }
+    ]
   },
 
   epa_contact: {

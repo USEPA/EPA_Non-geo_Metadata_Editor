@@ -45,13 +45,21 @@
       -->
       <q-card class="q-ma-sm">
         <ElementHeader
-          title="EPA Grant"
-          :guidance="getGuidanceFor('epa_grant')"
-          :validations.sync="validations.epa_grant"
-          :mandatory="config['epa_grant']['mandatory']"
+          title="EPA Agreement"
+          :guidance="getGuidanceFor('epa_agreement_no')"
+          :validations.sync="validations.epa_agreement_no"
+          :mandatory="config['epa_agreement_no']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please enter EPA grant no" v-model="doc.epa_grant"/>
+          <OptionSelector
+            v-model="doc.epa_agreement_type"
+            placeHolderText="Please enter EPA agreement type"
+            :availableOptions.sync="config['epa_agreement_type']['availableOptions']"
+          />
+          <TextInput
+            defaultText="Please enter EPA agreement number"
+            v-model="doc.epa_agreement_no"
+          />
         </q-card-main>
       </q-card>
 
@@ -517,7 +525,8 @@ export default {
         landingPage: "",
         references: "",
         distribution: [],
-        epa_grant: "",
+        epa_agreement_no: "",
+        epa_agreement_type: "",
         epa_contact: ""
       },
       validations: {
@@ -548,7 +557,8 @@ export default {
         landingPage: "",
         references: "",
         distribution: "",
-        epa_grant: "",
+        epa_agreement_no: "",
+        epa_agreement_type: "",
         epa_contact: ""
       },
       holder: {},
@@ -580,7 +590,8 @@ export default {
       var definition = this.getConfigFor(mdElement, "definition") || "";
       if (definition) guidance += "<b>Definition:</b> " + definition;
       var generalGuidance = this.getConfigFor(mdElement, "guidance") || "";
-      if (generalGuidance) guidance += "<br/><b>Guidance:</b> " + generalGuidance;
+      if (generalGuidance)
+        guidance += "<br/><b>Guidance:</b> " + generalGuidance;
       if (this.isEpaUser) {
         var epaguidance = this.getConfigFor(mdElement, "epaguidance") || "";
         if (epaguidance) guidance += "<br/>" + epaguidance;
@@ -742,7 +753,8 @@ export default {
       this.doc.distribution = config.extract(inDoc, "distribution", {
         defaultValue: []
       });
-      this.doc.epa_grant = config.extract(inDoc, "epa_grant");
+      this.doc.epa_agreement_type = config.extract(inDoc, "epa_agreement_type");
+      this.doc.epa_agreement_no = config.extract(inDoc, "epa_agreement_no");
       this.doc.epa_contact = config.extract(inDoc, "epa_contact");
     },
 
@@ -933,9 +945,15 @@ export default {
       },
       immediate: true
     },
-    "doc.epa_grant": {
+    "doc.epa_agreement_type": {
       handler: function() {
-        this.validateElement("epa_grant");
+        this.validateElement("epa_agreement_type");
+      },
+      immediate: true
+    },
+    "doc.epa_agreement_no": {
+      handler: function() {
+        this.validateElement("epa_agreement_no");
       },
       immediate: true
     },
