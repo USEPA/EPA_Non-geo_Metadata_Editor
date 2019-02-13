@@ -4,6 +4,7 @@ import epaThemeTags from "./lookupEPAThemeTags.js";
 import placeTags from "./lookupPlaceTags.js";
 import languages from "./lookupLanguages.js";
 import rights from "./lookupRights.js";
+import { date } from "quasar";
 
 var global_validators = {
   nonTrivialText: function(txt, options) {
@@ -28,7 +29,13 @@ var global_validators = {
     txt = txt.trim();
     if (txt == "") return "Empty.";
     // Is it a valid date
-    if (txt.match(/^\d\d\d\d-\d\d-\d\d$/) && Date.parse(txt)) return "";
+    if (
+      date.isValid(txt) &&
+      (txt.match(/^\d\d\d\d-\d\d-\d\d$/) ||
+        txt.match(/^\d\d\d\d-\d\d$/) ||
+        txt.match(/^\d\d\d\d$/))
+    )
+      return "";
     return "Invalid date.";
   },
 
@@ -43,18 +50,15 @@ var global_validators = {
     var dtEnd = parts[1];
     if ((dtStart && !dtEnd) || (!dtStart && dtEnd))
       return "Incomplete date range.";
-    if (
-      dtStart.match(/^\d\d\d\d-\d\d-\d\d$/) &&
-      dtEnd.match(/^\d\d\d\d-\d\d-\d\d$/)
-    ) {
-      dtStart = Date.parse(dtStart);
-      dtEnd = Date.parse(dtEnd);
-      if (!dtStart) return "Invalid start date.";
-      if (!dtEnd) return "Invalid end date.";
-      if (dtStart > dtEnd) return "Start date later than end date.";
-      return "";
-    }
-    return "Invalid date range.";
+    if (global_validators.validDate(dtStart) != "")
+      return "Invalid start date.";
+    if (global_validators.validDate(dtEnd) != "") return "Invalid end date.";
+    dtStart = Date.parse(dtStart);
+    dtEnd = Date.parse(dtEnd);
+    if (!dtStart) return "Invalid start date.";
+    if (!dtEnd) return "Invalid end date.";
+    if (dtStart > dtEnd) return "Start date later than end date.";
+    return "";
   },
 
   validDateOrRepetition: function(txt, options) {

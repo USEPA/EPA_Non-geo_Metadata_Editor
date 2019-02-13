@@ -1,9 +1,9 @@
 <template>
   <div class="aligned">
     <div v-if="range">Start:&nbsp;</div>
-    <q-input type="date" v-model="modelValue1"/>
+    <q-input v-model="modelValue1" placeholder="YYYY[-MM[-DD]]" class="wider"/>
     <div v-if="range">&nbsp;&nbsp;&nbsp;End:&nbsp;</div>
-    <q-input v-if="this.range" type="date" v-model="modelValue2"/>
+    <q-input v-if="this.range" v-model="modelValue2" placeholder="YYYY[-MM[-DD]]" class="wider"/>
   </div>
 </template>
 
@@ -20,9 +20,11 @@ export default {
     modelValue1() {
       this.$emit("input", this.modelValue);
     },
+
     modelValue2() {
       if (this.range) this.$emit("input", this.modelValue);
     },
+
     value(newValue) {
       var values = this.parseInput(newValue);
       if (this.modelValue1 != values[0]) this.modelValue1 = values[0];
@@ -63,5 +65,8 @@ export default {
   margin-left: 2%;
   display: flex;
   align-items: center;
+}
+.wider {
+  width: 8em;
 }
 </style>
