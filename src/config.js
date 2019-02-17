@@ -97,7 +97,11 @@ var global_validators = {
 
   crossValidateModifiedAndAccrualPeriodicity: function(txt, options) {
     config.noop(options); // So that linter does not complain
-    if (options.doc.modified || options.doc.accrualPeriodicity) return "";
+    if (
+      global_validators.validDate(options.doc.modified) == "" ||
+      options.doc.accrualPeriodicity
+    )
+      return "";
     if (!options.doc.modified || !options.doc.accrualPeriodicity)
       return "Empty.";
     return "You must populate update frequency element when you leave last update element empty.";
