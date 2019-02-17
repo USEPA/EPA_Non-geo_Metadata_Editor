@@ -53,11 +53,11 @@
         <q-card-main>
           <OptionSelector
             v-model="doc.epa_agreement_type"
-            placeHolderText="Please enter EPA agreement type"
+            placeHolderText="Please select EPA agreement type"
             :availableOptions.sync="config['epa_agreement_type']['availableOptions']"
           />
           <TextInput
-            defaultText="Please enter EPA agreement number"
+            defaultText="Please enter EPA agreement number or description"
             v-model="doc.epa_agreement_no"
           />
         </q-card-main>
