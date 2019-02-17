@@ -1,16 +1,18 @@
 <template>
-  <q-select
-    multiple
-    filter
-    chips
-    clearable
+  <multiselect
     v-model="modelValue"
+    tag-placeholder="Add this as new keyword"
+    placeholder="Search or add a keyword"
+    label="label"
+    track-by="value"
     :options="availableTags"
-    filter-placeholder="Type here to filter"
+    :multiple="true"
   />
 </template>
 
 <script>
+import Multiselect from "vue-multiselect";
+
 export default {
   name: "TagCollector",
 
@@ -19,10 +21,13 @@ export default {
     availableTags: Array
   },
 
+  components: { Multiselect },
+
   watch: {
     modelValue(newValue) {
       this.$emit("input", newValue);
     },
+
     value(newValue) {
       this.modelValue = newValue;
     }

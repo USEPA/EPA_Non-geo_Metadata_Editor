@@ -674,20 +674,21 @@ export default {
     mergeArrays: function() {
       var keywords = {};
       var args = [].slice.call(arguments);
-      args.map(a => a.map(x => (keywords[x.toLowerCase()] = x)));
+      args.map(a => a.map(x => (keywords[x.value.toLowerCase()] = x.value)));
       return Object.values(keywords);
     },
 
     // Destructively extract and return tags found in tagOptions
     extractTags: function(tags, tagOptions) {
       // Find matching ones to be returned
-      var matchedTags = tags.filter(tag =>
-        tagOptions.find(
-          option => option.value.toLowerCase() == tag.toLowerCase()
-        )
+      var matchedTags = tagOptions.filter(option =>
+        tags.find(tag => option.value.toLowerCase() == tag.toLowerCase())
       );
       // Find unmatched ones
-      var unmatchedTags = tags.filter(tag => matchedTags.indexOf(tag) == -1);
+      var unmatchedTags = tags.filter(
+        tag =>
+          !matchedTags.find(m => m.value.toLowerCase() == tag.toLowerCase())
+      );
       // In-place modify tags array to consist only of unmatched tags
       for (let i = 0; i < unmatchedTags.length; i++) tags[i] = unmatchedTags[i];
       tags.length = unmatchedTags.length;
@@ -748,7 +749,9 @@ export default {
         config.tags_epa_theme.availableTags
       );
       // Remaning tags are moved to general category
-      this.doc.tags_general = config.clone(inDoc.keyword);
+      this.doc.tags_general = config.clone(inDoc.keyword).map(x => {
+        return { value: x, label: x };
+      });
       inDoc.keyword.length = 0;
 
       if (!inDoc.language) inDoc.language = [];

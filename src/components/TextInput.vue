@@ -27,7 +27,6 @@ export default {
     }
   },
   data() {
-    //console.log(this.value);
     return {
       modelValue: this.value
     };
