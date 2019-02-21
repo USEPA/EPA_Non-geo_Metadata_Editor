@@ -2,11 +2,14 @@
   <multiselect
     v-model="modelValue"
     tag-placeholder="Add this as new keyword"
-    placeholder="Search or add a keyword"
+    placeholder="Search or add keyword"
     label="label"
     track-by="value"
     :options="availableTags"
     :multiple="true"
+    :close-on-select="false"
+    :clearOnSelect="false"
+    :hide-selected="true"
   />
 </template>
 
