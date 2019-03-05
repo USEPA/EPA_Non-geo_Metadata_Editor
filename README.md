@@ -4,6 +4,8 @@ The EPA Non-Geo Metadata Editor is a web-based tool to create records compliant 
 
 ## Project setup
 
+By default non-production builds target deployment to root folder and production builds target `/epa-open-data-metadata-editor` folder. Please modify `vue.config.js` to change this behavior.
+
 ```
 yarn install
 ```
