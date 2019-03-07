@@ -1,8 +1,5 @@
 <template>
-  <q-jumbotron
-    dark
-    img-src="https://www.epa.gov/sites/production/files/styles/microsite_banner/public/2018-08/epa-banner-images/banners_xcpp_aug2018.jpg"
-  >
+  <q-jumbotron dark img-src="./banner.jpg">
     <div
       class="q-subheading tb"
     >Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.</div>
