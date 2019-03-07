@@ -429,7 +429,7 @@
 </template>
 
 <script>
-import mdSpec from "./assets/epa-metadata-tech-spec.json";
+import mdSpec from "../public/epa-metadata-tech-spec.json";
 import config from "./config.js";
 
 import EPA from "./components/EPA.vue";
