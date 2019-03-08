@@ -1,5 +1,5 @@
 <template>
-  <q-layout id="q-app">
+  <q-layout id="q-app" v-if="mdSpecReady">
     <q-page-container>
       <EPA>
         <q-btn round aria-label="EPA logo" v-model="menuOpen" @click="menuOpen=!menuOpen">
@@ -429,9 +429,7 @@
 </template>
 
 <script>
-import mdSpec from "../public/epa-metadata-tech-spec.json";
 import config from "./config.js";
-
 import EPA from "./components/EPA.vue";
 import Intro from "./components/Intro.vue";
 import ElementHeader from "./components/ElementHeader.vue";
@@ -451,6 +449,7 @@ import merge from "deepmerge";
 import traverse from "traverse";
 import cleanDeep from "clean-deep";
 import "vue-awesome/icons";
+import "whatwg-fetch";
 //import func from "./vue-temp/vue-editor-bridge";
 
 // Prompt user if they really want to navigate away from the page
@@ -562,7 +561,8 @@ export default {
         epa_contact: ""
       },
       holder: {},
-      mdSpec: mdSpec,
+      mdSpec: null,
+      mdSpecReady: false,
       config: config,
       isEpaUser: false
     };
@@ -781,21 +781,39 @@ export default {
       };
 
       let failingElement = traverse(this.validations).reduce(fn, "");
-      if (failingElement)
+      if (failingElement) {
         return {
-          name: traverse(mdSpec).get(failingElement)["field"],
+          name: this.mdSpec
+            ? traverse(this.mdSpec).get(failingElement)["field"]
+            : failingElement,
           message: this.validations[failingElement]
         };
-      else return "";
+      } else return "";
     },
 
     perform: function(action) {
       this.menuAction = action;
       this.menuOpen = false;
+    },
+
+    getSpec() {
+      fetch(
+        "https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
+      )
+        .then(response => response.json())
+        .then(data => {
+          this.mdSpec = data;
+        });
     }
   },
 
   watch: {
+    mdSpec: {
+      handler: function() {
+        if (this.mdSpec) this.mdSpecReady = true;
+      },
+      immediate: true
+    },
     "doc.title": {
       handler: function() {
         this.validateElement("title");
@@ -973,6 +991,7 @@ export default {
       immediate: true
     }
   },
+
   computed: {
     materializeDoc: {
       get: function() {
@@ -1053,6 +1072,10 @@ export default {
         return holderMain;
       }
     }
+  },
+
+  created: function() {
+    this.getSpec();
   },
 
   mounted: function() {
