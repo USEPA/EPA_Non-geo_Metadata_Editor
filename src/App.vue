@@ -411,7 +411,12 @@
       <br>
       <br>
 
-      <DocumentActions :action="menuAction" :doc="materializeDoc" @loadMd="loadDocFrom"/>
+      <DocumentActions
+        :action="menuAction"
+        :doc="materializeDoc"
+        @loadMd="loadDocFrom"
+        @modalClosed="menuAction=''"
+      />
 
       <Submitter :doc="materializeDoc" :docError="docError()"/>
     </q-page-container>

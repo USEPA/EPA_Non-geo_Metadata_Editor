@@ -188,6 +188,7 @@ export default {
         this.openSaveModal();
       }
       this.action_ = "";
+      this.$emit("modalClosed");
     },
 
     formatHighlight: formatHighlight
