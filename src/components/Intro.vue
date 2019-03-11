@@ -18,7 +18,7 @@
       <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em"/>Invalid, and
       <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em"/>Valid.
       Additional guidance and best practices are available by clicking each element's status icon.
-      <br>Use the blue button at the lower right to save, load, or submit records or log in as an EPA user.
+      <br>Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.
       Please contact the
       <a
         href="mailto:edg@epa.gov"
