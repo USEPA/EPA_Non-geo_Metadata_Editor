@@ -123,14 +123,14 @@ export default {
   props: {
     value: {
       type: Array,
-      default: function() {
+      default: function () {
         return [];
       }
     }
   },
 
   methods: {
-    makeEmptyDistribution: function() {
+    makeEmptyDistribution: function () {
       return {
         interned: true, // True if we created the record (from scratch or by interning a loaded record)
         title: "",
@@ -146,7 +146,7 @@ export default {
       };
     },
 
-    intern: function(fromItem) {
+    intern: function (fromItem) {
       // Ignore already interned items
       if (!fromItem || fromItem.interned) return fromItem;
 
@@ -190,7 +190,7 @@ export default {
       return item;
     },
 
-    makeEmptyValidation: function() {
+    makeEmptyValidation: function () {
       return {
         title: "",
         url: "",
@@ -204,11 +204,11 @@ export default {
       };
     },
 
-    makeEmptyValidationsFor: function(dist) {
+    makeEmptyValidationsFor: function (dist) {
       return dist.map(() => this.makeEmptyValidation());
     },
 
-    addAnother: function() {
+    addAnother: function () {
       this.modelValue.push(this.makeEmptyDistribution());
 
       this.validations.push(this.makeEmptyValidation());
@@ -216,21 +216,21 @@ export default {
       this.indexBeingEdited = this.modelValue.length - 1;
     },
 
-    editThis: function(index) {
+    editThis: function (index) {
       this.indexBeingEdited = index;
     },
 
-    closeThis: function() {
+    closeThis: function () {
       this.indexBeingEdited = -1;
     },
 
-    deleteThis: function(index) {
+    deleteThis: function (index) {
       this.modelValue.splice(index, 1);
       this.validations.splice(index, 1);
       this.indexBeingEdited = -1;
     },
 
-    getPropInfo: function(index, prop) {
+    getPropInfo: function (index, prop) {
       return {
         name: prop,
         mandatory: config.distribution[prop].mandatory,
@@ -240,7 +240,7 @@ export default {
       };
     },
 
-    getStyle: function(index, prop) {
+    getStyle: function (index, prop) {
       return (
         config.getValiMandaVisualizer(
           this.validations[index][prop],
@@ -249,16 +249,19 @@ export default {
       );
     },
 
-    isBeingEdited: function(index) {
+    isBeingEdited: function (index) {
       return index == this.indexBeingEdited;
     },
 
-    validate: function(item, validations) {
+    validate: function (item, validations) {
       if (item.formatType == "API") item.format = "API";
       else if (item.format == "API") item.format = "";
 
       // Auto detect mediaType from file extension embedded in URL, if any
-      if (item.url) item.mediaType = config.url2mimeType(item.url);
+      if (item.url) {
+        let lookedUpType = config.url2mimeType(item.url)
+        if (lookedUpType) item.mediaType = lookedUpType;
+      }
 
       // Auto detect describedByType from file extension embedded in URL, if any
       if (item.describedBy) {
@@ -294,8 +297,8 @@ export default {
 
   computed: {
     distribution: {
-      get: function() {
-        var normalize = function(item, validations) {
+      get: function () {
+        var normalize = function (item, validations) {
           var normalizedItem = {
             "@type": "dcat:Distribution"
           };
@@ -348,13 +351,13 @@ export default {
         return dist;
       },
 
-      set: function(newValue) {
+      set: function (newValue) {
         config.noop(newValue);
       }
     }
   },
 
-  data() {
+  data () {
     return {
       modelValue: this.value,
       validations: [],
@@ -364,7 +367,7 @@ export default {
   },
 
   watch: {
-    value(newValue) {
+    value (newValue) {
       if (newValue.length && !newValue[0].interned) {
         this.indexBeingEdited = -1;
         this.modelValue = newValue.map(item => this.intern(item));
@@ -372,7 +375,7 @@ export default {
     },
 
     modelValue: {
-      handler: function(newValue) {
+      handler: function (newValue) {
         this.validations = this.makeEmptyValidationsFor(newValue);
         for (var i = 0; i < this.modelValue.length; i++)
           if (this.indexBeingEdited == -1 || this.indexBeingEdited == i)
