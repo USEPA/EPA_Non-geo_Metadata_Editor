@@ -4,7 +4,9 @@
       <div @click="show()">
         <q-item>
           <ValidationIcon :validations="validations" :mandatory="mandatory"/>
-          <q-item-main :label="title" style="font-size:1.4em"/>
+          <q-item-main>
+            <span class="element">{{title}}</span>
+          </q-item-main>
         </q-item>
       </div>
     </q-card-title>
@@ -62,17 +64,17 @@ export default {
   },
 
   methods: {
-    show() {
+    show () {
       this.guidanceVisible = !this.guidanceVisible;
       this.validationVisible = !this.validationVisible;
     },
 
-    getValidations() {
+    getValidations () {
       if (this.validations.trim()) return this.validations.trim();
       else return "Valid.";
     },
 
-    getValiMandaVisualizer: function() {
+    getValiMandaVisualizer: function () {
       return config.getValiMandaVisualizer(this.validations, this.mandatory);
     }
   }
@@ -80,4 +82,10 @@ export default {
 </script>
 
 <style scoped>
+.element {
+  font-size: 1.4em;
+}
+.element:hover {
+  background-color: #529e34;
+}
 </style>
