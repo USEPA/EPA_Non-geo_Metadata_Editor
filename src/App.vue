@@ -347,7 +347,8 @@
           :validations.sync="validations.dataQuality"
           :mandatory="config['dataQuality']['mandatory']"
         />
-        <q-card-main>Does the dataset meet your organization’s Information Quality Guidelines? &nbsp;
+        <q-card-main>
+          Does the dataset meet your organization’s Information Quality Guidelines? &nbsp;
           <BooleanSelector v-model="doc.dataQuality"/>
         </q-card-main>
       </q-card>
@@ -404,12 +405,12 @@
           <TextInput defaultText="Please provide a URL" v-model="doc.references"/>
         </q-card-main>
       </q-card>
+
+      <Footer/>
+
       <!--
 
       -->
-      <br>
-      <br>
-      <br>
 
       <DocumentActions
         :action="menuAction"
@@ -450,6 +451,7 @@ import Distribution from "./components/Distribution.vue";
 import DocumentActions from "./components/DocumentActions.vue";
 import UserTags from "./components/UserTags.vue";
 import Submitter from "./components/Submitter.vue";
+import Footer from "./components/Footer.vue";
 import merge from "deepmerge";
 import traverse from "traverse";
 import cleanDeep from "clean-deep";
@@ -458,7 +460,7 @@ import "whatwg-fetch";
 //import func from "./vue-temp/vue-editor-bridge";
 
 // Prompt user if they really want to navigate away from the page
-var confirmOnPageExit = function(e) {
+var confirmOnPageExit = function (e) {
   // If we haven't been passed the event get the window.event
   e = e || window.event;
 
@@ -491,11 +493,12 @@ export default {
     Distribution,
     DocumentActions,
     UserTags,
-    Submitter
+    Submitter,
+    Footer
 
     //, ORCID
   },
-  data() {
+  data () {
     return {
       menuOpen: false,
       menuAction: "",
@@ -574,13 +577,13 @@ export default {
   },
 
   methods: {
-    oneOf: function(val1, pref1, val2, pref2) {
+    oneOf: function (val1, pref1, val2, pref2) {
       if (this.validations[val1].trim()) return pref1 + this.validations[val1];
       if (this.validations[val2].trim()) return pref2 + this.validations[val2];
       return "";
     },
 
-    getConfigFor(mdElement, cfgElement, defaultValue) {
+    getConfigFor (mdElement, cfgElement, defaultValue) {
       var searchDoc;
       if (
         cfgElement == "definition" ||
@@ -596,7 +599,7 @@ export default {
         : defaultValue;
     },
 
-    getGuidanceFor(mdElement) {
+    getGuidanceFor (mdElement) {
       var guidance = "";
       var definition = this.getConfigFor(mdElement, "definition") || "";
       if (definition) guidance += "<b>Definition:</b> " + definition;
@@ -616,7 +619,7 @@ export default {
         : "No guidance available at this time.";
     },
 
-    applyValidators(elementConfig, mdElementValue) {
+    applyValidators (elementConfig, mdElementValue) {
       var validationResults = "";
       var validators = elementConfig.validators;
       if (!validators || !validators.length) return validationResults; // No validator(s) for element
@@ -628,7 +631,7 @@ export default {
       return validationResults;
     },
 
-    validateElement(mdElement) {
+    validateElement (mdElement) {
       var mdElementValue = this.findElement(this.doc, mdElement);
       var elementConfig = this.findElement(this.config, mdElement);
       var validationResults = "Empty.";
@@ -655,7 +658,7 @@ export default {
       this.setElement(this.validations, mdElement, validationResults);
     },
 
-    findElement(doc, elementPath) {
+    findElement (doc, elementPath) {
       var tempRoot = doc;
       config.noop(tempRoot);
       try {
@@ -665,7 +668,7 @@ export default {
       }
     },
 
-    setElement(doc, elementPath, newValue) {
+    setElement (doc, elementPath, newValue) {
       elementPath = "tempRoot." + elementPath;
       var i = elementPath.lastIndexOf(".");
       var leaf = elementPath.substring(i + 1);
@@ -676,7 +679,7 @@ export default {
       element[leaf] = newValue;
     },
 
-    mergeArrays: function() {
+    mergeArrays: function () {
       var keywords = {};
       var args = [].slice.call(arguments);
       args.map(a => a.map(x => (keywords[x.value.toLowerCase()] = x.value)));
@@ -684,7 +687,7 @@ export default {
     },
 
     // Destructively extract and return tags found in tagOptions
-    extractTags: function(tags, tagOptions) {
+    extractTags: function (tags, tagOptions) {
       // Find matching ones to be returned
       var matchedTags = tagOptions.filter(option =>
         tags.find(tag => option.value.toLowerCase() == tag.toLowerCase())
@@ -701,7 +704,7 @@ export default {
       return matchedTags;
     },
 
-    loadDocFrom: function(newDoc) {
+    loadDocFrom: function (newDoc) {
       // Deep clone the document read as we will apply destructive ops
       this.holder = config.clone(newDoc || {});
       var inDoc = this.holder.dataset || [];
@@ -772,8 +775,8 @@ export default {
       this.doc.epa_contact = config.extract(inDoc, "epa_contact");
     },
 
-    docError: function() {
-      let fn = function(val, n) {
+    docError: function () {
+      let fn = function (val, n) {
         if (val) return val;
 
         if (this.isLeaf) {
@@ -796,12 +799,12 @@ export default {
       } else return "";
     },
 
-    perform: function(action) {
+    perform: function (action) {
       this.menuAction = action;
       this.menuOpen = false;
     },
 
-    getSpec() {
+    getSpec () {
       fetch(
         "https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
       )
@@ -814,137 +817,137 @@ export default {
 
   watch: {
     mdSpec: {
-      handler: function() {
+      handler: function () {
         if (this.mdSpec) this.mdSpecReady = true;
       },
       immediate: true
     },
     "doc.title": {
-      handler: function() {
+      handler: function () {
         this.validateElement("title");
       },
       immediate: true
     },
     "doc.description": {
-      handler: function() {
+      handler: function () {
         this.validateElement("description");
       },
       immediate: true
     },
     "doc.tags_place": {
-      handler: function() {
+      handler: function () {
         this.validateElement("tags_place");
       },
       immediate: true
     },
     "doc.tags_iso": {
-      handler: function() {
+      handler: function () {
         this.validateElement("tags_iso");
       },
       immediate: true
     },
     "doc.tags_epa_theme": {
-      handler: function() {
+      handler: function () {
         this.validateElement("tags_epa_theme");
       },
       immediate: true
     },
     "doc.tags_general": {
-      handler: function() {
+      handler: function () {
         this.validateElement("tags_general");
       },
       immediate: true
     },
     "doc.modified": {
-      handler: function() {
+      handler: function () {
         this.validateElement("modified");
         this.validateElement("accrualPeriodicity");
       },
       immediate: true
     },
     "doc.accrualPeriodicity": {
-      handler: function() {
+      handler: function () {
         this.validateElement("accrualPeriodicity");
         this.validateElement("modified");
       },
       immediate: true
     },
     "doc.publisher": {
-      handler: function() {
+      handler: function () {
         this.validateElement("publisher");
       },
       immediate: true
     },
     "doc.contactPoint.fn": {
-      handler: function() {
+      handler: function () {
         this.validateElement("contactPoint.fn");
       },
       immediate: true
     },
     "doc.contactPoint.hasEmail": {
-      handler: function() {
+      handler: function () {
         this.validateElement("contactPoint.hasEmail");
       },
       immediate: true
     },
     "doc.identifier": {
-      handler: function() {
+      handler: function () {
         this.validateElement("identifier");
       },
       immediate: true
     },
     "doc.accessLevel": {
-      handler: function() {
+      handler: function () {
         this.validateElement("accessLevel");
       },
       immediate: true
     },
 
     "doc.rights": {
-      handler: function() {
+      handler: function () {
         this.validateElement("rights");
       },
       immediate: true
     },
     "doc.license": {
-      handler: function() {
+      handler: function () {
         this.validateElement("license");
       },
       immediate: true
     },
     "doc.temporal": {
-      handler: function() {
+      handler: function () {
         this.validateElement("temporal");
       },
       immediate: true
     },
 
     "doc.issued": {
-      handler: function() {
+      handler: function () {
         this.validateElement("issued");
       },
       immediate: true
     },
     "doc.language": {
-      handler: function() {
+      handler: function () {
         this.validateElement("language");
       },
       immediate: true
     },
     "doc.dataQuality": {
-      handler: function() {
+      handler: function () {
         this.validateElement("dataQuality");
       },
       immediate: true
     },
     "doc.conformsTo": {
-      handler: function() {
+      handler: function () {
         this.validateElement("conformsTo");
       },
       immediate: true
     },
     "doc.describedBy": {
-      handler: function() {
+      handler: function () {
         this.validateElement("describedBy");
 
         // Auto detect describedByType from file extension embedded in URL, if any
@@ -954,43 +957,43 @@ export default {
       immediate: true
     },
     "doc.describedByType": {
-      handler: function() {
+      handler: function () {
         this.validateElement("describedByType");
       },
       immediate: true
     },
     "doc.landingPage": {
-      handler: function() {
+      handler: function () {
         this.validateElement("landingPage");
       },
       immediate: true
     },
     "doc.references": {
-      handler: function() {
+      handler: function () {
         this.validateElement("references");
       },
       immediate: true
     },
     "doc.distribution": {
-      handler: function() {
+      handler: function () {
         this.validateElement("distribution");
       },
       immediate: true
     },
     "doc.epa_agreement_type": {
-      handler: function() {
+      handler: function () {
         this.validateElement("epa_agreement_type");
       },
       immediate: true
     },
     "doc.epa_agreement_no": {
-      handler: function() {
+      handler: function () {
         this.validateElement("epa_agreement_no");
       },
       immediate: true
     },
     "doc.epa_contact": {
-      handler: function() {
+      handler: function () {
         this.validateElement("epa_contact");
       },
       immediate: true
@@ -999,7 +1002,7 @@ export default {
 
   computed: {
     materializeDoc: {
-      get: function() {
+      get: function () {
         // Deep copy the working document
         var outDoc = config.clone(this.doc);
 
@@ -1079,12 +1082,12 @@ export default {
     }
   },
 
-  created: function() {
+  created: function () {
     this.getSpec();
   },
 
-  mounted: function() {
-    let f = function(open) {
+  mounted: function () {
+    let f = function (open) {
       this.menuOpen = open;
     };
     setTimeout(f.bind(this, true), 1000);
