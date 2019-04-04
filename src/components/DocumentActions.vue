@@ -6,7 +6,7 @@
           <q-toolbar color="primary">
             <q-toolbar-title>{{filenameFull}}</q-toolbar-title>
 
-            <q-btn flat round dense @click="closeSaveModal">
+            <q-btn flat round dense @click="closeSaveModal" aria-label="close dialog">
               <v-icon name="times" scale="1.4"/>
             </q-btn>
           </q-toolbar>
@@ -24,7 +24,7 @@
               <TextInput v-model="filename" :defaultText="filenameFull"/>
             </q-item-main>
             <q-item-side right>
-              <q-btn color="primary" @click="saveDoc">
+              <q-btn color="primary" @click="saveDoc" aria-label="download metadata record">
                 <v-icon name="cloud-download-alt" scale="1.4"/>
               </q-btn>
             </q-item-side>
@@ -39,7 +39,7 @@
           <q-toolbar color="primary">
             <q-toolbar-title>Load Metadata File</q-toolbar-title>
 
-            <q-btn flat round dense @click="closeLoadModal">
+            <q-btn flat round dense @click="closeLoadModal" aria-label="close dialog">
               <v-icon name="times" scale="1.4"/>
             </q-btn>
           </q-toolbar>
@@ -63,7 +63,13 @@
               >
             </q-item-main>
             <q-item-side right>
-              <q-btn v-if="docSize" color="primary" @click="loadDoc" :disable="loadError">
+              <q-btn
+                v-if="docSize"
+                color="primary"
+                @click="loadDoc"
+                :disable="loadError"
+                aria-label="edit metadata record"
+              >
                 <v-icon name="edit" scale="1.4"/>
               </q-btn>
             </q-item-side>
@@ -90,24 +96,24 @@ export default {
     TextInput
   },
   methods: {
-    openLoadModal: function() {
+    openLoadModal: function () {
       this.loadModalOpen = true;
     },
 
-    closeLoadModal: function() {
+    closeLoadModal: function () {
       this.loadModalOpen = false;
     },
 
-    openFile: function(e) {
+    openFile: function (e) {
       var reader = new FileReader();
 
-      reader.onloaderror = function(err) {
+      reader.onloaderror = function (err) {
         config.noop(err);
         // TODO: implement handling of errors while browser attempts to read the file
       };
 
-      reader.onloadend = (function(that) {
-        return function(ev) {
+      reader.onloadend = (function (that) {
+        return function (ev) {
           that.parseFile(ev.target.result);
         };
       })(this);
@@ -116,7 +122,7 @@ export default {
       reader.readAsText(file);
     },
 
-    parseFile: function(s) {
+    parseFile: function (s) {
       var parsedObj;
       try {
         parsedObj = JSON.parse(s);
@@ -131,31 +137,31 @@ export default {
       this.docToLoad = parsedObj;
     },
 
-    loadDoc: function(e) {
+    loadDoc: function (e) {
       config.noop(e);
       this.$emit("loadMd", this.docToLoad);
       this.closeLoadModal();
     },
 
-    openSaveModal: function() {
+    openSaveModal: function () {
       this.filenameInternal = this.doc.userGivenFilename;
       delete this.doc.userGivenFilename;
       this.saveModalOpen = true;
     },
 
-    closeSaveModal: function() {
+    closeSaveModal: function () {
       this.doc.userGivenFilename = this.filenameInternal;
       this.saveModalOpen = false;
     },
 
-    fastSaveDoc: function() {
+    fastSaveDoc: function () {
       if (!this.filenameInternal) this.openSaveModal();
       else {
         this.saveDoc();
       }
     },
 
-    saveDoc: function() {
+    saveDoc: function () {
       var outDoc = JSON.stringify(this.doc, null, 4);
 
       this.SaveAsFile(
@@ -169,7 +175,7 @@ export default {
       );
     },
 
-    SaveAsFile: function(t, f, m) {
+    SaveAsFile: function (t, f, m) {
       try {
         var b = new Blob([t], { type: m });
         saveAs(b, f, false);
@@ -179,7 +185,7 @@ export default {
       }
     },
 
-    perform: function(action) {
+    perform: function (action) {
       if (action == "load") {
         this.openLoadModal();
       } else if (action == "view") {
@@ -195,21 +201,21 @@ export default {
   },
 
   computed: {
-    docSize() {
+    docSize () {
       return Object.keys(this.docToLoad).length;
     },
 
     filename: {
-      get: function() {
+      get: function () {
         return this.filenameInternal;
       },
-      set: function(newValue) {
+      set: function (newValue) {
         this.filenameInternal = newValue;
       }
     },
 
     filenameFull: {
-      get: function() {
+      get: function () {
         return (
           this.filenameInternal || this.doc.dataset[0].identifier + ".json"
         );
@@ -219,7 +225,7 @@ export default {
 
   watch: {
     action: {
-      handler: function(newAction) {
+      handler: function (newAction) {
         this.action_ = newAction;
         this.perform(this.action_);
       },
@@ -227,7 +233,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       action_: "",
       menuOpen: true,

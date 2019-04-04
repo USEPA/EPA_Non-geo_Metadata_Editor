@@ -7,6 +7,7 @@
       {label: 'No', value: false},
       {label: 'Yes', value: true}
     ]"
+    aria-label="Pick a choice"
   />
 </template>
 
@@ -19,16 +20,16 @@ export default {
   },
 
   watch: {
-    modelValue(newValue) {
+    modelValue (newValue) {
       this.$emit("input", newValue);
     },
 
-    value(newValue) {
+    value (newValue) {
       this.modelValue = newValue;
     }
   },
 
-  data() {
+  data () {
     return {
       modelValue: this.value
     };

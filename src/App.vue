@@ -15,19 +15,19 @@
       <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
         <q-list no-border>
           <q-item>
-            <q-btn flat @click="perform('load')">
+            <q-btn flat @click="perform('load')" aria-label="load metadata record">
               <v-icon scale="2" name="cloud-download-alt" class="menuIcon"/>
               <q-item-main label="Load" class="menuLabel"/>
             </q-btn>
           </q-item>
           <q-item>
-            <q-btn flat @click="perform('view')">
+            <q-btn flat @click="perform('view')" aria-label="view metadata record">
               <v-icon scale="2" name="eye" class="menuIcon"/>
               <q-item-main label="View" class="menuLabel"/>
             </q-btn>
           </q-item>
           <q-item>
-            <q-btn flat @click="perform('save')">
+            <q-btn flat @click="perform('save')" aria-label="save metadata record">
               <v-icon scale="2" name="cloud-upload-alt" class="menuIcon"/>
               <q-item-main label="Save" class="menuLabel"/>
             </q-btn>

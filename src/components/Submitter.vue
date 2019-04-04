@@ -7,12 +7,12 @@
       <q-modal-layout content-class="no-scroll">
         <q-layout-header>
           <q-toolbar color="primary">
-            <q-btn flat round dense>
+            <q-btn flat round dense aria-label="submit icon">
               <v-icon name="paper-plane" scale="1.4"/>
             </q-btn>
             <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
-            <q-btn flat round dense @click="closeSubmitModal">
+            <q-btn flat round dense @click="closeSubmitModal" aria-label="close dialog">
               <v-icon name="times" scale="1.4"/>
             </q-btn>
           </q-toolbar>
@@ -41,10 +41,20 @@
               ></vue-recaptcha>
             </q-item-side>
             <q-item-side right>
-              <q-btn label="Submit" color="primary" @click="submit"/>
+              <q-btn
+                label="Submit"
+                color="primary"
+                @click="submit"
+                aria-label="submit metadata record to EPA"
+              />
             </q-item-side>
             <q-item-side right>
-              <q-btn label="Cancel" color="primary" @click="closeSubmitModal"/>
+              <q-btn
+                label="Cancel"
+                color="primary"
+                @click="closeSubmitModal"
+                aria-label="close dialog"
+              />
             </q-item-side>
           </q-item>
         </q-layout-footer>
@@ -52,9 +62,17 @@
     </q-modal>
 
     <q-page-sticky position="bottom-right" :offset="[24, 24]">
-      <q-btn round :color="docError?'negative':'positive'" @click="attemptSubmit">
+      <q-btn
+        round
+        :color="docError?'negative':'positive'"
+        @click="attemptSubmit"
+        aria-label="Submit button"
+      >
         <v-icon name="paper-plane" :scale="1.4"/>
-        <q-tooltip anchor="center left" self="center right">Submit</q-tooltip>
+        <q-tooltip
+          anchor="center left"
+          self="center right"
+        >{{docError ? 'Document not valid yet. Please click for more info.' : 'Document valid. Please click to submit to EPA.'}}</q-tooltip>
       </q-btn>
     </q-page-sticky>
   </div>
@@ -80,20 +98,20 @@ export default {
   },
 
   methods: {
-    openSubmitModal: function() {
+    openSubmitModal: function () {
       this.submitModalOpen = true;
     },
 
-    closeSubmitModal: function() {
+    closeSubmitModal: function () {
       this.submitModalOpen = false;
     },
 
-    attemptSubmit: function() {
+    attemptSubmit: function () {
       if (!this.docError) this.openSubmitModal();
       else this.notifyError(this.docError);
     },
 
-    checkForErrors: function(response) {
+    checkForErrors: function (response) {
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -102,12 +120,12 @@ export default {
 
     notifySuccess: config.notifySuccess,
 
-    notifyError: function(error) {
+    notifyError: function (error) {
       let notify = config.notifyError.bind(this);
       notify(error);
     },
 
-    submitToEpa: function(recaptchaToken) {
+    submitToEpa: function (recaptchaToken) {
       let token = "token=" + encodeURIComponent(recaptchaToken);
       let sponsor =
         "sponsor=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
@@ -144,30 +162,30 @@ export default {
         );
     },
 
-    tooltipMessage: function() {
+    tooltipMessage: function () {
       let msg = "Submit";
       if (this.docError) msg += "<br/>";
       msg += this.docError.name + ": " + this.docError.message;
       return msg;
     },
 
-    submit: function() {
+    submit: function () {
       this.$refs.recaptcha.execute();
     },
 
-    onCaptchaVerified: function(recaptchaToken) {
+    onCaptchaVerified: function (recaptchaToken) {
       const self = this;
       self.status = "submitting";
       self.$refs.recaptcha.reset();
       self.submitToEpa(recaptchaToken);
     },
 
-    onCaptchaExpired: function() {
+    onCaptchaExpired: function () {
       this.$refs.recaptcha.reset();
     }
   },
 
-  data() {
+  data () {
     return {
       submitModalOpen: false
     };

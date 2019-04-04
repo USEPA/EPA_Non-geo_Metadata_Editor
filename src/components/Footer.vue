@@ -2,7 +2,13 @@
   <q-jumbotron dark img-src="./banner.jpg">
     <div class="q-subheading tb">
       You have reached the last of the Open Data Metadata Editor elements. If there are valid entries for all of the mandatory elements and no invalid entries for any optional elements, the submit button at right should be green
-      <q-btn round color="positive" size="sm" style="margin-right:0.5em">
+      <q-btn
+        round
+        color="positive"
+        size="sm"
+        style="margin-right:0.5em"
+        aria-label="Green submit button"
+      >
         <v-icon name="paper-plane" :scale="1"/>
       </q-btn>and you may submit your record. If not, please address any validation errors or missing entries. You may also save a copy of your record before or after submission using the menu at top left.
     </div>
