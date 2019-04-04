@@ -37,7 +37,7 @@ export default {
   components: { ValidationIcon },
 
   methods: {
-    validationStyles: function() {
+    validationStyles: function () {
       return config.validation_config;
     }
   }
@@ -57,6 +57,6 @@ a:visited {
 
 a:hover,
 a:active {
-  background-color: #529e34;
+  background-color: #aaa;
 }
 </style>
