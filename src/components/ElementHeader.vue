@@ -1,18 +1,16 @@
 <template>
   <div>
     <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
-      <div @click="show()">
+      <div @click="show()" class="element">
         <q-item>
           <ValidationIcon :validations="validations" :mandatory="mandatory"/>
-          <q-item-main>
-            <span class="element">{{title}}</span>
-          </q-item-main>
+          <q-item-main style="font-size: 1.4em;">{{title}}</q-item-main>
         </q-item>
       </div>
     </q-card-title>
 
     <q-card-main>
-      <div v-if="guidanceVisible" style="border-color: red;">
+      <div v-if="guidanceVisible" style="border-color: red;" class="animate-scale">
         <br>
         <q-card inset>
           <q-item>
@@ -82,10 +80,7 @@ export default {
 </script>
 
 <style scoped>
-.element {
-  font-size: 1.4em;
-}
 .element:hover {
-  background-color: #529e34;
+  background-color: #aaa;
 }
 </style>
