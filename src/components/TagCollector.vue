@@ -1,8 +1,7 @@
 <template>
   <multiselect
     v-model="modelValue"
-    tag-placeholder="Add this as new keyword"
-    placeholder="Search or add keyword"
+    placeholder="Search"
     label="label"
     track-by="value"
     :options="availableTags"
@@ -27,16 +26,16 @@ export default {
   components: { Multiselect },
 
   watch: {
-    modelValue(newValue) {
+    modelValue (newValue) {
       this.$emit("input", newValue);
     },
 
-    value(newValue) {
+    value (newValue) {
       this.modelValue = newValue;
     }
   },
 
-  data() {
+  data () {
     return {
       modelValue: this.value
     };
