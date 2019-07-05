@@ -8,7 +8,7 @@
             style="width:2.7em"
             src="~@/assets/environmental_protection_agency-logo-white.png"
             :class="menuOpen?'spinner':''"
-          >
+          />
         </q-btn>
       </EPA>
 
@@ -16,26 +16,26 @@
         <q-list no-border>
           <q-item>
             <q-btn flat @click="perform('load')" aria-label="load metadata record">
-              <v-icon scale="2" name="cloud-download-alt" class="menuIcon"/>
-              <q-item-main label="Load" class="menuLabel"/>
+              <v-icon scale="2" name="cloud-download-alt" class="menuIcon" />
+              <q-item-main label="Load" class="menuLabel" />
             </q-btn>
           </q-item>
           <q-item>
             <q-btn flat @click="perform('view')" aria-label="view metadata record">
-              <v-icon scale="2" name="eye" class="menuIcon"/>
-              <q-item-main label="View" class="menuLabel"/>
+              <v-icon scale="2" name="eye" class="menuIcon" />
+              <q-item-main label="View" class="menuLabel" />
             </q-btn>
           </q-item>
           <q-item>
             <q-btn flat @click="perform('save')" aria-label="save metadata record">
-              <v-icon scale="2" name="cloud-upload-alt" class="menuIcon"/>
-              <q-item-main label="Save" class="menuLabel"/>
+              <v-icon scale="2" name="cloud-upload-alt" class="menuIcon" />
+              <q-item-main label="Save" class="menuLabel" />
             </q-btn>
           </q-item>
         </q-list>
       </q-layout-drawer>
 
-      <Intro/>
+      <Intro />
       <!--
         <q-card  class="q-ma-sm">
           <q-card-main>
@@ -65,13 +65,28 @@
 
       <q-card class="q-ma-sm">
         <ElementHeader
+          title="EPA Program"
+          :guidance="getGuidanceFor('programCode')"
+          :validations.sync="validations.programCode"
+          :mandatory="config['programCode']['mandatory']"
+        />
+        <q-card-main>
+          <TagCollector
+            v-model="doc.programCode"
+            :availableTags.sync="config['programCode']['availableTags']"
+          />
+        </q-card-main>
+      </q-card>
+
+      <q-card class="q-ma-sm">
+        <ElementHeader
           title="EPA Contact Email"
-          :guidance="getGuidanceFor('epa_contact')"
+          :guidance="getGuidanceFor('tags_epa_theme')"
           :validations.sync="validations.epa_contact"
           :mandatory="config['epa_contact']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please enter EPA contact's email" v-model="doc.epa_contact"/>
+          <TextInput defaultText="Please enter EPA contact's email" v-model="doc.epa_contact" />
         </q-card-main>
       </q-card>
 
@@ -83,7 +98,7 @@
           :mandatory="config['title']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please enter a title for the dataset" v-model="doc.title"/>
+          <TextInput defaultText="Please enter a title for the dataset" v-model="doc.title" />
         </q-card-main>
       </q-card>
 
@@ -156,7 +171,7 @@
           :mandatory="config['tags_general']['mandatory']"
         />
         <q-card-main>
-          <UserTags v-model="doc.tags_general"/>
+          <UserTags v-model="doc.tags_general" />
         </q-card-main>
       </q-card>
 
@@ -213,7 +228,7 @@
           :mandatory="config['distribution']['mandatory']"
         />
         <q-card-main>
-          <Distribution v-model="doc.distribution"/>
+          <Distribution v-model="doc.distribution" />
         </q-card-main>
       </q-card>
 
@@ -225,7 +240,7 @@
           :mandatory="config['identifier']['mandatory']"
         />
         <q-card-main>
-          <DocId v-model="doc.identifier"/>
+          <DocId v-model="doc.identifier" />
         </q-card-main>
       </q-card>
 
@@ -273,7 +288,7 @@
           :mandatory="config['license']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="URL of the license for the dataset" v-model="doc.license"/>
+          <TextInput defaultText="URL of the license for the dataset" v-model="doc.license" />
         </q-card-main>
       </q-card>
 
@@ -285,7 +300,7 @@
           :mandatory="config['temporal']['mandatory']"
         />
         <q-card-main>
-          <DateOrRangeInput v-model="doc.temporal" :range="true"/>
+          <DateOrRangeInput v-model="doc.temporal" :range="true" />
         </q-card-main>
       </q-card>
 
@@ -297,7 +312,7 @@
           :mandatory="config['modified']['mandatory']"
         />
         <q-card-main>
-          <DateOrRangeInput v-model="doc.modified"/>
+          <DateOrRangeInput v-model="doc.modified" />
         </q-card-main>
       </q-card>
 
@@ -309,7 +324,7 @@
           :mandatory="config['accrualPeriodicity']['optional']"
         />
         <q-card-main>
-          <PeriodicityInput :userInput.sync="doc.accrualPeriodicity"/>
+          <PeriodicityInput :userInput.sync="doc.accrualPeriodicity" />
         </q-card-main>
       </q-card>
 
@@ -321,7 +336,7 @@
           :mandatory="config['issued']['mandatory']"
         />
         <q-card-main>
-          <DateOrRangeInput v-model="doc.issued"/>
+          <DateOrRangeInput v-model="doc.issued" />
         </q-card-main>
       </q-card>
 
@@ -349,7 +364,7 @@
         />
         <q-card-main>
           Does the dataset meet your organization’s Information Quality Guidelines? &nbsp;
-          <BooleanSelector v-model="doc.dataQuality"/>
+          <BooleanSelector v-model="doc.dataQuality" />
         </q-card-main>
       </q-card>
 
@@ -361,7 +376,7 @@
           :mandatory="config['conformsTo']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please provide a URL" v-model="doc.conformsTo"/>
+          <TextInput defaultText="Please provide a URL" v-model="doc.conformsTo" />
         </q-card-main>
       </q-card>
 
@@ -373,7 +388,7 @@
           :mandatory="config['describedBy']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please provide a URL" v-model="doc.describedBy"/>
+          <TextInput defaultText="Please provide a URL" v-model="doc.describedBy" />
           <OptionSelector
             v-model="doc.describedByType"
             :availableOptions.sync="config['describedByType']['availableOptions']"
@@ -390,7 +405,7 @@
           :mandatory="config['landingPage']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please provide a URL" v-model="doc.landingPage"/>
+          <TextInput defaultText="Please provide a URL" v-model="doc.landingPage" />
         </q-card-main>
       </q-card>
 
@@ -402,11 +417,11 @@
           :mandatory="config['references']['mandatory']"
         />
         <q-card-main>
-          <TextInput defaultText="Please provide a URL" v-model="doc.references"/>
+          <TextInput defaultText="Please provide a URL" v-model="doc.references" />
         </q-card-main>
       </q-card>
 
-      <Footer/>
+      <Footer />
 
       <!--
 
@@ -419,7 +434,7 @@
         @modalClosed="menuAction=''"
       />
 
-      <Submitter :doc="materializeDoc" :docError="docError()"/>
+      <Submitter :doc="materializeDoc" :docError="docError()" />
     </q-page-container>
   </q-layout>
 
@@ -520,7 +535,6 @@ export default {
         rights: "",
         license: "",
         bureauCode: ["020:00"],
-        programCode: ["020:000"],
         temporal: "",
         issued: "",
         accrualPeriodicity: "",
@@ -534,7 +548,8 @@ export default {
         distribution: [],
         epa_agreement_no: "",
         epa_agreement_type: "",
-        epa_contact: ""
+        epa_contact: "",
+        programCode: []
       },
       validations: {
         title: "",
@@ -566,7 +581,8 @@ export default {
         distribution: "",
         epa_agreement_no: "",
         epa_agreement_type: "",
-        epa_contact: ""
+        epa_contact: "",
+        programCode: ""
       },
       holder: {},
       mdSpec: null,
@@ -773,6 +789,12 @@ export default {
       this.doc.epa_agreement_type = config.extract(inDoc, "epa_agreement_type");
       this.doc.epa_agreement_no = config.extract(inDoc, "epa_agreement_no");
       this.doc.epa_contact = config.extract(inDoc, "epa_contact");
+
+      if (!inDoc.programCode) inDoc.programCode = [];
+      this.doc.programCode = this.extractTags(
+        config.extract(inDoc, "programCode", { defaultValue: [] }),
+        config.programCode.availableTags
+      );
     },
 
     docError: function () {
@@ -997,7 +1019,14 @@ export default {
         this.validateElement("epa_contact");
       },
       immediate: true
+    },
+    "doc.programCode": {
+      handler: function () {
+        this.validateElement("programCode");
+      },
+      immediate: true
     }
+
   },
 
   computed: {
@@ -1024,6 +1053,10 @@ export default {
           delete item.validations;
           if (item.interned) delete item.interned;
         });
+
+        // Distill code only from value/label pairs
+        outDoc.language = outDoc.language.map(item => item.value);
+        outDoc.programCode = outDoc.programCode.map(item => item.value);
 
         // Remove empty elements
         outDoc = cleanDeep(outDoc);
