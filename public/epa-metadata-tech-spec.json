@@ -515,6 +515,11 @@
       }
     ]
   },
+  "primaryitinvestmentuii": {
+    "field": "Primary IT Investment UII",
+    "definition": "Definition goes here.",
+    "guidance": "Guidance goes here."
+  },
   "spatial": {
     "field": "Spatial Extent",
     "definition": "The range of spatial applicability of a dataset. Should include a spatial region like a bounding box but may also be a named place.",

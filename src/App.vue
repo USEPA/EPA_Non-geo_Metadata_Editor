@@ -436,6 +436,21 @@
         </q-card-main>
       </q-card>
 
+      <q-card class="q-ma-sm">
+        <ElementHeader
+          title="Primary IT Investment UII"
+          :guidance="getGuidanceFor('primaryitinvestmentuii')"
+          :validations.sync="validations.primaryitinvestmentuii"
+          :mandatory="config['primaryitinvestmentuii']['mandatory']"
+        />
+        <q-card-main>
+          <OptionSelector
+            v-model="doc.primaryitinvestmentuii"
+            :availableOptions.sync="config['primaryitinvestmentuii']['availableOptions']"
+          />
+        </q-card-main>
+      </q-card>
+
       <Footer />
 
       <!--
@@ -565,7 +580,8 @@ export default {
         epa_agreement_type: "",
         epa_contact: "",
         programCode: [],
-        systemofrecords: ""
+        systemofrecords: "",
+        primaryitinvestmentuii: ""
       },
       validations: {
         title: "",
@@ -599,7 +615,8 @@ export default {
         epa_agreement_type: "",
         epa_contact: "",
         programCode: "",
-        systemofrecords: ""
+        systemofrecords: "",
+        primaryitinvestmentuii: ""
       },
       holder: {},
       mdSpec: null,
@@ -775,6 +792,8 @@ export default {
       this.doc.modified = config.extract(inDoc, "modified");
       this.doc.describedByType = config.extract(inDoc, "describedByType");
       this.doc.systemofrecords = config.extract(inDoc, "systemofrecords");
+      this.doc.primaryitinvestmentuii = config.extract(inDoc, "primaryitinvestmentuii");
+
 
       if (!inDoc.keyword) inDoc.keyword = [];
 
@@ -847,7 +866,8 @@ export default {
 
     getSpec () {
       fetch(
-        "https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
+        //"https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
+        "/epa-metadata-tech-spec.json"
       )
         .then(response => response.json())
         .then(data => {
@@ -1044,8 +1064,19 @@ export default {
         this.validateElement("programCode");
       },
       immediate: true
+    },
+    "doc.systemofrecords": {
+      handler: function () {
+        this.validateElement("systemofrecords");
+      },
+      immediate: true
+    },
+    "doc.primaryitinvestmentuii": {
+      handler: function () {
+        this.validateElement("primaryitinvestmentuii");
+      },
+      immediate: true
     }
-
   },
 
   computed: {

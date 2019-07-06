@@ -6,6 +6,7 @@ import languages from './lookupLanguages.js'
 import rights from './lookupRights.js'
 import programs from './lookupEPAPrograms.js'
 import sor from './lookupEPASOR.js'
+import piti from './lookupEPAPrimaryITInvestments.js'
 import { date } from 'quasar'
 
 var global_validators = {
@@ -541,6 +542,12 @@ var config = {
     mandatory: false,
     validators: [],
     availableOptions: sor
+  },
+
+  primaryitinvestmentuii: {
+    mandatory: false,
+    validators: [],
+    availableOptions: piti
   }
 }
 
