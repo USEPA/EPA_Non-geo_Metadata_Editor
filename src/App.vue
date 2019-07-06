@@ -421,6 +421,21 @@
         </q-card-main>
       </q-card>
 
+      <q-card class="q-ma-sm">
+        <ElementHeader
+          title="System Of Records"
+          :guidance="getGuidanceFor('systemofrecords')"
+          :validations.sync="validations.systemofrecords"
+          :mandatory="config['systemofrecords']['mandatory']"
+        />
+        <q-card-main>
+          <OptionSelector
+            v-model="doc.systemofrecords"
+            :availableOptions.sync="config['systemofrecords']['availableOptions']"
+          />
+        </q-card-main>
+      </q-card>
+
       <Footer />
 
       <!--
@@ -549,7 +564,8 @@ export default {
         epa_agreement_no: "",
         epa_agreement_type: "",
         epa_contact: "",
-        programCode: []
+        programCode: [],
+        systemofrecords: ""
       },
       validations: {
         title: "",
@@ -582,7 +598,8 @@ export default {
         epa_agreement_no: "",
         epa_agreement_type: "",
         epa_contact: "",
-        programCode: ""
+        programCode: "",
+        systemofrecords: ""
       },
       holder: {},
       mdSpec: null,
@@ -757,6 +774,8 @@ export default {
       this.doc.issued = config.extract(inDoc, "issued");
       this.doc.modified = config.extract(inDoc, "modified");
       this.doc.describedByType = config.extract(inDoc, "describedByType");
+      this.doc.systemofrecords = config.extract(inDoc, "systemofrecords");
+
       if (!inDoc.keyword) inDoc.keyword = [];
 
       // Extract tags into applicable categories

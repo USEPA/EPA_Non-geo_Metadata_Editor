@@ -5,6 +5,7 @@ import placeTags from './lookupPlaceTags.js'
 import languages from './lookupLanguages.js'
 import rights from './lookupRights.js'
 import programs from './lookupEPAPrograms.js'
+import sor from './lookupEPASOR.js'
 import { date } from 'quasar'
 
 var global_validators = {
@@ -534,6 +535,12 @@ var config = {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
     availableTags: programs
+  },
+
+  systemofrecords: {
+    mandatory: false,
+    validators: [],
+    availableOptions: sor
   }
 }
 
