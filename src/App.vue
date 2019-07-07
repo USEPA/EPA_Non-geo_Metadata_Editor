@@ -36,12 +36,25 @@
       </q-layout-drawer>
 
       <Intro />
+      <q-card class="q-ma-sm">
+        <q-card-main>
+          <span
+            v-if="!isEpaUser"
+            class="q-subheading"
+          >If you are an EPA user, you can login for additional functionality.</span>
+          <span
+            v-else
+            class="q-subheading"
+          >You are logged in as an EPA user and can access additional functionality.</span>
+          &nbsp;
+          <q-btn
+            color="blue"
+            :icon="isEpaUser ? 'fas fa-user' : 'far fa-user'"
+            @click="isEpaUser=!isEpaUser"
+          >&nbsp;&nbsp;Log{{isEpaUser ? 'off' : 'in'}}</q-btn>
+        </q-card-main>
+      </q-card>
       <!--
-        <q-card  class="q-ma-sm">
-          <q-card-main>
-            <q-btn color="secondary" :icon="isEpaUser ? 'fas fa-user' : ''" @click="isEpaUser=!isEpaUser">&nbsp;&nbsp;Pretend Log{{isEpaUser ? 'off' : 'in'}}</q-btn>
-          </q-card-main>
-        </q-card>
       -->
       <q-card class="q-ma-sm">
         <ElementHeader
@@ -421,7 +434,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card class="q-ma-sm">
+      <q-card class="q-ma-sm" v-if="isEpaUser">
         <ElementHeader
           title="System Of Records"
           :guidance="getGuidanceFor('systemofrecords')"
@@ -436,7 +449,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card class="q-ma-sm">
+      <q-card class="q-ma-sm" v-if="isEpaUser">
         <ElementHeader
           title="Primary IT Investment UII"
           :guidance="getGuidanceFor('primaryitinvestmentuii')"
