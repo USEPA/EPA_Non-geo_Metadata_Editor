@@ -76,7 +76,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card class="q-ma-sm">
+      <q-card class="q-ma-sm" v-if="isEpaUser">
         <ElementHeader
           title="EPA Program"
           :guidance="getGuidanceFor('programCode')"
