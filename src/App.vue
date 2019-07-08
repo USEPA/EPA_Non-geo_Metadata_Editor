@@ -54,9 +54,8 @@
           >&nbsp;&nbsp;Log{{isEpaUser ? 'off' : 'in'}}</q-btn>
         </q-card-main>
       </q-card>
-      <!--
-      -->
-      <q-card class="q-ma-sm">
+
+      <q-card class="q-ma-sm" v-if="!isEpaUser">
         <ElementHeader
           title="EPA Agreement"
           :guidance="getGuidanceFor('epa_agreement_no')"
@@ -91,7 +90,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card class="q-ma-sm">
+      <q-card class="q-ma-sm" v-if="!isEpaUser">
         <ElementHeader
           title="EPA Contact Email"
           :guidance="getGuidanceFor('tags_epa_theme')"
