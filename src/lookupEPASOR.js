@@ -173,16 +173,16 @@ export default [
     label: "EPA-60: EPA's Light Duty In-Use Testing Program"
   },
   {
-    value: 'EPA-61 Telework',
-    label: 'EPA-61 Telework'
+    value: 'EPA-61: Telework',
+    label: 'EPA-61: Telework'
   },
   {
-    value: 'EPA-64 My Workplace',
-    label: 'EPA-64 My Workplace'
+    value: 'EPA-64: My Workplace',
+    label: 'EPA-64: My Workplace'
   },
   {
-    value: 'EPA-65 Engine and Vehicle Exemptions System (EV–ES)',
-    label: 'EPA-65 Engine and Vehicle Exemptions System (EV–ES)'
+    value: 'EPA-65: Engine and Vehicle Exemptions System (EV–ES)',
+    label: 'EPA-65: Engine and Vehicle Exemptions System (EV–ES)'
   },
   {
     value:
