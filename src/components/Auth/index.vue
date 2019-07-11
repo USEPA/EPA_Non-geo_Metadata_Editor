@@ -46,11 +46,14 @@
 
 <script>
 import EsriAuth from './EsriAuth'
+
 export default {
   name: 'AuthWrapper',
+
   components: {
     EsriAuth
   },
+
   data () {
     return {
       modalState: true,
@@ -59,18 +62,24 @@ export default {
       authenticated: false
     }
   },
+
   methods: {
     setAuthenticated (value) {
       this.authenticated = value
     },
     setLoading (value) {
       this.loading = value
-      if (!this.loading) this.$emit('portal_auth_complete')
     },
     setAccessToken (token) {
       this.$emit('token', token)
     }
-  }
+  },
+
+  mounted: function () {
+    if (window.location.hash.includes("error=access_denied"))
+      this.modalState = false;
+  },
+
 }
 </script>
 
