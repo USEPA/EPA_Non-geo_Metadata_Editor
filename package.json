@@ -10,9 +10,10 @@
   "dependencies": {
     "@types/file-saver": "^2.0.0",
     "add": "^2.0.6",
-    "babel-plugin-transform-imports": "^1.5.1",
+    "babel-plugin-transform-imports": "^2.0.0",
     "clean-deep": "^3.0.2",
     "deepmerge": "^3.1.0",
+    "esri-loader": "^2.10.0",
     "file-saver": "^2.0.0-rc.3",
     "json-format-highlight": "^1.0.1",
     "json-stringify-safe": "^5.0.1",
