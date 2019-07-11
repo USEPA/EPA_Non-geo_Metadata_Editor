@@ -2,7 +2,13 @@
   <q-layout id="q-app" v-if="mdSpecReady">
     <q-page-container>
       <EPA>
-        <q-btn round aria-label="EPA logo" v-model="menuOpen" @click="menuOpen=!menuOpen">
+        <q-btn
+          slot="left"
+          round
+          aria-label="EPA logo"
+          v-model="menuOpen"
+          @click="menuOpen=!menuOpen"
+        >
           <img
             alt="EPA logo"
             style="width:2.7em"
@@ -10,6 +16,7 @@
             :class="menuOpen?'spinner':''"
           />
         </q-btn>
+        <Auth slot="right" @token="setAccessToken" />
       </EPA>
 
       <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
@@ -36,26 +43,8 @@
       </q-layout-drawer>
 
       <Intro />
-      <q-card class="q-ma-sm">
-        <q-card-main>
-          <span
-            v-if="!isEpaUser"
-            class="q-subheading"
-          >If you are an EPA user, you can login for additional functionality.</span>
-          <span
-            v-else
-            class="q-subheading"
-          >You are logged in as an EPA user and can access additional functionality.</span>
-          &nbsp;
-          <q-btn
-            color="blue"
-            :icon="isEpaUser ? 'fas fa-user' : 'far fa-user'"
-            @click="isEpaUser=!isEpaUser"
-          >&nbsp;&nbsp;Log{{isEpaUser ? 'off' : 'in'}}</q-btn>
-        </q-card-main>
-      </q-card>
 
-      <q-card class="q-ma-sm" v-if="!isEpaUser">
+      <q-card class="q-ma-sm">
         <ElementHeader
           title="EPA Agreement"
           :guidance="getGuidanceFor('epa_agreement_no')"
@@ -493,6 +482,7 @@
 
 <script>
 import config from "./config.js";
+import Auth from "./components/Auth"
 import EPA from "./components/EPA.vue";
 import Intro from "./components/Intro.vue";
 import ElementHeader from "./components/ElementHeader.vue";
@@ -537,6 +527,7 @@ window.onbeforeunload = confirmOnPageExit;
 export default {
   name: "app",
   components: {
+    Auth,
     EPA,
     Intro,
     ElementHeader,
@@ -634,11 +625,15 @@ export default {
       mdSpec: null,
       mdSpecReady: false,
       config: config,
-      isEpaUser: false
+      accessToken: ''
     };
   },
 
   methods: {
+    setAccessToken (tokenn) {
+      this.accessToken = tokenn
+    },
+
     oneOf: function (val1, pref1, val2, pref2) {
       if (this.validations[val1].trim()) return pref1 + this.validations[val1];
       if (this.validations[val2].trim()) return pref2 + this.validations[val2];
@@ -1092,6 +1087,13 @@ export default {
   },
 
   computed: {
+    isEpaUser () {
+      if (this.accessToken) {
+        return true
+      } else {
+        return false
+      }
+    },
     materializeDoc: {
       get: function () {
         // Deep copy the working document
