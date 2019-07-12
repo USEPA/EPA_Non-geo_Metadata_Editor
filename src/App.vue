@@ -506,23 +506,7 @@ import "vue-awesome/icons";
 import "whatwg-fetch";
 //import func from "./vue-temp/vue-editor-bridge";
 
-// Prompt user if they really want to navigate away from the page
-var confirmOnPageExit = function (e) {
-  // If we haven't been passed the event get the window.event
-  e = e || window.event;
 
-  var message = "Are you sure?";
-
-  // For IE6-8 and Firefox prior to version 4
-  if (e) {
-    e.returnValue = message;
-  }
-
-  // For Chrome, Safari, IE8+ and Opera 12+
-  return message;
-};
-
-window.onbeforeunload = confirmOnPageExit;
 
 export default {
   name: "app",
@@ -630,8 +614,8 @@ export default {
   },
 
   methods: {
-    setAccessToken (tokenn) {
-      this.accessToken = tokenn
+    setAccessToken (token) {
+      this.accessToken = token
     },
 
     oneOf: function (val1, pref1, val2, pref2) {
@@ -880,7 +864,24 @@ export default {
         .then(data => {
           this.mdSpec = data;
         });
+    },
+
+    // Prompt user if they really want to navigate away from the page
+    confirmOnPageExit: function (e) {
+      // If we haven't been passed the event get the window.event
+      e = e || window.event;
+
+      var message = "Are you sure?";
+
+      // For IE6-8 and Firefox prior to version 4
+      if (e) {
+        e.returnValue = message;
+      }
+
+      // For Chrome, Safari, IE8+ and Opera 12+
+      return message;
     }
+
   },
 
   watch: {
@@ -1176,7 +1177,9 @@ export default {
         // Return prettified document
         return holderMain;
       }
-    }
+    },
+
+
   },
 
   created: function () {
@@ -1189,6 +1192,7 @@ export default {
     };
     setTimeout(f.bind(this, true), 1000);
     setTimeout(f.bind(this, false), 5000);
+    window.addEventListener('beforeunload', this.confirmOnPageExit);
   }
 };
 </script>
