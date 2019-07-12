@@ -609,7 +609,8 @@ export default {
       mdSpec: null,
       mdSpecReady: false,
       config: config,
-      accessToken: ''
+      accessToken: '',
+      dirty: false
     };
   },
 
@@ -868,6 +869,10 @@ export default {
 
     // Prompt user if they really want to navigate away from the page
     confirmOnPageExit: function (e) {
+
+      // No need for cofirmation if form is not dirty
+      if (!this.dirty) return;
+
       // If we haven't been passed the event get the window.event
       e = e || window.event;
 
@@ -880,6 +885,12 @@ export default {
 
       // For Chrome, Safari, IE8+ and Opera 12+
       return message;
+    },
+
+    checkDirty: function (newVal, oldVal) {
+      if (newVal != oldVal && (oldVal || newVal)) {
+        this.dirty = true;
+      }
     }
 
   },
@@ -892,131 +903,152 @@ export default {
       immediate: true
     },
     "doc.title": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("title");
       },
       immediate: true
     },
     "doc.description": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("description");
       },
       immediate: true
     },
     "doc.tags_place": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("tags_place");
       },
       immediate: true
     },
     "doc.tags_iso": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("tags_iso");
       },
       immediate: true
     },
     "doc.tags_epa_theme": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("tags_epa_theme");
       },
       immediate: true
     },
     "doc.tags_general": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("tags_general");
       },
       immediate: true
     },
     "doc.modified": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("modified");
         this.validateElement("accrualPeriodicity");
       },
       immediate: true
     },
     "doc.accrualPeriodicity": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("accrualPeriodicity");
         this.validateElement("modified");
       },
       immediate: true
     },
     "doc.publisher": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("publisher");
       },
       immediate: true
     },
     "doc.contactPoint.fn": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("contactPoint.fn");
       },
       immediate: true
     },
     "doc.contactPoint.hasEmail": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("contactPoint.hasEmail");
       },
       immediate: true
     },
     "doc.identifier": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("identifier");
       },
       immediate: true
     },
     "doc.accessLevel": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("accessLevel");
       },
       immediate: true
     },
 
     "doc.rights": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("rights");
       },
       immediate: true
     },
     "doc.license": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("license");
       },
       immediate: true
     },
     "doc.temporal": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("temporal");
       },
       immediate: true
     },
 
     "doc.issued": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("issued");
       },
       immediate: true
     },
     "doc.language": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("language");
       },
       immediate: true
     },
     "doc.dataQuality": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("dataQuality");
       },
       immediate: true
     },
     "doc.conformsTo": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("conformsTo");
       },
       immediate: true
     },
     "doc.describedBy": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("describedBy");
 
         // Auto detect describedByType from file extension embedded in URL, if any
@@ -1026,61 +1058,71 @@ export default {
       immediate: true
     },
     "doc.describedByType": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("describedByType");
       },
       immediate: true
     },
     "doc.landingPage": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("landingPage");
       },
       immediate: true
     },
     "doc.references": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("references");
       },
       immediate: true
     },
     "doc.distribution": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("distribution");
       },
       immediate: true
     },
     "doc.epa_agreement_type": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("epa_agreement_type");
       },
       immediate: true
     },
     "doc.epa_agreement_no": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("epa_agreement_no");
       },
       immediate: true
     },
     "doc.epa_contact": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("epa_contact");
       },
       immediate: true
     },
     "doc.programCode": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("programCode");
       },
       immediate: true
     },
     "doc.systemofrecords": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("systemofrecords");
       },
       immediate: true
     },
     "doc.primaryitinvestmentuii": {
-      handler: function () {
+      handler: function (newVal, oldVal) {
+        this.checkDirty(newVal, oldVal);
         this.validateElement("primaryitinvestmentuii");
       },
       immediate: true
@@ -1189,10 +1231,14 @@ export default {
   mounted: function () {
     let f = function (open) {
       this.menuOpen = open;
+      // After closing drawer, enable dirty checking
+      if (!open) {
+        this.dirty = false;
+        window.addEventListener('beforeunload', this.confirmOnPageExit);
+      }
     };
     setTimeout(f.bind(this, true), 1000);
     setTimeout(f.bind(this, false), 5000);
-    window.addEventListener('beforeunload', this.confirmOnPageExit);
   }
 };
 </script>
