@@ -16,7 +16,7 @@
             :class="menuOpen?'spinner':''"
           />
         </q-btn>
-        <Auth slot="right" @token="setAccessToken" />
+        <Auth slot="right" @token="setAccessToken" @logout="setAccessToken('logout')" />
       </EPA>
 
       <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
@@ -1131,11 +1131,7 @@ export default {
 
   computed: {
     isEpaUser () {
-      if (this.accessToken) {
-        return true
-      } else {
-        return false
-      }
+      return this.accessToken && this.accessToken != "logout"
     },
     materializeDoc: {
       get: function () {

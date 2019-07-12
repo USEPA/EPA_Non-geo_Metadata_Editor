@@ -40,6 +40,7 @@
       @token="setAccessToken"
       @loaded="setLoading(false)"
       @authenticated="setAuthenticated"
+      @logout="$emit('logout')"
     />
   </div>
 </template>
