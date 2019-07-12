@@ -66,6 +66,7 @@ export default {
   methods: {
     setAuthenticated (value) {
       this.authenticated = value
+      if (!this.authenticated) this.$emit('token', "")
     },
     setLoading (value) {
       this.loading = value

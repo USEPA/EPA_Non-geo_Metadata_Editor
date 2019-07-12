@@ -56,6 +56,7 @@ export default {
       this.fullName = ''
       this.personalizedView = false
       this.esriId.destroyCredentials();
+      this.$emit('authenticated', false)
     }
   },
   watch: {
