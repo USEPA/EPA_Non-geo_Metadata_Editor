@@ -64,21 +64,6 @@
         </q-card-main>
       </q-card>
 
-      <q-card class="q-ma-sm" v-if="isEpaUser">
-        <ElementHeader
-          title="EPA Program"
-          :guidance="getGuidanceFor('programCode')"
-          :validations.sync="validations.programCode"
-          :mandatory="config['programCode']['mandatory']"
-        />
-        <q-card-main>
-          <TagCollector
-            v-model="doc.programCode"
-            :availableTags.sync="config['programCode']['availableTags']"
-          />
-        </q-card-main>
-      </q-card>
-
       <q-card class="q-ma-sm" v-if="!isEpaUser">
         <ElementHeader
           title="EPA Contact Email"
@@ -419,6 +404,21 @@
         />
         <q-card-main>
           <TextInput defaultText="Please provide a URL" v-model="doc.references" />
+        </q-card-main>
+      </q-card>
+
+      <q-card class="q-ma-sm" v-if="isEpaUser">
+        <ElementHeader
+          title="EPA Program"
+          :guidance="getGuidanceFor('programCode')"
+          :validations.sync="validations.programCode"
+          :mandatory="config['programCode']['mandatory']"
+        />
+        <q-card-main>
+          <TagCollector
+            v-model="doc.programCode"
+            :availableTags.sync="config['programCode']['availableTags']"
+          />
         </q-card-main>
       </q-card>
 
