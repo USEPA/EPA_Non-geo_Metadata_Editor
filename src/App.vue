@@ -44,7 +44,7 @@
 
       <Intro />
 
-      <q-card class="q-ma-sm">
+      <q-card class="q-ma-sm" v-if="!isEpaUser">
         <ElementHeader
           title="EPA Agreement"
           :guidance="getGuidanceFor('epa_agreement_no')"
