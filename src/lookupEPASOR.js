@@ -1,197 +1,287 @@
 export default [
   {
-    value: 'EPA-1: PeoplePlus',
-    label: 'EPA-1: PeoplePlus'
-  },
-  {
-    value: 'EPA-3: Wellness Program Medical Records',
-    label: 'EPA-3: Wellness Program Medical Records'
-  },
-  {
-    value: 'EPA-9: Freedom of Information Act Request and Appeal File',
-    label: 'EPA-9: Freedom of Information Act Request and Appeal File'
-  },
-  {
-    value: 'EPA-17: OCEFT Criminal Investigative Index and Files',
-    label: 'EPA-17: OCEFT Criminal Investigative Index and Files'
-  },
-  {
-    value: 'EPA-19: EPA Identification Card Record',
-    label: 'EPA-19: EPA Identification Card Record'
-  },
-  {
-    value: 'EPA-20: Confidential Business Information Tracking System',
-    label: 'EPA-20: Confidential Business Information Tracking System'
-  },
-  {
-    value: 'EPA-21: External Compliance Program Discrimination Complaint Files',
-    label: 'EPA-21: External Compliance Program Discrimination Complaint Files'
-  },
-  {
-    value: 'EPA-22: Correspondence Management System',
-    label: 'EPA-22: Correspondence Management System'
-  },
-  {
-    value: 'EPA-23: EPA Credential Information Records',
-    label: 'EPA-23: EPA Credential Information Records'
-  },
-  {
-    value: 'EPA-24: Claims Office Master Files',
-    label: 'EPA-24: Claims Office Master Files'
-  },
-  {
-    value: 'EPA 27: Employee Counseling and Assistance Program Records',
-    label: 'EPA 27: Employee Counseling and Assistance Program Records'
-  },
-  {
+    label: '*Federal Docket Management System (FDMS)',
     value:
-      'EPA-29: EPA Travel, Other Accounts Payable, and Accounts Receivable Files',
+      'http://www2.epa.gov/privacy/privacy-act-system-records-federal-docket-management-system-epa-govt-2'
+  },
+  {
+    label: '*Office of Administrative Services Information System (OASIS)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-information-system-office-administrative-services-epa-41'
+  },
+  {
+    label: '*Office of Compliance NETI eLearning Center',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-training-registration-and-administration-records-office-criminal'
+  },
+  {
+    label: 'Acquisition Training System',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-acquisition-training-system-epa-31'
+  },
+  {
+    label: 'Auto Audit',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-office-inspector-general-autoaudit-epa-50'
+  },
+  {
+    label: 'Case Application for Debarment and Suspension (CADS)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-debarment-and-suspension-files-system-epa-33'
+  },
+  {
+    label: 'Central Data Exchange (CDX)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-central-data-exchange-customer-registration-subsystem-epa-52'
+  },
+  {
+    label: 'Child Care Tuition Assistance Program Records',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-child-care-tuition-assistance-program-records-epa-49'
+  },
+  {
+    label: 'Claims Office Master Files',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-claims-office-master-files-epa-24'
+  },
+  {
+    label: 'Compass',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-travel-other-accounts-payable-and-accounts-receivable-files'
+  },
+  {
+    label: 'Continuity of Operations Database (COOP)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Correspondence Management System (CMS)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-correspondence-management-system-epa-22'
+  },
+  {
+    label: 'ECIS (Emergency Contact Information System)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Emergency Contact Info. Sys. (ECIS)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Emergency Contact Information',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Emergency Contact Information',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Emergency Management Portal  - Field Readiness (EMP-FR)',
+    value:
+      'https://www.federalregister.gov/articles/2015/04/16/2015-08804/establishment-of-a-new-system-of-records-notice-for-the-emergency-management-portal-field-readiness'
+  },
+  {
     label:
-      'EPA-29: EPA Travel, Other Accounts Payable, and Accounts Receivable Files'
+      'Emissions Inspection & Maintenance Records for Federal  Employees Parking at Federal Parking Facilities',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-emissions-inspection-and-maintenance-records-federal-employees'
   },
   {
+    label: 'Employee Counseling and Assistance Program Records',
     value:
-      'EPA-30: Inspector General Enterprise Management system (IGEMS Hotline Module)',
+      'http://www2.epa.gov/privacy/privacy-act-system-records-employee-counseling-and-assistance-program-records-epa-27'
+  },
+  {
+    label: 'Engine and Vehicle Exemptions System (EV-ES)',
+    value:
+      'https://www.federalregister.gov/articles/2014/05/23/2014-12019/privacy-act-notification-of-a-new-system-of-records-notice-for-the-engine-and-vehicle-exemptions'
+  },
+  {
+    label: 'EPA Identification Card Record',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-identification-card-record-epa-19'
+  },
+  {
+    label: 'EPA Personnel  Access and Security System (EPASS)',
+    value:
+      'https://www.federalregister.gov/articles/2014/08/19/2014-19689/notification-of-a-new-system-of-records-notice-for-the-epa-personnel-access-and-security-system'
+  },
+  {
+    label: 'EPA Telecommunication Detail Records',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-telecommunications-detail-records-epa-32'
+  },
+  {
+    label: 'EPRB Emergency Phone Book (COOP)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
+    label: 'Event Brite',
+    value:
+      'https://www.federalregister.gov/articles/2015/08/28/2015-21384/creation-of-a-new-system-of-records-notice-eventbrite'
+  },
+  {
+    label: 'External Case Tracking System (EXCATS)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-external-compliance-program-discrimination-complaint-files-system'
+  },
+  {
+    label: 'EZ-Hire',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-ezhire-epa-56'
+  },
+  {
+    label: 'Federal Lead-Based Paint Program System of Reacords (FLPPSOR)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-federal-lead-based-paint-program-system-records-epa-5'
+  },
+  {
+    label: 'Federal Retirement Benefits Calculator System  (FRB)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-federal-retirement-benefits-calculator-epa-55'
+  },
+  {
+    label: 'FOIA Requests and Appeal Files',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-freedom-information-act-request-and-appeal-file-epa-9'
+  },
+  {
+    label: 'HRLOB',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-peopleplus-epa-1'
+  },
+  {
+    label: 'Information Services Information Sys. (Employees)',
+    value:
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
+  },
+  {
     label:
-      'EPA-30: Inspector General Enterprise Management system (IGEMS Hotline Module)'
-  },
-  {
-    value: 'EPA-31: Acquisition Training System',
-    label: 'EPA-31: Acquisition Training System'
-  },
-  {
-    value: 'EPA-32: EPA Telecommunications Detail Records',
-    label: 'EPA-32: EPA Telecommunications Detail Records'
-  },
-  {
-    value: 'EPA-33: Debarment and Suspension Files',
-    label: 'EPA-33: Debarment and Suspension Files'
-  },
-  {
-    value: 'EPA-34: Medical and Research Study Records of Human Volunteers',
-    label: 'EPA-34: Medical and Research Study Records of Human Volunteers'
-  },
-  {
+      'Inspector General Enterprise Management System (IGEMS) Hotline Module',
     value:
-      'EPA-36: Research Grant, Cooperative Agreement, and Fellowship Application Files',
+      'http://www2.epa.gov/privacy/privacy-act-system-records-inspector-general-enterprise-management-system-hotline-module-epa'
+  },
+  {
     label:
-      'EPA-36: Research Grant, Cooperative Agreement, and Fellowship Application Files'
-  },
-  {
-    value: 'EPA-37: ORD Peer Review Panelist Information System (PRPIS) System',
-    label: 'EPA-37: ORD Peer Review Panelist Information System (PRPIS) System'
-  },
-  {
-    value: 'EPA-38: Invention Reports Submitted to the EPA',
-    label: 'EPA-38: Invention Reports Submitted to the EPA'
-  },
-  {
-    value: 'EPA-39: Superfund Cost Recovery Accounting Information System',
-    label: 'EPA-39: Superfund Cost Recovery Accounting Information System'
-  },
-  {
+      'Inspector General Enterprise Mgmt. System (IGEMS) Audit, Assignment, and Timesheet Modules',
     value:
-      "EPA-40: Inspector General's Operation and Reporting (IGOR) System Investigative Files",
+      'http://www2.epa.gov/privacy/privacy-act-system-records-inspector-general-enterprise-management-system-audit-assignment'
+  },
+  {
     label:
-      "EPA-40: Inspector General's Operation and Reporting (IGOR) System Investigative Files"
+      "Inspector General's Enterprise Management (IGEMS) System Investigative Files",
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-inspector-generals-operation-and-reporting-system-investigative'
   },
   {
+    label: 'Integrated Grants  Mgmt. System (IGMS)',
     value:
-      'EPA-41: Office of Administrative Services Information System (OASIS)',
+      'http://www2.epa.gov/privacy/privacy-act-system-records-integrated-grants-management-system-fellowship-module-epa-53'
+  },
+  {
+    label: 'Invention Reports',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-invention-reports-submitted-epa-epa-38'
+  },
+  {
+    label: 'Labor & Employee Relations Information System (LERIS)',
+    value:
+      'https://www.federalregister.gov/articles/2014/11/04/2014-26175/notification-of-a-new-system-of-records-notice-for-the-labor-and-employee-relations-information'
+  },
+  {
+    label: 'Libby Asbestos Exposure Assessment Records',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-libby-asbestos-exposure-assessment-records-epa-48'
+  },
+  {
+    label: 'Light Duty In-Use Vehicle Testing  Program',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epas-light-duty-use-vehicle-testing-program-information-system'
+  },
+  {
+    label: 'Medical and research Study of Human Volunteers',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-medical-and-research-study-records-human-volunteers-epa-34'
+  },
+  {
+    label: 'My Workplace',
+    value:
+      'https://www.federalregister.gov/articles/2014/02/18/2014-03431/creation-of-a-new-system-of-records-notice-my-workplace'
+  },
+  {
+    label: 'OCEFT Criminal Investigative Index & File',
+    value:
+      'https://www.federalregister.gov/articles/2006/01/04/06-46/privacy-act-of-1974-republication-of-exempted-system-of-records'
+  },
+  {
+    label: 'Office of Administrative Law Judges Case Records System',
+    value:
+      'https://www.federalregister.gov/articles/2014/09/17/2014-22164/creation-of-a-new-system-of-records-notice-case-records-system'
+  },
+  {
+    label: 'OIG Credentials System',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-credential-information-records-epa-23'
+  },
+  {
+    label: 'Peer Reviewer Panelist Information System (PRPIS)',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-peer-review-panelist-information-system-office-research-and'
+  },
+  {
+    label: 'PeoplePlus',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-peopleplus-epa-1'
+  },
+  {
     label:
-      'EPA-41: Office of Administrative Services Information System (OASIS)'
-  },
-  {
+      'Research Grant, Cooperative Agreement & Fellowship Application Files',
     value:
-      'EPA-42: Inspector General Enterprise Management System (IGEMS) Audit, Assignment, and Timesheet Modules',
-    label:
-      'EPA-42: Inspector General Enterprise Management System (IGEMS) Audit, Assignment, and Timesheet Modules'
+      'http://www2.epa.gov/privacy/privacy-act-system-records-research-grant-cooperative-agreement-and-fellowship-application'
   },
   {
-    value: 'EPA-43: Time Sharing Services Management System Registration Files',
-    label: 'EPA-43: Time Sharing Services Management System Registration Files'
-  },
-  {
-    value: 'EPA-44: EPA Personnel Emergency Contact Files',
-    label: 'EPA-44: EPA Personnel Emergency Contact Files'
-  },
-  {
+    label: 'Restricted Use Pesticides (RUPs)',
     value:
-      'EPA-47: OCEFT/NETI Training Registration and Administration Records',
-    label: 'EPA-47: OCEFT/NETI Training Registration and Administration Records'
+      'http://www2.epa.gov/privacy/privacy-act-system-records-restricted-use-pesticides-epa-59'
   },
   {
-    value: 'EPA-48: Libby Asbestos Exposure Assessment Records',
-    label: 'EPA-48: Libby Asbestos Exposure Assessment Records'
-  },
-  {
-    value: 'EPA-49: Child Care Tuition Assistance Program Records',
-    label: 'EPA-49: Child Care Tuition Assistance Program Records'
-  },
-  {
-    value: 'EPA-50: OIG AutoAudit',
-    label: 'EPA-50: OIG AutoAudit'
-  },
-  {
+    label: 'SAB Contacts',
     value:
-      'EPA-52: EPA Central Data Exchange - Customer Registration Subsystem (CDX-CRS)',
-    label:
-      'EPA-52: EPA Central Data Exchange - Customer Registration Subsystem (CDX-CRS)'
+      'http://www2.epa.gov/privacy/privacy-act-system-records-epa-science-advisory-board-database-scientific-and-technical'
   },
   {
+    label: 'Staff Emergency Info. System (SEIS)',
     value:
-      'EPA-53: Integrated Grants Management System (IGMS) - Fellowship Module',
-    label:
-      'EPA-53: Integrated Grants Management System (IGMS) - Fellowship Module'
+      'http://www.epa.gov/privacy/privacy-act-system-records-epa-personnel-emergency-contact-files-epa-44'
   },
   {
+    label: 'Superfund Cost Recovery Package Imaging On-line System (SCORPIOS)',
     value:
-      'EPA-54: Federal Lead-Based Paint Program System of Records (FLPPSOR)',
-    label:
-      'EPA-54: Federal Lead-Based Paint Program System of Records (FLPPSOR)'
+      'http://www2.epa.gov/privacy/privacy-act-system-records-superfund-cost-recovery-accounting-information-system-epa-39'
   },
   {
-    value: 'EPA-55: Federal Retirement Benefits Calculator',
-    label: 'EPA-55: Federal Retirement Benefits Calculator'
-  },
-  {
-    value: 'EPA-56: EZHIRE',
-    label: 'EPA-56: EZHIRE'
-  },
-  {
+    label: 'Superfund Enterprise Management (SEMS)',
     value:
-      'EPA-58: EPA Science Advisory Board (SAB) Database for Scientific and Technical Experts',
-    label:
-      'EPA-58: EPA Science Advisory Board (SAB) Database for Scientific and Technical Experts'
+      'https://www.federalregister.gov/articles/2015/04/17/2015-08926/establishment-of-a-new-system-of-records-notice-for-the-superfund-enterprise-management-system'
   },
   {
-    value: 'EPA-59: Restricted Use Pesticides',
-    label: 'EPA-59: Restricted Use Pesticides'
-  },
-  {
-    value: "EPA-60: EPA's Light Duty In-Use Testing Program",
-    label: "EPA-60: EPA's Light Duty In-Use Testing Program"
-  },
-  {
-    value: 'EPA-61: Telework',
-    label: 'EPA-61: Telework'
-  },
-  {
-    value: 'EPA-64: My Workplace',
-    label: 'EPA-64: My Workplace'
-  },
-  {
-    value: 'EPA-65: Engine and Vehicle Exemptions System (EV–ES)',
-    label: 'EPA-65: Engine and Vehicle Exemptions System (EV–ES)'
-  },
-  {
+    label: 'Telework',
     value:
-      'EPA/GOVT-1: Emissions Inspection and Maintenance Records for Federal Employees Parking at Federal Parking Facilities',
-    label:
-      'EPA/GOVT-1: Emissions Inspection and Maintenance Records for Federal Employees Parking at Federal Parking Facilities'
+      'http://www2.epa.gov/privacy/privacy-act-system-records-telework-application-and-agreement-records-epa-61'
   },
   {
-    value: 'EPA/GOVT-2: Federal Docket Management System (FDMS)',
-    label: 'EPA/GOVT-2: Federal Docket Management System (FDMS)'
+    label: 'Time Sharing Services Management System',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-time-sharing-services-management-system-registration-files-epa-43'
+  },
+  {
+    label: 'Wellness Program',
+    value:
+      'http://www2.epa.gov/privacy/privacy-act-system-records-wellness-program-medical-records-epa-3'
   }
 ]
