@@ -7,25 +7,25 @@
             <q-toolbar-title>{{filenameFull}}</q-toolbar-title>
 
             <q-btn flat round dense @click="closeSaveModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4"/>
+              <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
         </q-layout-header>
 
         <q-page-container>
           <q-page>
-            <pre style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)"/></pre>
+            <pre style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)" /></pre>
           </q-page>
         </q-page-container>
 
         <q-layout-footer style="background-color:white">
           <q-item>
             <q-item-main label="Filename (leave empty to use document identifier):">
-              <TextInput v-model="filename" :defaultText="filenameFull"/>
+              <TextInput v-model="filename" :defaultText="filenameFull" />
             </q-item-main>
             <q-item-side right>
               <q-btn color="primary" @click="saveDoc" aria-label="download metadata record">
-                <v-icon name="cloud-download-alt" scale="1.4"/>
+                <v-icon name="cloud-download-alt" scale="1.4" />
               </q-btn>
             </q-item-side>
           </q-item>
@@ -40,7 +40,7 @@
             <q-toolbar-title>Load Metadata File</q-toolbar-title>
 
             <q-btn flat round dense @click="closeLoadModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4"/>
+              <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
         </q-layout-header>
@@ -48,7 +48,7 @@
         <q-page-container>
           <q-page v-if="docSize">
             <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad)"/></pre>
+            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad)" /></pre>
           </q-page>
         </q-page-container>
 
@@ -60,7 +60,7 @@
                 accept="application/json"
                 @input="openFile"
                 @click="loadError=false; $event.target.value=null"
-              >
+              />
             </q-item-main>
             <q-item-side right>
               <q-btn
@@ -70,7 +70,7 @@
                 :disable="loadError"
                 aria-label="edit metadata record"
               >
-                <v-icon name="edit" scale="1.4"/>
+                <v-icon name="edit" scale="1.4" />
               </q-btn>
             </q-item-side>
           </q-item>
@@ -143,6 +143,12 @@ export default {
       this.closeLoadModal();
     },
 
+    resetDoc: function (e) {
+      config.noop(e);
+      this.$emit("loadMd", {});
+      this.closeLoadModal();
+    },
+
     openSaveModal: function () {
       this.filenameInternal = this.doc.userGivenFilename;
       delete this.doc.userGivenFilename;
@@ -192,6 +198,8 @@ export default {
         this.fastSaveDoc();
       } else if (action == "save") {
         this.openSaveModal();
+      } else if (action == "clear") {
+        this.resetDoc();
       }
       this.action_ = "";
       this.$emit("modalClosed");

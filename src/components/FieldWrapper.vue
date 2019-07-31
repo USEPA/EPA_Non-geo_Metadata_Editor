@@ -1,7 +1,7 @@
 <template>
   <q-card flat>
     <q-item>
-      <ValidationIcon :validations="propInfo.validation" :mandatory="propInfo.mandatory"/>
+      <ValidationIcon :validations="propInfo.validation" :mandatory="propInfo.mandatory" />
       <q-field
         v-if="propInfo.editMode"
         :error="isError()"
@@ -15,10 +15,13 @@
         <div class="col-md-auto" :style="getStyle()">
           <b>{{overrideName>""?overrideName: propInfo.name | capitalize}}: &nbsp;</b>
         </div>
-        <a v-if="propInfo.value.startsWith('http')" :href="propInfo.value">{{propInfo.value}}</a>
+        <a
+          v-if="propInfo.value && propInfo.value.startsWith('http')"
+          :href="propInfo.value"
+        >{{propInfo.value}}</a>
         <div v-else class="col-md-auto">{{propInfo.value}}</div>
       </div>
-      <br>
+      <br />
     </q-item>
   </q-card>
 </template>
@@ -40,18 +43,18 @@ export default {
   },
 
   methods: {
-    isError: function() {
+    isError: function () {
       return (
         this.propInfo.validation.trim() != "" &&
         this.propInfo.validation.trim() != "Empty."
       );
     },
 
-    getErrorLabel: function() {
+    getErrorLabel: function () {
       return this.propInfo.validation.trim();
     },
 
-    getStyle: function() {
+    getStyle: function () {
       return config.getValiMandaVisualizer(
         this.propInfo.validation,
         this.propInfo.mandatory,
@@ -59,7 +62,7 @@ export default {
       ).style;
     },
 
-    getIcon: function() {
+    getIcon: function () {
       return config.getValiMandaVisualizer(
         this.propInfo.validation,
         this.propInfo.mandatory,
@@ -67,7 +70,7 @@ export default {
       ).icon;
     },
 
-    getIconColor: function() {
+    getIconColor: function () {
       if (this.propInfo.validation == "Empty.")
         if (this.propInfo.mandatory) return "empty-mandatory";
         // TODO

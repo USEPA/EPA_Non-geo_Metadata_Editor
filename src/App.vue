@@ -39,6 +39,12 @@
               <q-item-main label="Save" class="menuLabel" />
             </q-btn>
           </q-item>
+          <q-item>
+            <q-btn flat @click="perform('clear')" aria-label="clear metadata record">
+              <v-icon scale="2" name="eraser" class="menuIcon" />
+              <q-item-main label="Clear" class="menuLabel" />
+            </q-btn>
+          </q-item>
         </q-list>
       </q-layout-drawer>
 
@@ -867,24 +873,11 @@ export default {
         });
     },
 
-    // Prompt user if they really want to navigate away from the page
-    confirmOnPageExit: function (e) {
-
-      // No need for cofirmation if form is not dirty
-      if (!this.dirty) return;
-
-      // If we haven't been passed the event get the window.event
-      e = e || window.event;
-
-      var message = "Are you sure?";
-
-      // For IE6-8 and Firefox prior to version 4
-      if (e) {
-        e.returnValue = message;
+    // Save state if navigating away from the page
+    autoSave: function (e) {
+      if (this.dirty) {
+        localStorage.savedDoc = JSON.stringify(this.materializeDoc);
       }
-
-      // For Chrome, Safari, IE8+ and Opera 12+
-      return message;
     },
 
     checkDirty: function (newVal, oldVal) {
@@ -1220,8 +1213,24 @@ export default {
 
   },
 
+  beforeCreate () {
+    // Required initialization for the revuest plugin
+    this.$localStorage.$default({
+      savedDoc: {}
+    });
+  },
+
+
   created: function () {
+    // Load the metadata tech spec
     this.getSpec();
+
+    // Restore autosaved doc if there is one
+    let savedDoc = localStorage.savedDoc
+    if (savedDoc) {
+      savedDoc = JSON.parse(savedDoc)
+      this.loadDocFrom(savedDoc)
+    }
   },
 
   mounted: function () {
@@ -1230,7 +1239,7 @@ export default {
       // After closing drawer, enable dirty checking
       if (!open) {
         this.dirty = false;
-        window.addEventListener('beforeunload', this.confirmOnPageExit);
+        window.addEventListener('beforeunload', this.autoSave);
       }
     };
     setTimeout(f.bind(this, true), 1000);

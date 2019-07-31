@@ -3,7 +3,7 @@
     <q-card v-for="(item, index) in modelValue" :key="index" class="q-ma-sm">
       <q-card-main>
         <FieldWrapper :propInfo="getPropInfo(index, 'title')">
-          <q-input v-model="item.title" float-label="Please enter the title for the URL below"/>
+          <q-input v-model="item.title" float-label="Please enter the title for the URL below" />
         </FieldWrapper>
 
         <FieldWrapper :propInfo="getPropInfo(index, 'description')">
@@ -81,7 +81,7 @@
           />
         </FieldWrapper>
 
-        <br>
+        <br />
         <div class="row">
           <q-btn
             class="col-sm"
@@ -89,7 +89,7 @@
             v-show="!isBeingEdited(index)"
             aria-label="Edit this distribution entry"
           >
-            <v-icon name="pen" style="margin-right:1em"/>Edit this distribution entry
+            <v-icon name="pen" style="margin-right:1em" />Edit this distribution entry
           </q-btn>
           <q-btn
             class="col-sm"
@@ -97,22 +97,22 @@
             v-show="isBeingEdited(index)"
             aria-label="Done editing this distribution entry"
           >
-            <v-icon name="check" style="margin-right:1em"/>Done editing this distribution entry
+            <v-icon name="check" style="margin-right:1em" />Done editing this distribution entry
           </q-btn>
           <q-btn
             class="col-sm"
             @click="deleteThis(index)"
             aria-label="Delete this distribution entry"
           >
-            <v-icon name="trash" style="margin-right:1em"/>Delete this distribution entry
+            <v-icon name="trash" style="margin-right:1em" />Delete this distribution entry
           </q-btn>
         </div>
       </q-card-main>
     </q-card>
 
-    <br>
+    <br />
     <q-btn @click="addAnother()" aria-label="Add distribution entry">
-      <v-icon name="plus" style="margin-right:1em"/>
+      <v-icon name="plus" style="margin-right:1em" />
       {{'Add '+(modelValue.length?'another':'a')+' distribution entry'}}
     </q-btn>
   </div>
@@ -383,9 +383,14 @@ export default {
 
   watch: {
     value (newValue) {
-      if (newValue.length && !newValue[0].interned) {
-        this.indexBeingEdited = -1;
-        this.modelValue = newValue.map(item => this.intern(item));
+      this.indexBeingEdited = -1;
+      if (Array.isArray(newValue) && newValue.length) {
+        if (!newValue[0].interned)
+          this.modelValue = newValue.map(item => this.intern(item));
+      } else {
+        if (Array.isArray(this.modelValue) && this.modelValue.length && !newValue.length) {
+          this.modelValue = newValue
+        }
       }
     },
 
