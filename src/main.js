@@ -24,16 +24,20 @@ Vue.component('v-icon', Icon)
 Vue.use(UUID)
 Vue.config.productionTip = false
 
+import revuest from 'revuest'
+Vue.use(revuest)
+
 if (process.env.NODE_ENV !== 'production') {
+  /*
   const VueAxe = require('vue-axe')
   Vue.use(VueAxe, {
     config: {
       // ...
     }
   })
+  */
 }
 
 new Vue({
-  //  store,
   render: h => h(App)
 }).$mount('#app')

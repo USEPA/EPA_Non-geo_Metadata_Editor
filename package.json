@@ -19,6 +19,7 @@
     "json-stringify-safe": "^5.0.1",
     "quasar-extras": "^2.0.9",
     "quasar-framework": "^0.17.19",
+    "revuest": "^1.1.5",
     "traverse": "^0.6.6",
     "vue": "^2.6.6",
     "vue-awesome": "^3.3.1",
