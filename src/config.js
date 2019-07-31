@@ -84,7 +84,7 @@ var global_validators = {
 
   validUrl: function(url, options) {
     config.noop(options) // So that linter does not complain
-    if (url.trim() == '') return 'Empty.'
+    if (!url || url.trim() == '') return 'Empty.'
     var urlRegexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
 
     if (url.match(urlRegexp)) return ''
