@@ -1,10 +1,16 @@
 <template>
   <div>
-    <div v-if="personalizedView">
+    <div v-if="$parent.loading">
+      <q-btn color="blue" :icon="'fa fa-spinner fa-spin'">&nbsp;&nbsp;Checking...</q-btn>
+    </div>
+    <div v-else-if="personalizedView">
       Welcome
       <span style="font-weight: bold;">{{fullName}}</span>
       &nbsp;&nbsp;
       <q-btn color="blue" :icon="'fas fa-user'" @click="signOut">&nbsp;&nbsp;Sign Out</q-btn>
+    </div>
+    <div v-else>
+      <q-btn color="blue" :icon="'fa fa-user'" @click="signIn">&nbsp;&nbsp;Sign In</q-btn>
     </div>
   </div>
 </template>
@@ -13,14 +19,12 @@
 import { loadModules, loadCss } from 'esri-loader'
 export default {
   name: 'EsriAuth',
-  props: ['modalTrigger'],
   data () {
     return {
       esriId: null,
       info: null,
       arcgisPortal: null,
       fullName: '',
-      anonView: true,
       personalizedView: false,
       appId: 'hbaGyaPPJzMxGnOj',
       AuthUrl: `https://epa.maps.arcgis.com/sharing/oauth2/authorize?redirect_uri=${window.location.origin}/&client_id=hbaGyaPPJzMxGnOj&response_type=token`
@@ -31,9 +35,11 @@ export default {
       new this.arcgisPortal.Portal(this.info.portalUrl).signIn().then(
         (portalUser) => {
           // console.log("Signed in to the portal: ", portalUser);
+          this.$emit('token', portalUser.credential.token)
           this.fullName = portalUser.fullName
           this.personalizedView = true
-          this.$emit('token', portalUser.credential.token)
+          this.$emit('authenticated', true)
+          this.$emit('loaded')
         }
       ).otherwise(
         function (error) {
@@ -42,28 +48,20 @@ export default {
         }
       );
     },
+
     signIn () {
-      // console.log("click", arguments);
       // user will be shown the OAuth Sign In page
-      this.esriId.getCredential(this.info.portalUrl + "/sharing", {
-        oAuthPopupConfirmation: false
-      }
-      ).then(() => {
-        this.displayItems();
-      });
+      this.esriId.getCredential(this.info.portalUrl + "/sharing");
     },
+
     signOut () {
-      this.fullName = ''
       this.personalizedView = false
+      this.fullName = ''
       this.esriId.destroyCredentials();
       this.$emit('logout')
     }
   },
-  watch: {
-    modalTrigger: {
-      handler: 'signIn'
-    }
-  },
+
   mounted () {
     loadCss()
     const options = { version: '3.29', css: true, insertCssBefore: 'style' }
@@ -80,16 +78,13 @@ export default {
 
         this.esriId.checkSignInStatus(this.info.portalUrl + "/sharing").then(
           () => {
-            this.$emit('loaded')
-            this.$emit('authenticated', true)
             this.displayItems();
           }
         ).otherwise(
           () => {
-            this.$emit('loaded')
-            this.$emit('authenticated', false)
-            this.anonView = true
             this.personalizedView = false
+            this.$emit('authenticated', false)
+            this.$emit('loaded')
           }
         )
       })
