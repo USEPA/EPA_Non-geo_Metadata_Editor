@@ -5,6 +5,7 @@
       @loaded="setLoading(false)"
       @authenticated="setAuthenticated"
       @logout="$emit('logout')"
+      :loading="loading"
     />
   </div>
 </template>

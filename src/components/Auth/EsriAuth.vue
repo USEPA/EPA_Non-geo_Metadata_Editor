@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="$parent.loading">
+    <div v-if="loading">
       <q-btn color="blue" :icon="'fa fa-spinner fa-spin'">&nbsp;&nbsp;Checking...</q-btn>
     </div>
     <div v-else-if="personalizedView">
@@ -19,6 +19,9 @@
 import { loadModules, loadCss } from 'esri-loader'
 export default {
   name: 'EsriAuth',
+  props: {
+    loading: true
+  },
   data () {
     return {
       esriId: null,
@@ -26,8 +29,7 @@ export default {
       arcgisPortal: null,
       fullName: '',
       personalizedView: false,
-      appId: 'hbaGyaPPJzMxGnOj',
-      AuthUrl: `https://epa.maps.arcgis.com/sharing/oauth2/authorize?redirect_uri=${window.location.origin}/&client_id=hbaGyaPPJzMxGnOj&response_type=token`
+      appId: 's0brwjWwE7aFPPbF'
     }
   },
   methods: {
@@ -60,6 +62,10 @@ export default {
       this.esriId.destroyCredentials();
       this.$emit('logout')
     }
+  },
+
+  computed: {
+    AuthUrl: () => `https://epa.maps.arcgis.com/sharing/oauth2/authorize?redirect_uri=${window.location.origin}/&client_id=${appId}&response_type=token`
   },
 
   mounted () {
