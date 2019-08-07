@@ -1,12 +1,6 @@
 <template>
   <div>
-    <esri-auth
-      @token="setAccessToken"
-      @loaded="setLoading(false)"
-      @authenticated="setAuthenticated"
-      @logout="$emit('logout')"
-      :loading="loading"
-    />
+    <esri-auth @user="$emit('user', $event)" />
   </div>
 </template>
 
@@ -18,26 +12,6 @@ export default {
 
   components: {
     EsriAuth
-  },
-
-  data () {
-    return {
-      loading: true,
-      authenticated: false
-    }
-  },
-
-  methods: {
-    setAuthenticated (value) {
-      this.authenticated = value
-      if (!this.authenticated) this.$emit('token', "")
-    },
-    setLoading (value) {
-      this.loading = value
-    },
-    setAccessToken (token) {
-      this.$emit('token', token)
-    }
   },
 
 }

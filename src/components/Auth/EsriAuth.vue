@@ -20,7 +20,6 @@ import { loadModules, loadCss } from 'esri-loader'
 export default {
   name: 'EsriAuth',
   props: {
-    loading: true
   },
   data () {
     return {
@@ -29,25 +28,26 @@ export default {
       arcgisPortal: null,
       fullName: '',
       personalizedView: false,
-      appId: 's0brwjWwE7aFPPbF'
+      appId: 's0brwjWwE7aFPPbF',
+      loading: true
     }
   },
   methods: {
     displayItems () {
       new this.arcgisPortal.Portal(this.info.portalUrl).signIn().then(
         (portalUser) => {
-          // console.log("Signed in to the portal: ", portalUser);
-          this.$emit('token', portalUser.credential.token)
+          console.log("Signed in to the portal: ", portalUser);
+          this.$emit('user', portalUser)
           this.fullName = portalUser.fullName
           this.personalizedView = true
-          this.$emit('authenticated', true)
-          this.$emit('loaded')
+          this.loading = false
         }
       ).otherwise(
         function (error) {
           // eslint-disable-next-line
           console.log("Error occurred while signing in: ", error);
         }
+
       );
     },
 
@@ -60,7 +60,7 @@ export default {
       this.personalizedView = false
       this.fullName = ''
       this.esriId.destroyCredentials();
-      this.$emit('logout')
+      this.$emit('user', null)
     }
   },
 
@@ -89,8 +89,7 @@ export default {
         ).otherwise(
           () => {
             this.personalizedView = false
-            this.$emit('authenticated', false)
-            this.$emit('loaded')
+            this.loading = false
           }
         )
       })
