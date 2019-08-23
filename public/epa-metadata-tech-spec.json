@@ -193,12 +193,12 @@
   },
   "programCode": {
     "field": "Tags (Federal Program Code)",
-    "definition": "Federal program inventory code corresponding to the program responsible for the production and maintenance of this dataset.",
+    "definition": "Federal program inventory code corresponding to the program responsible for the production and maintenance of this dataset. A program code is mandatory for all federal agencies. More information about EPA's Federal Program Inventory is available in this PDF: https://nepis.epa.gov/Exe/ZyPDF.cgi/P100GJUS.PDF?Dockey=P100GJUS.PDF",
     "required": "Always",
     "schema": "All",
-    "guidance": "A program code is mandatory for all federal agencies. More information about the Federal Program Inventory is available in a Fact Sheet and a Report. Program codes should be entered as a separate keyword section, with the keyword thesaurus set to \"Federal Program Inventory\".",
+    "guidance": "Select a program name from the dropdown and the corresponding code will be recorded in the metadata.",
     "domaindescription": "Plain Text",
-    "domainurl": "https://obamaadministration.archives.performance.gov/s3fs-public/files/FederalProgramInventory_FY13_MachineReadable_091613.xls",
+    "domainurl": "https://project-open-data.cio.gov/data/FederalProgramInventory_FY13_MachineReadable_091613.csv",
     "example": "\"015:001\"",
     "crosswalk": [
       {
@@ -488,7 +488,7 @@
     "field": "System of Records",
     "definition": "If the system is designated as a system of records under the Privacy Act of 1974, provide the URL to the System of Records Notice related to this dataset.",
     "schema": "All",
-    "guidance": "This field should contain a URL to the System of Records Notice (SORN) that relates to the dataset, specifically from FederalRegister.gov.",
+    "guidance": "Select one of the valid systems of records from the dropdown and the corresponding URL will be entered into the metadata.",
     "domaindescription": "Plain Text; URL",
     "domainurl": "",
     "example": "https://www.federalregister.gov/articles/2015/08/28/2015-21384/creation-of-a-new-system-of-records-notice-eventbrite",
@@ -517,8 +517,18 @@
   },
   "primaryitinvestmentuii": {
     "field": "Primary IT Investment UII",
-    "definition": "Definition goes here.",
-    "guidance": "Guidance goes here."
+    "definition": "The Unique Investment Identifier (UII) is a persistent numeric code applied to an investment that allows the identification and tracking of an investment across multiple fiscal years of an agency's investment portfolio as outlined in Exhibit 53. The purpose of the Exhibit 53 is to identify all IT investments — both major and nonmajor — and their associated costs within a federal organization. Information included in agency exhibit 53s is designed, in part, to help OMB better understand agencies’ spending on IT investments. By completing an Exhibit 53, an agency meets the Clinger-Cohen Act of 1996 requirements to provide a full and accurate accounting of IT investments for the agency. OMB uses the Exhibit 53 to create an overall Federal IT Investment Portfolio that published annually as part of the President's Budget.",
+    "schema": "pod",
+    "guidance": "If appropriate, select the IT Investment corresponding to the dataset from the dropdown, and that Unique Investment Identifier will be entered into the metadata record.",
+    "domainDescription": "Plain Text",
+    "domainurl": "https://itdashboard.gov/drupal/data/datafeeds",
+    "crosswalk":[
+      {
+        "schema":"pod",
+        "xpath":"primaryITInvestmentUII",
+        "url":"https://project-open-data.cio.gov/v1.1/schema/#primaryITInvestmentUII"
+      }
+    ]
   },
   "spatial": {
     "field": "Spatial Extent",
