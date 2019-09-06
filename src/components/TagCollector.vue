@@ -3,13 +3,22 @@
     v-model="modelValue"
     placeholder="Search"
     label="label"
+    :show-labels="false"
     track-by="value"
     :options="availableTags"
     :multiple="true"
     :close-on-select="false"
     :clearOnSelect="false"
     :hide-selected="true"
-  />
+  >
+    <template slot="option" slot-scope="props">
+      <div class="option__desc">
+        <span class="option__title">{{ props.option.label }}</span>
+        <br />
+        <span class="option__small">{{ props.option.sublabel }}</span>
+      </div>
+    </template>
+  </multiselect>
 </template>
 
 <script>
@@ -45,4 +54,8 @@ export default {
  
 
 <style scoped>
+.option__small {
+  font-size: 1em;
+  color: gray;
+}
 </style>
