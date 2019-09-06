@@ -861,8 +861,8 @@ export default {
 
     getSpec () {
       fetch(
-        //"https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
-        "/epa-metadata-tech-spec.json"
+        "https://raw.githubusercontent.com/USEPA/EPA_Non-geo_Metadata_Editor/master/public/epa-metadata-tech-spec.json"
+        //"/epa-metadata-tech-spec.json"
       )
         .then(response => response.json())
         .then(data => {
