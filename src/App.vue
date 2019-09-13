@@ -19,18 +19,12 @@
         <Auth slot="right" @user="user = $event" />
       </EPA>
 
-      <q-layout-drawer :width="290" side="left" v-model="menuOpen" overlay style="color:#157CDA">
+      <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
         <q-list no-border>
           <q-item>
             <q-btn flat @click="perform('load')" aria-label="load metadata record">
               <v-icon scale="2" name="cloud-download-alt" class="menuIcon" />
               <q-item-main label="Load" class="menuLabel" />
-            </q-btn>
-          </q-item>
-          <q-item>
-            <q-btn flat @click="perform('loadFromEdg')" aria-label="load metadata record from EDG">
-              <v-icon scale="2" name="cloud-download-alt" class="menuIcon" />
-              <q-item-main label="Load from EDG" class="menuLabel" />
             </q-btn>
           </q-item>
           <q-item>
@@ -756,6 +750,7 @@ export default {
     },
 
     loadDocFrom: function (newDoc) {
+      console.log("newDoc", newDoc)
       // Deep clone the document read as we will apply destructive ops
       this.holder = config.clone(newDoc || {});
       var inDoc = this.holder.dataset || [];
@@ -1129,10 +1124,12 @@ export default {
     isEpaUser () {
       return this.user != null
     },
+
     materializeDoc: {
       get: function () {
         // Deep copy the working document
         var outDoc = config.clone(this.doc);
+        console.log("outDoc, this.doc", outDoc, this.doc)
 
         if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
           var keyword = this.mergeArrays(
@@ -1200,8 +1197,10 @@ export default {
           describedBy:
             "https://project-open-data.cio.gov/v1.1/schema/catalog.json"
         };
+        console.log("merging docMain, holderMain", docMain, holderMain)
         holderMain = merge(docMain, holderMain);
 
+        console.log("merging holderDataset, outDoc", holderDataset, outDoc)
         outDoc = merge(holderDataset, outDoc, {
           arrayMerge: merge.combineMerge
         });

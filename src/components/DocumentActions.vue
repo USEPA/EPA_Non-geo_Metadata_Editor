@@ -37,7 +37,7 @@
       <q-modal-layout>
         <q-layout-header>
           <q-toolbar color="primary">
-            <q-toolbar-title>Load Metadata File</q-toolbar-title>
+            <q-toolbar-title>Load Metadata Record</q-toolbar-title>
 
             <q-btn flat round dense @click="closeLoadModal" aria-label="close dialog">
               <v-icon name="times" scale="1.4" />
@@ -46,54 +46,9 @@
         </q-layout-header>
 
         <q-page-container>
-          <q-page v-if="docSize">
+          <q-page v-if="selectedRecord">
             <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad)" /></pre>
-          </q-page>
-        </q-page-container>
-
-        <q-layout-footer style="background-color:white">
-          <q-item>
-            <q-item-main label style="width:60%">
-              <input
-                type="file"
-                accept="application/json"
-                @input="openFile"
-                @click="loadError=false; $event.target.value=null"
-              />
-            </q-item-main>
-            <q-item-side right>
-              <q-btn
-                v-if="docSize"
-                color="primary"
-                @click="loadDoc"
-                :disable="loadError"
-                aria-label="edit metadata record"
-              >
-                <v-icon name="edit" scale="1.4" />
-              </q-btn>
-            </q-item-side>
-          </q-item>
-        </q-layout-footer>
-      </q-modal-layout>
-    </q-modal>
-
-    <q-modal v-model="loadFromEdgModalOpen" :content-css="{'height':'auto', 'min-width': '25vw'}">
-      <q-modal-layout>
-        <q-layout-header>
-          <q-toolbar color="primary">
-            <q-toolbar-title>Load Metadata Record from EDG</q-toolbar-title>
-
-            <q-btn flat round dense @click="closeLoadFromEdgModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4" />
-            </q-btn>
-          </q-toolbar>
-        </q-layout-header>
-
-        <q-page-container>
-          <q-page v-if="docSize">
-            <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad)" /></pre>
+            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad.dataset[selectedRecord])" /></pre>
           </q-page>
           <q-page v-else style="margin:1em">
             <q-select
@@ -102,7 +57,17 @@
               :options="availableRepos"
               :filter="availableRepos.length>10"
             />
-            <div v-if="selectedRepo">
+            <div v-if="selectedRepo=='local'">
+              <br />
+              <br />
+              <input
+                type="file"
+                accept="application/json"
+                @input="openFile"
+                @click="loadError=false; $event.target.value=null"
+              />
+            </div>
+            <div v-if="docToLoad && docToLoad.hasOwnProperty('dataset')">
               <br />
               <br />
               <q-select
@@ -120,7 +85,7 @@
             <q-item-main label style="width:60%"></q-item-main>
             <q-item-side left>
               <q-btn
-                v-if="docSize"
+                v-if="selectedRecord!=null"
                 color="primary"
                 @click="loadDoc"
                 :disable="loadError"
@@ -153,10 +118,6 @@ export default {
   },
   methods: {
     openLoadModal: function () {
-      this.loadModalOpen = true;
-    },
-
-    openLoadFromEdgModal: function () {
       fetch(
         "https://edg.epa.gov/data/public/epa-open-data-dcat-files.json"
       )
@@ -164,17 +125,21 @@ export default {
         .then(data => {
           this.edgRoot = data.root
           this.availableRepos = data.files.map(repo => { return { "value": repo.file, "label": repo.title } })
-          console.log(this.availableRepos);
-        });
-      this.loadFromEdgModalOpen = true;
+        }).then(
+          () => {
+            if (!this.availableRepos || !this.availableRepos.length)
+              this.availableRepos = []
+            this.availableRepos.unshift({ "value": "local", "label": "[From a local file...]" })
+            this.loadModalOpen = true;
+
+          }
+        )
     },
 
     closeLoadModal: function () {
       this.loadModalOpen = false;
-    },
-
-    closeLoadFromEdgModal: function () {
-      this.loadFromEdgModalOpen = false;
+      this.docToLoad = {}
+      this.selectedRecord = null
     },
 
     openFile: function (e) {
@@ -212,14 +177,14 @@ export default {
 
     loadDoc: function (e) {
       config.noop(e);
-      this.$emit("loadMd", this.docToLoad);
-      this.closeLoadModal();
+      this.$emit("loadMd", { "dataset": [this.docToLoad.dataset[this.selectedRecord]] });
+      this.closeLoadModal()
     },
 
     resetDoc: function (e) {
       config.noop(e);
       this.$emit("loadMd", {});
-      this.closeLoadModal();
+      this.closeLoadModal()
     },
 
     openSaveModal: function () {
@@ -267,8 +232,6 @@ export default {
     perform: function (action) {
       if (action == "load") {
         this.openLoadModal();
-      } else if (action == "loadFromEdg") {
-        this.openLoadFromEdgModal();
       } else if (action == "view") {
         this.fastSaveDoc();
       } else if (action == "save") {
@@ -284,9 +247,6 @@ export default {
   },
 
   computed: {
-    docSize () {
-      return Object.keys(this.docToLoad).length;
-    },
 
     filename: {
       get: function () {
@@ -307,6 +267,7 @@ export default {
   },
 
   watch: {
+
     action: {
       handler: function (newAction) {
         this.action_ = newAction;
@@ -314,29 +275,26 @@ export default {
       },
       immediate: true
     },
+
     selectedRepo: {
       handler: function (newRepo) {
-        if (this.edgRoot && this.selectedRepo)
+        if (this.edgRoot && this.selectedRepo && this.selectedRepo != 'local') {
           fetch(
             this.edgRoot + "/" + this.selectedRepo
           )
             .then(response => response.json())
             .then(data => {
-              this.fullFile = data
-              this.availableRecords = data.dataset.map((record, index) => { return { "value": index, "label": record.title } })
-              console.log(this.availableRecords);
+              this.docToLoad = data
             });
+        }
       },
       immediate: true
     },
-    selectedRecord: {
-      handler: function (newRecord) {
-        if (this.selectedRepo && this.selectedRecord) {
-          console.log(this.fullFile.dataset)
-          console.log(this.selectedRecord)
-          console.log(this.fullFile.dataset[this.selectedRecord])
-          this.docToLoad = this.fullFile
-        }
+
+    docToLoad: {
+      handler: function (newDoc) {
+        if (newDoc && newDoc.dataset)
+          this.availableRecords = newDoc.dataset.map((record, index) => { return { "value": index, "label": record.title || 'Record #' + (index + 1) } })
       },
       immediate: true
     },
@@ -349,13 +307,11 @@ export default {
       menuOpen: true,
       saveModalOpen: false,
       loadModalOpen: false,
-      loadFromEdgModalOpen: false,
       edgRoot: null,
       availableRepos: [],
       selectedRepo: null,
       availableRecords: [],
       selectedRecord: null,
-      fullFile: null,
       filenameInternal: "",
       docToLoad: Object,
       loadError: false,
