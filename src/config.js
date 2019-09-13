@@ -11,6 +11,7 @@ import { date } from 'quasar'
 
 var global_validators = {
   nonTrivialText: function(txt, options) {
+    txt = txt || ''
     if (txt.trim().length === 0) return 'Empty.'
     if (
       txt.split(' ').filter(function(n) {
@@ -192,15 +193,18 @@ var config = {
     prop,
     { defaultValue = '', extract = true, conf = config, lookup = true } = {}
   ) {
-    // Store value of property sought
-    var val = doc[prop]
-    // Remove the property from the document (unless overriden: extract = false)
-    if (extract) delete doc[prop]
-    // Match against lookup list if applicable
-    if (lookup && conf[prop] && conf[prop].availableOptions) {
-      var item = conf[prop].availableOptions.find(i => i.value == val)
-      // Fallback to default value if no match
-      if (!item) val = defaultValue
+    var val = null
+    if (doc && doc[prop]) {
+      // Store value of property sought
+      val = doc[prop]
+      // Remove the property from the document (unless overriden: extract = false)
+      if (extract) delete doc[prop]
+      // Match against lookup list if applicable
+      if (lookup && conf[prop] && conf[prop].availableOptions) {
+        var item = conf[prop].availableOptions.find(i => i.value == val)
+        // Fallback to default value if no match
+        if (!item) val = defaultValue
+      }
     }
     return val || defaultValue
   },
