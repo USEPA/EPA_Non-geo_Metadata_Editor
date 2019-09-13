@@ -8,12 +8,12 @@
         <q-layout-header>
           <q-toolbar color="primary">
             <q-btn flat round dense aria-label="submit icon">
-              <v-icon name="paper-plane" scale="1.4"/>
+              <v-icon name="paper-plane" scale="1.4" />
             </q-btn>
             <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
             <q-btn flat round dense @click="closeSubmitModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4"/>
+              <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
         </q-layout-header>
@@ -22,8 +22,8 @@
           <q-page>
             Clicking Submit will send your metadata record to EPA's metadata team for review.
             You will receive confirmation via email if it is accepted into EPA's metadata inventory.
-            <br>
-            <br>Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
+            <br />
+            <br />Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
           </q-page>
         </q-page-container>
 
@@ -68,7 +68,7 @@
         @click="attemptSubmit"
         aria-label="Submit button"
       >
-        <v-icon name="paper-plane" :scale="1.4"/>
+        <v-icon name="paper-plane" :scale="1.4" />
         <q-tooltip
           anchor="center left"
           self="center right"
