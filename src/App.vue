@@ -471,7 +471,7 @@
         @modalClosed="menuAction=''"
       />
 
-      <Submitter :doc="materializeDoc" :docError="docError()" />
+      <Submitter :user="user" :doc="materializeDoc" :docError="docError()" />
     </q-page-container>
   </q-layout>
 

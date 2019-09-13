@@ -93,6 +93,7 @@ export default {
   components: { VueRecaptcha },
 
   props: {
+    user: null,
     doc: Object,
     docError: ""
   },
@@ -132,7 +133,11 @@ export default {
       let publisher =
         "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
 
-      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}`;
+      let user = "user=" + encodeURIComponent(this.user.fullName)
+      let email = "email=" + encodeURIComponent(this.user.email)
+
+
+      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}&${user}&${email}`;
 
       // Make a copy of the document and limit to the first dataset for submission
       let outDoc = config.clone(this.doc);
