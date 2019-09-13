@@ -516,7 +516,8 @@ var config = {
 
   epa_agreement_no: {
     mandatory: true,
-    validators: [{ fn: global_validators.nonEmpty, args: {} }]
+    validators: [{ fn: global_validators.nonEmpty, args: {} }],
+    conditions: { isEpaUser: false }
   },
 
   epa_agreement_type: {
@@ -528,30 +529,35 @@ var config = {
       { value: 'Cooperative Agreement', label: 'Cooperative Agreement' },
       { value: 'Inter-Agency Agreement', label: 'Inter-Agency Agreement' },
       { value: 'Other', label: 'Other' }
-    ]
+    ],
+    conditions: { isEpaUser: false }
   },
 
   epa_contact: {
     mandatory: true,
-    validators: [{ fn: global_validators.validEmail, args: {} }]
+    validators: [{ fn: global_validators.validEmail, args: {} }],
+    conditions: { isEpaUser: false }
   },
 
   programCode: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
-    availableTags: programs
+    availableTags: programs,
+    conditions: { isEpaUser: true }
   },
 
   systemofrecords: {
     mandatory: false,
     validators: [],
-    availableOptions: sor
+    availableOptions: sor,
+    conditions: { isEpaUser: true }
   },
 
   primaryitinvestmentuii: {
     mandatory: false,
     validators: [],
-    availableOptions: piti
+    availableOptions: piti,
+    conditions: { isEpaUser: true }
   }
 }
 

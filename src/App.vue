@@ -832,19 +832,25 @@ export default {
     },
 
     docError: function () {
-      let fn = function (val, n) {
-        if (val) return val;
+      let fnmaker = function (that) {
+        return function (val, n) {
+          if (val) return val;
 
-        if (this.isLeaf) {
-          n = n.trim();
-          let isMandatory = traverse(config).get(this.path)["mandatory"];
-          if (n && n != "Empty.") return this.path;
-          if (n && isMandatory) return this.path;
-        }
-        return "";
-      };
+          if (this.isLeaf) {
+            n = n.trim();
+            let cfg = traverse(config).get(this.path)
+            // Do not validate if conditional validation is in effect but conditions do not apply
+            if (!that.validationApplicable(cfg["conditions"])) {
+              return ""
+            }
+            if (n && n != "Empty.") return this.path;
+            if (n && cfg["mandatory"]) return this.path;
+          }
+          return "";
+        };
+      }
 
-      let failingElement = traverse(this.validations).reduce(fn, "");
+      let failingElement = traverse(this.validations).reduce(fnmaker(this), "");
       if (failingElement) {
         return {
           name: this.mdSpec
@@ -853,6 +859,21 @@ export default {
           message: this.validations[failingElement]
         };
       } else return "";
+    },
+
+    validationApplicable: function (expectedConditions) {
+      // If validation is not conditional then validation applies
+      if (!expectedConditions) return true;
+      // Currently validation is only conditional on whether the user is an EPA user
+      let currentConditions = { isEpaUser: this.isEpaUser }
+
+      // Assume validation will apply
+      let result = true
+      Object.keys(expectedConditions).map((condition) => {
+        // If current conditions do not satisfy expected conditions then validation does not apply
+        if (expectedConditions[condition] != currentConditions[condition]) result = false
+      })
+      return result
     },
 
     perform: function (action) {
