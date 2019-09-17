@@ -470,7 +470,6 @@
         @loadMd="loadDocFrom"
         @modalClosed="menuAction=''"
       />
-
       <Submitter :user="user" :doc="materializeDoc" :docError="docError()" />
     </q-page-container>
   </q-layout>
@@ -750,7 +749,6 @@ export default {
     },
 
     loadDocFrom: function (newDoc) {
-      console.log("newDoc", newDoc)
       // Deep clone the document read as we will apply destructive ops
       this.holder = config.clone(newDoc || {});
       var inDoc = this.holder.dataset || [];
@@ -894,6 +892,7 @@ export default {
 
     // Save state if navigating away from the page
     autoSave: function (e) {
+      config.noop(e)
       if (this.dirty) {
         localStorage.savedDoc = JSON.stringify(this.materializeDoc);
       }
@@ -1150,7 +1149,6 @@ export default {
       get: function () {
         // Deep copy the working document
         var outDoc = config.clone(this.doc);
-        console.log("outDoc, this.doc", outDoc, this.doc)
 
         if (outDoc.tags_epa_theme || outDoc.tags_place || outDoc.tags_iso) {
           var keyword = this.mergeArrays(
@@ -1218,10 +1216,8 @@ export default {
           describedBy:
             "https://project-open-data.cio.gov/v1.1/schema/catalog.json"
         };
-        console.log("merging docMain, holderMain", docMain, holderMain)
         holderMain = merge(docMain, holderMain);
 
-        console.log("merging holderDataset, outDoc", holderDataset, outDoc)
         outDoc = merge(holderDataset, outDoc, {
           arrayMerge: merge.combineMerge
         });

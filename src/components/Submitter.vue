@@ -128,20 +128,33 @@ export default {
 
     submitToEpa: function (recaptchaToken) {
       let token = "token=" + encodeURIComponent(recaptchaToken);
-      let sponsor =
-        "sponsor=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
-      let publisher =
-        "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
+      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&`;
+      if (this.user) {
+        let epaUserName = "epaUserName=" + encodeURIComponent(this.user.fullName)
+        let repoURL = "repoURL=" + encodeURIComponent(this.doc.repo)
 
-      let user = "user=" + encodeURIComponent(this.user.fullName)
-      let email = "email=" + encodeURIComponent(this.user.email)
+        submitUrl += `${epaUserName}&${repoURL}`;
+      } else {
+        let sponsorEmail =
+          "sponsorEmail=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
+        let agreementType =
+          "agreementType=" + encodeURIComponent(this.doc.dataset[0].epa_agreement_type);
+        let agreementNumber =
+          "agreementNumber=" + encodeURIComponent(this.doc.dataset[0].epa_agreement_no);
 
+        submitUrl += `${sponsorEmail}&${agreementType}&${agreementNumber}`;
+      }
 
-      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}&${user}&${email}`;
 
       // Make a copy of the document and limit to the first dataset for submission
       let outDoc = config.clone(this.doc);
       outDoc.dataset.length = 1;
+
+      // Exclude the following from the submitted document
+      delete outDoc.repo
+      delete outDoc.dataset[0].epa_agreement_type
+      delete outDoc.dataset[0].epa_agreement_no
+
       let metadata = JSON.stringify(outDoc, null, 4);
 
       fetch(submitUrl, {

@@ -177,7 +177,7 @@ export default {
 
     loadDoc: function (e) {
       config.noop(e);
-      this.$emit("loadMd", { "dataset": [this.docToLoad.dataset[this.selectedRecord]] });
+      this.$emit("loadMd", { "repo": this.selectedRepo, "dataset": [this.docToLoad.dataset[this.selectedRecord]] });
       this.closeLoadModal()
     },
 
@@ -277,7 +277,7 @@ export default {
     },
 
     selectedRepo: {
-      handler: function (newRepo) {
+      handler: function () {
         if (this.edgRoot && this.selectedRepo && this.selectedRepo != 'local') {
           fetch(
             this.edgRoot + "/" + this.selectedRepo
