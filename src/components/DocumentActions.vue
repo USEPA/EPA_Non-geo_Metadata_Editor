@@ -183,7 +183,7 @@ export default {
 
     resetDoc: function (e) {
       config.noop(e);
-      this.$emit("loadMd", {});
+      this.$emit("loadMd", { "repo": "local", "dataset": [] });
       this.closeLoadModal()
     },
 
