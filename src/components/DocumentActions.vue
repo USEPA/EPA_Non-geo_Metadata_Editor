@@ -139,7 +139,6 @@ export default {
 
     closeLoadModal: function () {
       this.loadModalOpen = false;
-      this.docToLoad = {}
       this.selectedRecord = null
     },
 
@@ -178,7 +177,7 @@ export default {
 
     loadDoc: function (e) {
       config.noop(e);
-      this.$emit("loadMd", { "repo": this.selectedRepo, "dataset": [this.docToLoad.dataset[this.selectedRecord]] });
+      this.$emit("loadMd", { "repo": this.selectedRepo, "dataset": [config.clone(this.docToLoad.dataset[this.selectedRecord])] });
       this.closeLoadModal()
     },
 
