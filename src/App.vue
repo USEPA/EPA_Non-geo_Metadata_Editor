@@ -467,6 +467,7 @@
       <DocumentActions
         :action="menuAction"
         :doc="materializeDoc"
+        :isEpaUser="isEpaUser"
         @loadMd="loadDocFrom"
         @modalClosed="menuAction=''"
       />

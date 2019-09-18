@@ -111,7 +111,8 @@ export default {
   name: "DocumentActions",
   props: {
     action: "",
-    doc: {}
+    doc: {},
+    isEpaUser: false
   },
   components: {
     TextInput
@@ -124,7 +125,7 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.edgRoot = data.root
-          this.availableRepos = data.files.map(repo => { return { "value": repo.file, "label": repo.title } })
+          this.availableRepos = data.files.map(repo => { return { "value": repo.file, "label": repo.title, "epaOnly": repo.epaOnly || true } }).filter(repo => !repo.epaOnly || this.isEpaUser)
         }).then(
           () => {
             if (!this.availableRepos || !this.availableRepos.length)
