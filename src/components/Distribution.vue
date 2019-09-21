@@ -383,10 +383,11 @@ export default {
 
   watch: {
     value (newValue) {
-      this.indexBeingEdited = -1;
       if (Array.isArray(newValue) && newValue.length) {
-        if (!newValue[0].interned)
+        if (!newValue[0].interned) {
+          this.indexBeingEdited = -1;
           this.modelValue = newValue.map(item => this.intern(item));
+        }
       } else {
         if (Array.isArray(this.modelValue) && this.modelValue.length && !newValue.length) {
           this.modelValue = newValue
