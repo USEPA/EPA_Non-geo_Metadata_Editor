@@ -21,7 +21,6 @@
 
       <q-layout-drawer :width="200" side="left" v-model="menuOpen" overlay style="color:#157CDA">
         <q-list no-border>
-          <q-item></q-item>
           <q-item>
             <q-btn flat @click="perform('load')" aria-label="load metadata record">
               <v-icon scale="2" name="cloud-download-alt" class="menuIcon" />

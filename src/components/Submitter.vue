@@ -5,7 +5,7 @@
       :content-css="{'padding': '10px','width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}"
     >
       <q-modal-layout content-class="no-scroll">
-        <q-layout-header>
+        <div>
           <q-toolbar color="primary">
             <q-btn flat round dense aria-label="submit icon">
               <v-icon name="paper-plane" scale="1.4" />
@@ -16,18 +16,16 @@
               <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
-        </q-layout-header>
+        </div>
 
-        <q-page-container>
-          <q-page>
-            Clicking Submit will send your metadata record to EPA's metadata team for review.
-            You will receive confirmation via email if it is accepted into EPA's metadata inventory.
-            <br />
-            <br />Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
-          </q-page>
-        </q-page-container>
+        <q-page>
+          Clicking Submit will send your metadata record to EPA's metadata team for review.
+          You will receive confirmation via email if it is accepted into EPA's metadata inventory.
+          <br />
+          <br />Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
+        </q-page>
 
-        <q-layout-footer style="background-color:white">
+        <div style="background-color:white">
           <q-item>
             <q-item-main></q-item-main>
             <q-item-side left>
@@ -57,7 +55,7 @@
               />
             </q-item-side>
           </q-item>
-        </q-layout-footer>
+        </div>
       </q-modal-layout>
     </q-modal>
 

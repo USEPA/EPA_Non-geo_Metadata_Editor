@@ -2,7 +2,7 @@
   <div>
     <q-modal v-model="saveModalOpen">
       <q-modal-layout>
-        <q-layout-header>
+        <div>
           <q-toolbar color="primary">
             <q-toolbar-title>{{filenameFull}}</q-toolbar-title>
 
@@ -10,15 +10,13 @@
               <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
-        </q-layout-header>
+        </div>
 
-        <q-page-container>
-          <q-page>
-            <pre style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)" /></pre>
-          </q-page>
-        </q-page-container>
+        <div>
+          <pre style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(doc)" /></pre>
+        </div>
 
-        <q-layout-footer style="background-color:white">
+        <div style="background-color:white">
           <q-item>
             <q-item-main label="Filename (leave empty to use document identifier):">
               <TextInput v-model="filename" :defaultText="filenameFull" />
@@ -29,13 +27,13 @@
               </q-btn>
             </q-item-side>
           </q-item>
-        </q-layout-footer>
+        </div>
       </q-modal-layout>
     </q-modal>
 
     <q-modal v-model="loadModalOpen" :content-css="{'height':'auto', 'min-width': '25vw'}">
       <q-modal-layout>
-        <q-layout-header>
+        <div>
           <q-toolbar color="primary">
             <q-toolbar-title>Load Metadata Record</q-toolbar-title>
 
@@ -43,44 +41,42 @@
               <v-icon name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
-        </q-layout-header>
+        </div>
 
-        <q-page-container>
-          <q-page v-if="selectedRecord">
-            <pre v-if="loadError"> {{loadErrorMessage}} </pre>
-            <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad.dataset[selectedRecord])" /></pre>
-          </q-page>
-          <q-page v-else style="margin:1em">
-            <q-select
-              stack-label="Pick repository"
-              v-model="selectedRepo"
-              :options="availableRepos"
-              :filter="availableRepos.length>10"
+        <div v-if="selectedRecord">
+          <pre v-if="loadError"> {{loadErrorMessage}} </pre>
+          <pre v-else style="margin-top:0px;margin-bottom:0px"><code v-html="formatHighlight(docToLoad.dataset[selectedRecord])" /></pre>
+        </div>
+        <div v-else style="margin:1em">
+          <q-select
+            stack-label="Pick repository"
+            v-model="selectedRepo"
+            :options="availableRepos"
+            :filter="availableRepos.length>10"
+          />
+          <div v-if="selectedRepo=='local'">
+            <br />
+            <br />
+            <input
+              type="file"
+              accept="application/json"
+              @input="openFile"
+              @click="loadError=false; $event.target.value=null"
             />
-            <div v-if="selectedRepo=='local'">
-              <br />
-              <br />
-              <input
-                type="file"
-                accept="application/json"
-                @input="openFile"
-                @click="loadError=false; $event.target.value=null"
-              />
-            </div>
-            <div v-if="docToLoad && docToLoad.hasOwnProperty('dataset')">
-              <br />
-              <br />
-              <q-select
-                stack-label="Pick metadata record"
-                v-model="selectedRecord"
-                :options="availableRecords"
-                :filter="availableRecords.length>10"
-              />
-            </div>
-          </q-page>
-        </q-page-container>
+          </div>
+          <div v-if="docToLoad && docToLoad.hasOwnProperty('dataset')">
+            <br />
+            <br />
+            <q-select
+              stack-label="Pick metadata record"
+              v-model="selectedRecord"
+              :options="availableRecords"
+              :filter="availableRecords.length>10"
+            />
+          </div>
+        </div>
 
-        <q-layout-footer style="background-color:white">
+        <div style="background-color:white">
           <q-item>
             <q-item-main label style="width:60%"></q-item-main>
             <q-item-side left>
@@ -95,7 +91,7 @@
               </q-btn>
             </q-item-side>
           </q-item>
-        </q-layout-footer>
+        </div>
       </q-modal-layout>
     </q-modal>
   </div>
