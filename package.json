@@ -11,14 +11,14 @@
     "@types/file-saver": "^2.0.0",
     "add": "^2.0.6",
     "babel-plugin-transform-imports": "^2.0.0",
-    "clean-deep": "^3.0.2",
+    "clean-deep": "^3.1.0",
     "deepmerge": "^3.1.0",
     "esri-loader": "^2.10.0",
     "file-saver": "^2.0.0-rc.3",
-    "json-format-highlight": "^1.0.1",
+    "json-format-highlight": "^1.0.2",
     "json-stringify-safe": "^5.0.1",
     "quasar-extras": "^2.0.9",
-    "quasar-framework": "^0.17.19",
+    "quasar-framework": "^0.17.20",
     "revuest": "^1.1.5",
     "traverse": "^0.6.6",
     "vue": "^2.6.6",
@@ -27,18 +27,18 @@
     "vue-recaptcha": "^1.1.1",
     "vue-uuid": "^1.1.1",
     "whatwg-fetch": "^3.0.0",
-    "yarn": "^1.13.0"
+    "yarn": "^1.19.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.5.3",
-    "stylus": "^0.54.5",
+    "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue-axe": "^1.0.7",
     "vue-cli-plugin-quasar": "^0.17.1",
     "vue-template-compiler": "^2.6.6",
-    "webpack": "^4.29.3"
+    "webpack": "^4.40.2"
   },
   "eslintConfig": {
     "root": true,
