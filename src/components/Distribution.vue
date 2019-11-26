@@ -89,7 +89,7 @@
             v-show="!isBeingEdited(index)"
             aria-label="Edit this distribution entry"
           >
-            <v-icon name="pen" style="margin-right:1em" />Edit this distribution entry
+            <v-icon aria-hidden="true" name="pen" style="margin-right:1em" />Edit this distribution entry
           </q-btn>
           <q-btn
             class="col-sm"
@@ -97,14 +97,14 @@
             v-show="isBeingEdited(index)"
             aria-label="Done editing this distribution entry"
           >
-            <v-icon name="check" style="margin-right:1em" />Done editing this distribution entry
+            <v-icon aria-hidden="true" name="check" style="margin-right:1em" />Done editing this distribution entry
           </q-btn>
           <q-btn
             class="col-sm"
             @click="deleteThis(index)"
             aria-label="Delete this distribution entry"
           >
-            <v-icon name="trash" style="margin-right:1em" />Delete this distribution entry
+            <v-icon aria-hidden="true" name="trash" style="margin-right:1em" />Delete this distribution entry
           </q-btn>
         </div>
       </q-card-main>
@@ -112,7 +112,7 @@
 
     <br />
     <q-btn @click="addAnother()" aria-label="Add distribution entry">
-      <v-icon name="plus" style="margin-right:1em" />
+      <v-icon aria-hidden="true" name="plus" style="margin-right:1em" />
       {{'Add '+(modelValue.length?'another':'a')+' distribution entry'}}
     </q-btn>
   </div>

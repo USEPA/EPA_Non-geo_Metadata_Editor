@@ -8,12 +8,12 @@
         <div>
           <q-toolbar color="primary">
             <q-btn flat round dense aria-label="submit icon">
-              <v-icon name="paper-plane" scale="1.4" />
+              <v-icon aria-hidden="true" name="paper-plane" scale="1.4" />
             </q-btn>
             <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
             <q-btn flat round dense @click="closeSubmitModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4" />
+              <v-icon aria-hidden="true" name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
         </div>
@@ -66,7 +66,7 @@
         @click="attemptSubmit"
         aria-label="Submit button"
       >
-        <v-icon name="paper-plane" :scale="1.4" />
+        <v-icon aria-hidden="true" name="paper-plane" :scale="1.4" />
         <q-tooltip
           anchor="center left"
           self="center right"

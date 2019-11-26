@@ -3,7 +3,7 @@
     <q-card-title style="background-color:#dddddd; padding:0px; cursor:pointer;">
       <div @click="show()" class="element">
         <q-item>
-          <ValidationIcon :validations="validations" :mandatory="mandatory"/>
+          <ValidationIcon :validations="validations" :mandatory="mandatory" />
           <q-item-main style="font-size: 1.4em;">{{title}}</q-item-main>
         </q-item>
       </div>
@@ -11,20 +11,20 @@
 
     <q-card-main>
       <div v-if="guidanceVisible" style="border-color: red;" class="animate-scale">
-        <br>
+        <br />
         <q-card inset>
           <q-item>
             <q-item-tile>
-              <v-icon scale="2" name="lightbulb" style="color:gold"/>
+              <v-icon aria-hidden="true" scale="2" name="lightbulb" style="color:gold" />
             </q-item-tile>
-            <q-item-main v-html="guidance" style="color:gray;padding-left:1.4em"/>
+            <q-item-main v-html="guidance" style="color:gray;padding-left:1.4em" />
           </q-item>
-          <q-item-separator/>
+          <q-item-separator />
           <q-item>
             <q-item-tile>
-              <ValidationIcon :validations="validations" :mandatory="mandatory"/>
+              <ValidationIcon :validations="validations" :mandatory="mandatory" />
             </q-item-tile>
-            <q-item-main :style="getValiMandaVisualizer().style" v-html="getValidations()"/>
+            <q-item-main :style="getValiMandaVisualizer().style" v-html="getValidations()" />
           </q-item>
         </q-card>
       </div>
