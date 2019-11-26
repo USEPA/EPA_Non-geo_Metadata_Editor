@@ -4,12 +4,13 @@
     :type="multiLine ? 'textarea' : 'text'"
     :float-label="defaultText"
     :rows="multiLine ? 4 : 1"
+    :aria-label="defaultText"
   />
 </template>
 
 <script>
 export default {
-  name: "TextInput",
+  name: 'TextInput',
   props: {
     value: String,
     defaultText: String,
@@ -20,19 +21,18 @@ export default {
   },
   watch: {
     modelValue(newValue) {
-      this.$emit("input", newValue);
+      this.$emit('input', newValue)
     },
     value(newValue) {
-      this.modelValue = newValue;
+      this.modelValue = newValue
     }
   },
   data() {
     return {
       modelValue: this.value
-    };
+    }
   }
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

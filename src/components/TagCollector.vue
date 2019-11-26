@@ -10,6 +10,7 @@
     :close-on-select="false"
     :clearOnSelect="false"
     :hide-selected="true"
+    aria-label="tag collector"
   >
     <template slot="option" slot-scope="props">
       <div class="option__desc">
@@ -22,10 +23,10 @@
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
+import Multiselect from 'vue-multiselect'
 
 export default {
-  name: "TagCollector",
+  name: 'TagCollector',
 
   props: {
     value: Array,
@@ -35,23 +36,22 @@ export default {
   components: { Multiselect },
 
   watch: {
-    modelValue (newValue) {
-      this.$emit("input", newValue);
+    modelValue(newValue) {
+      this.$emit('input', newValue)
     },
 
-    value (newValue) {
-      this.modelValue = newValue;
+    value(newValue) {
+      this.modelValue = newValue
     }
   },
 
-  data () {
+  data() {
     return {
       modelValue: this.value
-    };
+    }
   }
-};
+}
 </script>
- 
 
 <style scoped>
 .option__small {
