@@ -2,13 +2,13 @@
   <q-jumbotron dark img-src="./banner.jpg">
     <h1
       class="q-subheading tb"
-    >Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.</h1>
+    >Welcome to the EPA Open Data Metadata Editor in support of EPA's initiative to make data open, discoverable, and usable.</h1>
     <hr class="q-hr q-my-lg" />
     <div class="tb">
-      This tool allows extramural researchers to author, save, and submit metadata records for non-geospatial data that are compliant with
+      This tool allows data stewards to author, save, and submit metadata records for non-geospatial data that are compliant with
       <a
         href="https://www.epa.gov/geospatial/epa-metadata-technical-specification"
-      >EPA's Metadata Technical Specification</a>. If you wish to submit metadata for geospatial data, please contact the
+      >EPA's Metadata Technical Specification</a>. Stewards with EPA credentials should log in using the button at upper right to allow management of EPA records. Extramural researchers may use the tool without logging in, but the metadata submission will be subject to approval by your EPA sponsor. If you wish to submit metadata for geospatial data, please contact the
       <a
         href="mailto:edg@epa.gov"
       >EPA EDG team</a> for further assistance.

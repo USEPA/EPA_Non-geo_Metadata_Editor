@@ -6,7 +6,6 @@
 
         <q-toolbar-title style="font-size:2.2em">
           EPA Open Data Metadata Editor
-          <div slot="subtitle">for extramural researchers</div>
         </q-toolbar-title>
         <slot name="right" />
       </q-toolbar>
