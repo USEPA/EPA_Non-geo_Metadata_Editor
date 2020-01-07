@@ -1,9 +1,9 @@
 <template>
   <q-jumbotron dark img-src="./banner.jpg">
-    <div
+    <h1
       class="q-subheading tb"
-    >Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.</div>
-    <hr class="q-hr q-my-lg">
+    >Welcome to the EPA Open Data Metadata Editor for Extramural Researchers in support of EPA's initiative to make data open, discoverable, and usable.</h1>
+    <hr class="q-hr q-my-lg" />
     <div class="tb">
       This tool allows extramural researchers to author, save, and submit metadata records for non-geospatial data that are compliant with
       <a
@@ -12,13 +12,13 @@
       <a
         href="mailto:edg@epa.gov"
       >EPA EDG team</a> for further assistance.
-      <br>Each element has a corresponding status:
-      <ValidationIcon mandatory :scale="1.4" style="margin-bottom:-0.2em"/>Mandatory (empty),
-      <ValidationIcon :scale="1.4" style="margin-bottom:-0.2em"/>Optional (empty),
-      <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em"/>Invalid, and
-      <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em"/>Valid.
+      <br />Each element has a corresponding status:
+      <ValidationIcon mandatory :scale="1.4" style="margin-bottom:-0.2em" />Mandatory (empty),
+      <ValidationIcon :scale="1.4" style="margin-bottom:-0.2em" />Optional (empty),
+      <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em" />Invalid, and
+      <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em" />Valid.
       Additional guidance and best practices are available by clicking each element's status icon.
-      <br>Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.
+      <br />Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.
       Please contact the
       <a
         href="mailto:edg@epa.gov"

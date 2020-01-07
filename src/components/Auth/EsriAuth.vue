@@ -67,10 +67,12 @@ export default {
       this.portalUser = portalUser
       if (portalUser && portalUser.credential)
         fetch(
-          `http://52.20.85.254:8080/metadata/validateToken.jsp?u=${portalUser.credential.username}&t=${portalUser.credential.token}`
+          `https://edg.epa.gov/metadata/getUserData.jsp?u=${portalUser.credential.userId}&t=${portalUser.credential.token}`
+          // `http://52.20.85.254:8080/metadata/getUserData.jsp?u=${portalUser.credential.username}&t=${portalUser.credential.token}`
         )
           .then(response => response.json())
           .then(data => {
+            // eslint-disable-next-line
             console.log('EDG:', data)
             if (data && data.user) this.edgUserData = data;
           });
@@ -95,6 +97,7 @@ export default {
 
   watch: {
     "portalUser": function (newValue) {
+      // eslint-disable-next-line
       console.log("Portal user: ", newValue);
       this.$emit('user', newValue)
       this.loading = false

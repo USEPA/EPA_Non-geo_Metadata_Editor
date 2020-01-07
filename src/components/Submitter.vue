@@ -5,29 +5,27 @@
       :content-css="{'padding': '10px','width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}"
     >
       <q-modal-layout content-class="no-scroll">
-        <q-layout-header>
+        <div>
           <q-toolbar color="primary">
             <q-btn flat round dense aria-label="submit icon">
-              <v-icon name="paper-plane" scale="1.4"/>
+              <v-icon aria-hidden="true" name="paper-plane" scale="1.4" />
             </q-btn>
             <q-toolbar-title>Submit to EPA</q-toolbar-title>
 
             <q-btn flat round dense @click="closeSubmitModal" aria-label="close dialog">
-              <v-icon name="times" scale="1.4"/>
+              <v-icon aria-hidden="true" name="times" scale="1.4" />
             </q-btn>
           </q-toolbar>
-        </q-layout-header>
+        </div>
 
-        <q-page-container>
-          <q-page>
-            Clicking Submit will send your metadata record to EPA's metadata team for review.
-            You will receive confirmation via email if it is accepted into EPA's metadata inventory.
-            <br>
-            <br>Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
-          </q-page>
-        </q-page-container>
+        <q-page>
+          Clicking Submit will send your metadata record to EPA's metadata team for review.
+          You will receive confirmation via email if it is accepted into EPA's metadata inventory.
+          <br />
+          <br />Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
+        </q-page>
 
-        <q-layout-footer style="background-color:white">
+        <div style="background-color:white">
           <q-item>
             <q-item-main></q-item-main>
             <q-item-side left>
@@ -57,7 +55,7 @@
               />
             </q-item-side>
           </q-item>
-        </q-layout-footer>
+        </div>
       </q-modal-layout>
     </q-modal>
 
@@ -68,7 +66,7 @@
         @click="attemptSubmit"
         aria-label="Submit button"
       >
-        <v-icon name="paper-plane" :scale="1.4"/>
+        <v-icon aria-hidden="true" name="paper-plane" :scale="1.4" />
         <q-tooltip
           anchor="center left"
           self="center right"
@@ -93,6 +91,7 @@ export default {
   components: { VueRecaptcha },
 
   props: {
+    user: null,
     doc: Object,
     docError: ""
   },
@@ -127,16 +126,33 @@ export default {
 
     submitToEpa: function (recaptchaToken) {
       let token = "token=" + encodeURIComponent(recaptchaToken);
-      let sponsor =
-        "sponsor=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
-      let publisher =
-        "publisher=" + encodeURIComponent(this.doc.dataset[0].contactPoint.fn);
+      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&`;
+      if (this.user) {
+        let epaUserName = "epaUserName=" + encodeURIComponent(this.user.fullName)
+        let repoURL = "repoURL=" + encodeURIComponent(this.doc.repo)
 
-      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&${sponsor}&${publisher}`;
+        submitUrl += `${epaUserName}&${repoURL}`;
+      } else {
+        let sponsorEmail =
+          "sponsorEmail=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
+        let agreementType =
+          "agreementType=" + encodeURIComponent(this.doc.dataset[0].epa_agreement_type);
+        let agreementNumber =
+          "agreementNumber=" + encodeURIComponent(this.doc.dataset[0].epa_agreement_no);
+
+        submitUrl += `${sponsorEmail}&${agreementType}&${agreementNumber}`;
+      }
+
 
       // Make a copy of the document and limit to the first dataset for submission
       let outDoc = config.clone(this.doc);
       outDoc.dataset.length = 1;
+
+      // Exclude the following from the submitted document
+      delete outDoc.repo
+      delete outDoc.dataset[0].epa_agreement_type
+      delete outDoc.dataset[0].epa_agreement_no
+
       let metadata = JSON.stringify(outDoc, null, 4);
 
       fetch(submitUrl, {

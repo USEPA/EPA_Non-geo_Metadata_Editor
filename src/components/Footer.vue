@@ -9,7 +9,7 @@
         style="margin-right:0.5em"
         aria-label="Green submit button"
       >
-        <v-icon name="paper-plane" :scale="1"/>
+        <v-icon aria-hidden="true" name="paper-plane" :scale="1" />
       </q-btn>and you may submit your record. If not, please address any validation errors or missing entries. You may also save a copy of your record before or after submission using the menu at top left.
     </div>
   </q-jumbotron>

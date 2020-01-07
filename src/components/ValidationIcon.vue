@@ -1,5 +1,6 @@
 <template>
   <v-icon
+    aria-hidden="true"
     :scale="scale"
     :name="getValiMandaVisualizer().icon"
     :style="getValiMandaVisualizer().style"
@@ -22,7 +23,7 @@ export default {
   },
 
   methods: {
-    getValiMandaVisualizer: function() {
+    getValiMandaVisualizer: function () {
       return config.getValiMandaVisualizer(this.validations, this.mandatory);
     }
   }

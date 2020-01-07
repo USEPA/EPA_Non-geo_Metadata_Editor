@@ -3,20 +3,30 @@
     v-model="modelValue"
     placeholder="Search"
     label="label"
+    :show-labels="false"
     track-by="value"
     :options="availableTags"
     :multiple="true"
     :close-on-select="false"
     :clearOnSelect="false"
     :hide-selected="true"
-  />
+    aria-label="tag collector"
+  >
+    <template slot="option" slot-scope="props">
+      <div class="option__desc">
+        <span class="option__title">{{ props.option.label }}</span>
+        <br />
+        <span class="option__small">{{ props.option.sublabel }}</span>
+      </div>
+    </template>
+  </multiselect>
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
+import Multiselect from 'vue-multiselect'
 
 export default {
-  name: "TagCollector",
+  name: 'TagCollector',
 
   props: {
     value: Array,
@@ -26,23 +36,26 @@ export default {
   components: { Multiselect },
 
   watch: {
-    modelValue (newValue) {
-      this.$emit("input", newValue);
+    modelValue(newValue) {
+      this.$emit('input', newValue)
     },
 
-    value (newValue) {
-      this.modelValue = newValue;
+    value(newValue) {
+      this.modelValue = newValue
     }
   },
 
-  data () {
+  data() {
     return {
       modelValue: this.value
-    };
+    }
   }
-};
+}
 </script>
- 
 
 <style scoped>
+.option__small {
+  font-size: 1em;
+  color: gray;
+}
 </style>

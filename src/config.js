@@ -11,6 +11,7 @@ import { date } from 'quasar'
 
 var global_validators = {
   nonTrivialText: function(txt, options) {
+    txt = txt || ''
     if (txt.trim().length === 0) return 'Empty.'
     if (
       txt.split(' ').filter(function(n) {
@@ -192,15 +193,18 @@ var config = {
     prop,
     { defaultValue = '', extract = true, conf = config, lookup = true } = {}
   ) {
-    // Store value of property sought
-    var val = doc[prop]
-    // Remove the property from the document (unless overriden: extract = false)
-    if (extract) delete doc[prop]
-    // Match against lookup list if applicable
-    if (lookup && conf[prop] && conf[prop].availableOptions) {
-      var item = conf[prop].availableOptions.find(i => i.value == val)
-      // Fallback to default value if no match
-      if (!item) val = defaultValue
+    var val = null
+    if (doc && doc[prop]) {
+      // Store value of property sought
+      val = doc[prop]
+      // Remove the property from the document (unless overriden: extract = false)
+      if (extract) delete doc[prop]
+      // Match against lookup list if applicable
+      if (lookup && conf[prop] && conf[prop].availableOptions) {
+        var item = conf[prop].availableOptions.find(i => i.value == val)
+        // Fallback to default value if no match
+        if (!item) val = defaultValue
+      }
     }
     return val || defaultValue
   },
@@ -512,7 +516,8 @@ var config = {
 
   epa_agreement_no: {
     mandatory: true,
-    validators: [{ fn: global_validators.nonEmpty, args: {} }]
+    validators: [{ fn: global_validators.nonEmpty, args: {} }],
+    conditions: { isEpaUser: false }
   },
 
   epa_agreement_type: {
@@ -524,30 +529,35 @@ var config = {
       { value: 'Cooperative Agreement', label: 'Cooperative Agreement' },
       { value: 'Inter-Agency Agreement', label: 'Inter-Agency Agreement' },
       { value: 'Other', label: 'Other' }
-    ]
+    ],
+    conditions: { isEpaUser: false }
   },
 
   epa_contact: {
     mandatory: true,
-    validators: [{ fn: global_validators.validEmail, args: {} }]
+    validators: [{ fn: global_validators.validEmail, args: {} }],
+    conditions: { isEpaUser: false }
   },
 
   programCode: {
     mandatory: true,
     validators: [{ fn: global_validators.mustSelectSomeTags, args: {} }],
-    availableTags: programs
+    availableTags: programs,
+    conditions: { isEpaUser: true }
   },
 
   systemofrecords: {
     mandatory: false,
     validators: [],
-    availableOptions: sor
+    availableOptions: sor,
+    conditions: { isEpaUser: true }
   },
 
   primaryitinvestmentuii: {
     mandatory: false,
     validators: [],
-    availableOptions: piti
+    availableOptions: piti,
+    conditions: { isEpaUser: true }
   }
 }
 
