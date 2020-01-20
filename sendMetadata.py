@@ -65,15 +65,18 @@ try:
             agreementNumber = form.getvalue('agreementNumber')
         if form.has_key('epaUserName'): 
             epaUserName = form.getvalue('epaUserName')
+        else:
+            epaUserName = ""
         if form.has_key('repoURL'): 
             repoURL = form.getvalue('repoURL')
         else:
             repoURL = "New submission, no previous record"
         # Process metadata submission
         dcat = json.loads(metadata, object_pairs_hook=collections.OrderedDict)['dataset'][0]
-        dcat['title'] = addExtra(dcat['title'])
         dcat = move_element(dcat,'title',0)
         dcat = move_element(dcat,'description',1)
+        if sponsorEmail:
+            dcat['title'] = addExtra(dcat['title'])
         dcat.pop('epa_contact')
 
         # Get email recipients

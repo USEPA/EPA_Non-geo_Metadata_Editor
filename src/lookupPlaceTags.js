@@ -55,5 +55,13 @@ export default [
   { value: "Washington", label: "Washington" },
   { value: "West Virginia", label: "West Virginia" },
   { value: "Wisconsin", label: "Wisconsin" },
-  { value: "Wyoming", label: "Wyoming" }
+  { value: "Wyoming", label: "Wyoming" },
+  { value: "Chesapeake Bay", label: "Chesapeake Bay" },
+  { value: "Great Lakes", label: "Great Lakes" },
+  { value: "Gulf of Mexico", label: "Gulf of Mexico" },
+  { value: "Lake Champlain", label: "Lake Champlain" },
+  { value: "Long Island Sound", label: "Long Island Sound" },
+  { value: "Puget Sound", label: "Puget Sound" },
+  { value: "San Francisco Bay", label: "San Francisco Bay" },
+  { value: "South Florida", label: "South Florida" }  
 ];
