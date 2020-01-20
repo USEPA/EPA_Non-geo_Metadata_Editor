@@ -2,7 +2,7 @@
   <div>
     <q-modal
       v-model="submitModalOpen"
-      :content-css="{'padding': '10px','width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}"
+      :content-css="{'width': '500px','height': '300px', 'min-width': '500px','min-height': '300px', 'display': 'inline-block'}"
     >
       <q-modal-layout content-class="no-scroll">
         <div>
@@ -18,15 +18,15 @@
           </q-toolbar>
         </div>
 
-        <q-page>
+        <div class="q-pa-md">
           Clicking Submit will send your metadata record to EPA's metadata team for review.
           You will receive confirmation via email if it is accepted into EPA's metadata inventory.
           <br />
           <br />Please contact edg@epa.gov if you wish to make changes to your record at any point in the future.
-        </q-page>
+        </div>
 
         <div style="background-color:white">
-          <q-item>
+          <q-item class="absolute">
             <q-item-main></q-item-main>
             <q-item-side left>
               <vue-recaptcha
