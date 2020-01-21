@@ -740,9 +740,9 @@ export default {
     },
 
     // Destructively extract and return tags found in tagOptions
-    extractTags: function (tags, tagOptions) {
+    extractTags: function (tags, tagLookup) {
       // Find matching ones to be returned
-      var matchedTags = tagOptions.filter(option =>
+      var matchedTags = tagLookup.filter(option =>
         tags.find(tag => option.value.toLowerCase() == tag.toLowerCase())
       );
       // Find unmatched ones
@@ -814,8 +814,10 @@ export default {
         inDoc.keyword,
         config.tags_epa_theme.availableTags
       );
-      // Remaning tags are moved to general category
-      this.doc.tags_general = config.clone(inDoc.keyword).map(x => {
+      // Remaning tags are moved to general category except tags shared between different lists
+      this.doc.tags_general = inDoc.keyword.filter(tag =>
+        !this.sharedTags.find(sharedTag => sharedTag.toLowerCase() == tag.toLowerCase())
+      ).map(x => {
         return { value: x, label: x };
       });
       inDoc.keyword.length = 0;
