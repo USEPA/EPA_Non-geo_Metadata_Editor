@@ -619,6 +619,7 @@ export default {
         primaryitinvestmentuii: ""
       },
       holder: {},
+      sharedTags: ['environment','health','transportation'],
       mdSpec: null,
       mdSpecReady: false,
       config: config,
@@ -747,7 +748,8 @@ export default {
       // Find unmatched ones
       var unmatchedTags = tags.filter(
         tag =>
-          !matchedTags.find(m => m.value.toLowerCase() == tag.toLowerCase())
+          !matchedTags.find(m => m.value.toLowerCase() == tag.toLowerCase()) ||
+          this.sharedTags.find(m => m.toLowerCase() == tag.toLowerCase())
       );
       // In-place modify tags array to consist only of unmatched tags
       for (let i = 0; i < unmatchedTags.length; i++) tags[i] = unmatchedTags[i];
