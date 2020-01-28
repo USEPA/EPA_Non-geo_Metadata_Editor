@@ -28,7 +28,8 @@ export default {
       portalUser: null,
       loading: true,
       edgUserData: null,
-      edgUrl: 'http://52.20.85.254:8080/metadata/'
+      edgUrl: 'https://edg.epa.gov/metadata/'
+      // edgUrl: 'http://52.20.85.254:8080/metadata/'
     }
   },
 
@@ -67,8 +68,7 @@ export default {
       this.portalUser = portalUser
       if (portalUser && portalUser.credential)
         fetch(
-          `https://edg.epa.gov/metadata/getUserData.jsp?u=${portalUser.credential.userId}&t=${portalUser.credential.token}`
-          // `http://52.20.85.254:8080/metadata/getUserData.jsp?u=${portalUser.credential.username}&t=${portalUser.credential.token}`
+          `${this.edgUrl}/getUserData.jsp?u=${portalUser.credential.userId}&t=${portalUser.credential.token}`
         )
           .then(response => response.json())
           .then(data => {
@@ -110,7 +110,7 @@ export default {
 
   mounted () {
     loadCss()
-    const options = { version: '3.29', css: true, insertCssBefore: 'style' }
+    const options = { version: '3.29' }
     loadModules(["esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/IdentityManager"], options)
       .then(([portalModule, OAuthInfoModule, IdentityManagerModule]) => {
         var info = new OAuthInfoModule({
