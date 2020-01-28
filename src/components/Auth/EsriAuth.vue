@@ -28,7 +28,7 @@ export default {
       portalUser: null,
       loading: true,
       edgUserData: null,
-      edgUrl: 'http://52.20.85.254:8080/metadata/'
+      edgUrl: 'https://edg.epa.gov/metadata/'
     }
   },
 
@@ -110,11 +110,11 @@ export default {
 
   mounted () {
     loadCss()
-    const options = { version: '3.29', css: true, insertCssBefore: 'style' }
+    const options = { version: '3.29', css: true, insertCssBefore: 'link' }
     loadModules(["esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/IdentityManager"], options)
       .then(([portalModule, OAuthInfoModule, IdentityManagerModule]) => {
         var info = new OAuthInfoModule({
-          appId: 's0brwjWwE7aFPPbF',
+          appId: 'hbaGyaPPJzMxGnOj',
           portalUrl: 'https://epa.maps.arcgis.com'
         })
         this.portal = new portalModule.Portal(info.portalUrl)
