@@ -77,7 +77,8 @@ try:
         dcat = move_element(dcat,'description',1)
         if sponsorEmail:
             dcat['title'] = addExtra(dcat['title'])
-        dcat.pop('epa_contact')
+        if dcat.has_key('epa_contact'):
+            dcat.pop('epa_contact')
 
         # Get email recipients
         if sponsorEmail:

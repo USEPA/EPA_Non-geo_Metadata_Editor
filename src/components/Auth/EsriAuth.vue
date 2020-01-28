@@ -114,7 +114,7 @@ export default {
     loadModules(["esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/IdentityManager"], options)
       .then(([portalModule, OAuthInfoModule, IdentityManagerModule]) => {
         var info = new OAuthInfoModule({
-          appId: 's0brwjWwE7aFPPbF',
+          appId: 'hbaGyaPPJzMxGnOj',
           portalUrl: 'https://epa.maps.arcgis.com'
         })
         this.portal = new portalModule.Portal(info.portalUrl)
