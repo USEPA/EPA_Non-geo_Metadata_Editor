@@ -4,7 +4,9 @@ The EPA Non-Geo Metadata Editor is a web-based tool to create records compliant 
 
 ## Project setup
 
-By default non-production builds target deployment to root folder and production builds target `/epa-open-data-metadata-editor` folder. Please modify `vue.config.js` to change this behavior.
+For non-official use, you may want to use your own ESRI app id by updating it in `EsriAuth.vue` and ensure local URLs are registered in your ESRI app config at https://developers.arcgis.com .
+
+By default, build targets deployment to root folder and EPA build targets `/epa-open-data-metadata-editor` folder. Please modify `vue.config.js` to change this behavior.
 
 ```
 yarn install
@@ -20,6 +22,12 @@ yarn run serve
 
 ```
 yarn run build
+```
+
+### Compiles and minifies for production at EPA
+
+```
+yarn run build-epa
 ```
 
 ### Lints and fixes files
