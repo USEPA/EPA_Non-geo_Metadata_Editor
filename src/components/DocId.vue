@@ -19,7 +19,7 @@ export default {
   methods: {
     placeholderText: function() {
       return (
-        "Please enter a DOI for the dataset or leave empty to use: " +
+        "Please enter a DOI for the dataset or leave empty to use this randomly assigned UUID: " +
         this.defaultId
       );
     }

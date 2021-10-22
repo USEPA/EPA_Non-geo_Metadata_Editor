@@ -17,7 +17,7 @@
       <ValidationIcon :scale="1.4" style="margin-bottom:-0.2em" />Optional (empty),
       <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em" />Invalid, and
       <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em" />Valid.
-      Additional guidance and best practices are available by clicking each element's status icon.
+      Additional guidance and best practices are available by clicking the grey bars containing each element's status icon.
       <br />Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.
       Please contact the
       <a
