@@ -1,5 +1,5 @@
 <template>
-  <q-jumbotron dark img-src="./banner.jpg">
+  <q-jumbotron dark img-src="./banner.jpg" class="p-y-sm">
     <h1
       class="q-subheading tb"
     >Welcome to the EPA Open Data Metadata Editor in support of EPA's initiative to make data open, discoverable, and usable.</h1>
@@ -18,8 +18,8 @@
       <ValidationIcon validations="Some error" :scale="1.4" style="margin-bottom:-0.2em" />Invalid, and
       <ValidationIcon validations :scale="1.4" style="margin-bottom:-0.2em" />Valid.
       Additional guidance and best practices are available by clicking the grey bars containing each element's status icon.
-      <br />Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.
-      Please contact the
+      Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.</p>
+      <p>Please contact the
       <a
         href="mailto:edg@epa.gov"
       >EPA EDG team</a> with any questions or view our <a href="https://edg.epa.gov/media/EPAOpenDataMetadataEditorTraining.mp4" target="_blank">video tutorial</a>.</p>
@@ -45,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+.q-jumbotron
+{   
+padding-top: 20px;
+padding-bottom:20px;
+}
 .tb {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }

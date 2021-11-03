@@ -642,7 +642,9 @@ export default {
         cfgElement == "definition" ||
         cfgElement == "guidance" ||
         cfgElement == "epaguidance" ||
-        cfgElement == "externalguidance"
+        cfgElement == "externalguidance" ||
+        cfgElement == "domaindescription" ||
+        cfgElement == "example"
       )
         searchDoc = this.mdSpec;
       else searchDoc = this.config;
@@ -667,6 +669,10 @@ export default {
           this.getConfigFor(mdElement, "externalguidance") || "";
         if (externalguidance) guidance += "<br/>" + externalguidance;
       }
+      var domainDesc = this.getConfigFor(mdElement, "domaindescription") || "";
+      if (domainDesc) guidance += "<br/><b>Expected value:</b> " + domainDesc;
+      var exampleValue = this.getConfigFor(mdElement, "example") || "";
+      if (exampleValue) guidance += "<br/><b>Example:</b> " + exampleValue;
       return guidance.trim()
         ? guidance.trim()
         : "No guidance available at this time.";
