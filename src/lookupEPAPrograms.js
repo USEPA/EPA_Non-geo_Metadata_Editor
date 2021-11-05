@@ -814,5 +814,11 @@ export default [
     label: 'Wetlands (Environmental Programs & Management)',
     sublabel:
       'The Wetlands Program includes development and dissemination of guidance, information and scientific tools to improve management and public understanding of wetland programs.'
+  },
+  {
+    value: '020:000',
+    label: '(Primary Program Not Available)',
+    sublabel:
+      'The program associated with this data asset is not included in the Federal Program Inventory at this time.'
   }
 ]
