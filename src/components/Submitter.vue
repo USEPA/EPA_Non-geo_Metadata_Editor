@@ -39,12 +39,18 @@
               ></vue-recaptcha>
             </q-item-side>
             <q-item-side right>
+              <div v-if="submitReady">
               <q-btn
                 label="Submit"
                 color="primary"
                 @click="submit"
                 aria-label="submit metadata record to EPA"
+                :disabled="submitDisabled"
               />
+              </div>
+              <div v-if="submitDisabled" class="q-pa-md">
+                <q-spinner-ball color="primary" :size="40" />
+              </div>
             </q-item-side>
             <q-item-side right>
               <q-btn
@@ -154,7 +160,8 @@ export default {
       delete outDoc.dataset[0].epa_agreement_no
 
       let metadata = JSON.stringify(outDoc, null, 4);
-
+      this.submitDisabled = true;
+      this.submitReady = false;
       fetch(submitUrl, {
         method: "POST",
         headers: {
@@ -166,15 +173,20 @@ export default {
         .then(response => response.json())
         .then(result => {
           if (result.status == "success") {
+            this.submitDisabled = false;
+            this.submitReady = true;
             this.closeSubmitModal();
             this.notifySuccess("Metadata submitted to EPA successfully.");
           } else throw Error("EPA service returned " + result.status);
         })
-        .catch(error =>
+        .catch(error => {
           this.notifyError({
             name: "Error while submitting metadata to EPA",
             message: error.message
-          })
+          });
+          this.submitDisabled = false;
+          this.submitReady = true;
+          }
         );
     },
 
@@ -203,7 +215,9 @@ export default {
 
   data () {
     return {
-      submitModalOpen: false
+      submitModalOpen: false,
+      submitDisabled:false,
+      submitReady:true
     };
   }
 };

@@ -7,7 +7,7 @@
     <div class="tb">
       <p>This tool allows data stewards to author, save, and submit metadata records for non-geospatial data that are compliant with
       <a
-        href="https://www.epa.gov/geospatial/epa-metadata-technical-specification"
+        href="https://www.epa.gov/geospatial/epa-metadata-technical-specification" target="_blank"
       >EPA's Metadata Technical Specification</a>. Stewards with EPA credentials should log in using the button at upper right to allow management of EPA records. Extramural researchers may use the tool without logging in, but the metadata submission will be subject to approval by your EPA sponsor. If you wish to submit metadata for geospatial data, please contact the
       <a
         href="mailto:edg@epa.gov"
