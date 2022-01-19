@@ -284,7 +284,7 @@
             title="Data License"
             :guidance="getGuidanceFor('license')"
             :validations.sync="validations.license"
-            :mandatory="config['license']['mandatory']"
+            :mandatory="config['license']['optional']"
           />
           <q-card-main>
             <TextInput defaultText="URL of the license for the dataset" v-model="doc.license" />
@@ -296,7 +296,7 @@
             title="Temporal Extent"
             :guidance="getGuidanceFor('temporal')"
             :validations.sync="validations.temporal"
-            :mandatory="config['temporal']['mandatory']"
+            :mandatory="config['temporal']['optional']"
           />
           <q-card-main>
             <DateOrRangeInput v-model="doc.temporal" :range="true" />
@@ -1284,6 +1284,10 @@ export default {
   }
 };
 </script>
+
+<style>
+  @import './assets/vue-multiselect.min.css';
+</style>
 
 <style>
 .menuIcon {
