@@ -66,16 +66,25 @@ export default {
   methods: {
     populateUser (portalUser) {
       this.portalUser = portalUser
-      if (portalUser && portalUser.credential)
-        fetch(
-          `${this.edgUrl}/getUserData.jsp?u=${portalUser.credential.userId}&t=${portalUser.credential.token}`
-        )
-          .then(response => response.json())
-          .then(data => {
+          if (portalUser && portalUser.credential)
+          // hard coding this for now because the distinction isn't meaningful until the editor is wired up to write to a metadata catalog via api.
+              this.edgUserData = {
+                  "roles": {
+                      "gptAdministrator": false,
+                      "gptPublisher": true,
+                      "gptRegisteredUser": true
+                  },
+                  "user": portalUser
+              }
+        //fetch(
+        //  `${this.edgUrl}/getUserData.jsp?u=${portalUser.credential.userId}&t=${portalUser.credential.token}`
+        //)
+        //  .then(response => response.json())
+        //  .then(data => {
             // eslint-disable-next-line
-            console.log('EDG:', data)
-            if (data && data.user) this.edgUserData = data;
-          });
+        //    console.log('EDG:', data)
+        //    if (data && data.user) this.edgUserData = data;
+        //  });
     },
 
     signIn () {
