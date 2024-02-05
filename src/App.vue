@@ -80,7 +80,7 @@
         <q-card class="q-ma-sm" v-if="!isEpaUser">
           <ElementHeader
             title="EPA Contact Email"
-            :guidance="getGuidanceFor('tags_epa_theme')"
+            :guidance="getGuidanceFor('epa_contact')"
             :validations.sync="validations.epa_contact"
             :mandatory="config['epa_contact']['mandatory']"
           />
