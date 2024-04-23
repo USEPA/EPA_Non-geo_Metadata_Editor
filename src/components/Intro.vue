@@ -10,8 +10,8 @@
         href="https://www.epa.gov/geospatial/epa-metadata-technical-specification" target="_blank"
       >EPA's Metadata Technical Specification</a>. Stewards with EPA credentials should log in using the button at upper right to allow management of EPA records. Extramural researchers may use the tool without logging in, but the metadata submission will be subject to approval by your EPA sponsor. If you wish to submit metadata for geospatial data, please contact the
       <a
-        href="mailto:edg@epa.gov"
-      >EPA EDG team</a> for further assistance.</p>
+        href="mailto:edc@epa.gov"
+      >EPA EDC team</a> for further assistance.</p>
       <p>Each element has a corresponding status:
       <ValidationIcon mandatory :scale="1.4" style="margin-bottom:-0.2em" />Mandatory (empty),
       <ValidationIcon :scale="1.4" style="margin-bottom:-0.2em" />Optional (empty),
@@ -21,8 +21,8 @@
       Use the blue button at the upper left to save, view or load existing records. The red button at the lower right will turn green when a record has passed all validation tests and is ready for submission.</p>
       <p>Please contact the
       <a
-        href="mailto:edg@epa.gov"
-      >EPA EDG team</a> with any questions or view our <a href="https://edg.epa.gov/media/EPAOpenDataMetadataEditorTraining.mp4" target="_blank">video tutorial</a>.</p>
+        href="mailto:edc@epa.gov"
+      >EPA EDC team</a> with any questions or view our <a href="https://edg.epa.gov/media/EPAOpenDataMetadataEditorTraining.mp4" target="_blank">video tutorial</a>.</p>
     </div>
   </q-jumbotron>
 </template>
