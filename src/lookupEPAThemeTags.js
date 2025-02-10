@@ -20,7 +20,6 @@ export default [
   { value: "Energy", label: "Energy" },
   { value: "Enforcement", label: "Enforcement" },
   { value: "Environment", label: "Environment" },
-  { value: "Environmental Justice", label: "Environmental Justice" },
   { value: "Estuary", label: "Estuary" },
   { value: "Exposure", label: "Exposure" },
   { value: "Facilities", label: "Facilities" },

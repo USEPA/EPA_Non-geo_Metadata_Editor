@@ -270,13 +270,6 @@ export default [
       'This program has ensured that Environmental Education, using a sciencebased approach and effective education practices, has been used as a tool to promote the protection of human health and the environment, and has encouraged student academic achievement. This is part of the mature programs that are being proposed for elimination. The Agency will focus on integrating environmental education activities into existing Agency programs.'
   },
   {
-    value: '020:041',
-    label:
-      'Environmental Justice (Environmental Programs & Management, Superfund)',
-    sublabel:
-      'The EJ program conducts outreach to overburdened communities and provides financial and technical assistance that empowers low income and minority communities to take action to protect themselves from environmental harm. The EJ program partners with other agency programs to develop scientific, legal, and public engagement guidance documents that enable the incorporation of environmental justice considerations into the EPA’s regulatory and policy decisions. Finally, the EJ program supports agency efforts to strengthen internal mechanisms to integrate environmental justice into the EPA’s programs and activities including communication, training, performance management, and accountability measures.'
-  },
-  {
     value: '020:042',
     label: 'Exchange Network (Environmental Programs & Management, Superfund)',
     sublabel:

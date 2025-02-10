@@ -93,7 +93,7 @@ export default [
     value: "society",
     label: "Society",
     sublabel:
-      "Characteristics of society and cultures <br/>Examples: settlements, anthropology, archaeology, education, traditional beliefs, manners and customs, demographic data, recreational areas and activities, social impact assessments, crime and justice, census information"
+      "Characteristics of society and cultures <br/>Examples: settlements, anthropology, archaeology, education, traditional beliefs, manners and customs, demographic data, recreational areas and activities, crime, census information"
   },
   {
     value: "structure",
