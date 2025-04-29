@@ -626,7 +626,7 @@
   },
   "language": {
     "field": "Language",
-    "definition": "The language of the metadata document",
+    "definition": "Language(s) of the dataset",
     "schema": "All",
     "guidance": "Include as many languages as are appropriate for the dataset.",
     "domaindescription": "Language Code",

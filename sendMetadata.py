@@ -6,6 +6,7 @@ import cgi, cgitb, smtplib, requests, json
 from collections import OrderedDict
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from datetime import datetime
 
 cgitb.enable(display=0, logdir=".")
 
@@ -15,7 +16,7 @@ form = cgi.FieldStorage()
 sender = 'EPA Open Data Metadata Editor <edg@epa.gov>'
 recipients = ['edg@epa.gov']
 
-recaptchaURL = "https://edg-intranet.epa.gov/googleProxy/nonGeoRecaptchaVerify.asp"
+recaptchaURL = "https://awstobler.epa.gov/googleProxy/nonGeoRecaptchaVerify.asp"
 
 # Prepare response text
 print("Content-type:application/json\r\n\r\n")
@@ -86,6 +87,9 @@ try:
             del dcat['epa_contact']
         # Limit BureauCode to a single value (it often gets out of control).
         dcat['bureauCode'] = [dcat['bureauCode'][0]]
+        # Add Date to the submission
+        now = datetime.now()
+        dcat['metadataUpdated'] = now.strftime("%Y-%m-%d")
 
         # Get email recipients
         if sponsorEmail:

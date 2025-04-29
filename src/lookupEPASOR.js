@@ -1,4 +1,5 @@
 export default [
+  {label: '', value: ''},
   {label: 'Acquisition Training System', value: 'https://www.epa.gov/privacy/privacy-act-system-records-acquisition-training-system-epa-31'},
   {label: 'Case Application for Debarment and Suspension (CADS)', value: 'https://www.epa.gov/privacy/privacy-act-system-records-debarment-and-suspension-files-system-epa-33'},
   {label: 'Central Data Exchange (CDX)', value: 'https://www.epa.gov/privacy/privacy-act-system-records-epa-central-data-exchange-customer-registration-subsystem-epa-52'},
