@@ -291,10 +291,10 @@
   "contactPoint": {
     "fn": {
       "field": "Contact Name",
-      "definition": "Contact person’s name",
+      "definition": "This should be the person or user support resource/shared mailbox that can answer questions related to the data asset.",
       "required": "Always",
       "schema": "All",
-      "guidance": "This element should contain the full name of a person responsible for the publication of a dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the name of the helpdesk team is acceptable. ",
+      "guidance": "This element should contain the full name of a person responsible for the stewardship of the dataset. An actual human being is preferred, but if a helpdesk is responsible for providing support to dataset users, the name of the helpdesk team is acceptable.",
       "geoguidance": "The ISO Role code must be set to 'publisher' for this contact.",
       "domaindescription": "Full Name",
       "domainurl": "",
