@@ -361,7 +361,7 @@ var config = {
   },
 
   temporal: {
-    mandatory: true,
+    mandatory: false,
     validators: [{ fn: global_validators.validRange, args: {} }]
   },
 
