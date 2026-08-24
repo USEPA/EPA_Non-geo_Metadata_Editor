@@ -131,13 +131,13 @@ export default {
     },
 
     submitToEpa: function (recaptchaToken) {
-      let token = "token=" + encodeURIComponent(recaptchaToken);
-      let submitUrl = `https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py?${token}&`;
+      let submitUrl = "https://edg.epa.gov/nongeoeditor/submithandler/sendMetadata.py";
+      let formFields = ["token=" + encodeURIComponent(recaptchaToken)];
       if (this.user) {
         let epaUserName = "epaUserName=" + encodeURIComponent(this.user.fullName)
         let repoURL = "repoURL=" + encodeURIComponent(this.doc.repo)
 
-        submitUrl += `${epaUserName}&${repoURL}`;
+        formFields.push(epaUserName, repoURL);
       } else {
         let sponsorEmail =
           "sponsorEmail=" + encodeURIComponent(this.doc.dataset[0].epa_contact);
@@ -146,9 +146,8 @@ export default {
         let agreementNumber =
           "agreementNumber=" + encodeURIComponent(this.doc.dataset[0].epa_agreement_no);
 
-        submitUrl += `${sponsorEmail}&${agreementType}&${agreementNumber}`;
+        formFields.push(sponsorEmail, agreementType, agreementNumber);
       }
-
 
       // Make a copy of the document and limit to the first dataset for submission
       let outDoc = config.clone(this.doc);
@@ -160,6 +159,7 @@ export default {
       delete outDoc.dataset[0].epa_agreement_no
 
       let metadata = JSON.stringify(outDoc, null, 4);
+      formFields.push("metadata=" + encodeURIComponent(metadata));
       this.submitDisabled = true;
       this.submitReady = false;
       fetch(submitUrl, {
@@ -167,7 +167,7 @@ export default {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
         },
-        body: "metadata=" + encodeURIComponent(metadata)
+        body: formFields.join("&")
       })
         .then(this.checkForErrors)
         .then(response => response.json())
